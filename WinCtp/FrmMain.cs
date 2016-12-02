@@ -11,6 +11,7 @@ namespace WinCtp
     public partial class FrmMain : Form
     {
         private readonly ILog _log;
+        private bool _listening;
         private readonly IDictionary<string, BrokerInfo> _dicBroker;
         private readonly  ConcurrentQueue<CtpTrade> _tradeQueue;
         private readonly ConcurrentQueue<CtpInputOrder> _inputOrderQueue;
@@ -29,6 +30,7 @@ namespace WinCtp
             base.OnLoad(e);
             tsslTradeApiStatus.Text = string.Empty;
             tsslBroker.Text = string.Empty;
+            _listening = false;
 
             var users = new UserInfoList(UserInfo.GetAll());
             var mstUsers = users.GetMst();
@@ -283,14 +285,18 @@ namespace WinCtp
 
         private void tsmiListen_Click(object sender, EventArgs e)
         {
-            if (timerQryTrade.Enabled)
+            if (_listening)
             {
                 timerQryTrade.Stop();
+                timerInsertOrder.Stop();
+                timerReturnOrder.Stop();
                 tsmiListen.Text = "开始监听";
             }
             else
             {
                 timerQryTrade.Start();
+                timerInsertOrder.Start();
+                timerReturnOrder.Start();
                 tsmiListen.Text = "停止监听";
             }
         }

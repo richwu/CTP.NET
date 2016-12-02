@@ -193,13 +193,13 @@
             // tsslBroker
             // 
             this.tsslBroker.Name = "tsslBroker";
-            this.tsslBroker.Size = new System.Drawing.Size(48, 17);
+            this.tsslBroker.Size = new System.Drawing.Size(41, 17);
             this.tsslBroker.Text = "Broker";
             // 
             // tsslTradeApiStatus
             // 
             this.tsslTradeApiStatus.Name = "tsslTradeApiStatus";
-            this.tsslTradeApiStatus.Size = new System.Drawing.Size(96, 17);
+            this.tsslTradeApiStatus.Size = new System.Drawing.Size(86, 17);
             this.tsslTradeApiStatus.Text = "TradeApiStatus";
             // 
             // panel1
@@ -1178,14 +1178,14 @@
             this.tsmiUser.Image = global::WinCtp.Properties.Resources.sms_type6;
             this.tsmiUser.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmiUser.Name = "tsmiUser";
-            this.tsmiUser.Size = new System.Drawing.Size(61, 22);
+            this.tsmiUser.Size = new System.Drawing.Size(62, 22);
             this.tsmiUser.Text = "账户";
             // 
             // ibtnUser
             // 
             this.ibtnUser.Image = global::WinCtp.Properties.Resources.man0;
             this.ibtnUser.Name = "ibtnUser";
-            this.ibtnUser.Size = new System.Drawing.Size(124, 22);
+            this.ibtnUser.Size = new System.Drawing.Size(126, 22);
             this.ibtnUser.Text = "账户配置";
             this.ibtnUser.Click += new System.EventHandler(this.ibtnUser_Click);
             // 
@@ -1193,7 +1193,7 @@
             // 
             this.ibtnOrderInsertConfig.Image = global::WinCtp.Properties.Resources._6;
             this.ibtnOrderInsertConfig.Name = "ibtnOrderInsertConfig";
-            this.ibtnOrderInsertConfig.Size = new System.Drawing.Size(124, 22);
+            this.ibtnOrderInsertConfig.Size = new System.Drawing.Size(126, 22);
             this.ibtnOrderInsertConfig.Text = "下单配置";
             this.ibtnOrderInsertConfig.Click += new System.EventHandler(this.ibtnOrderInsertConfig_Click);
             // 
@@ -1202,7 +1202,7 @@
             this.ibtnBroker.Image = global::WinCtp.Properties.Resources.flag;
             this.ibtnBroker.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ibtnBroker.Name = "ibtnBroker";
-            this.ibtnBroker.Size = new System.Drawing.Size(76, 22);
+            this.ibtnBroker.Size = new System.Drawing.Size(79, 22);
             this.ibtnBroker.Text = "期货公司";
             this.ibtnBroker.Click += new System.EventHandler(this.ibtnBroker_Click);
             // 
@@ -1211,20 +1211,23 @@
             this.tsmiListen.Image = global::WinCtp.Properties.Resources.clock;
             this.tsmiListen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmiListen.Name = "tsmiListen";
-            this.tsmiListen.Size = new System.Drawing.Size(76, 22);
+            this.tsmiListen.Size = new System.Drawing.Size(79, 22);
             this.tsmiListen.Text = "开始监听";
             this.tsmiListen.Click += new System.EventHandler(this.tsmiListen_Click);
             // 
             // timerQryTrade
             // 
+            this.timerQryTrade.Interval = 10000;
             this.timerQryTrade.Tick += new System.EventHandler(this.timerQryTrade_Tick);
             // 
             // timerInsertOrder
             // 
+            this.timerInsertOrder.Interval = 3000;
             this.timerInsertOrder.Tick += new System.EventHandler(this.timerInsertOrder_Tick);
             // 
             // timerReturnOrder
             // 
+            this.timerReturnOrder.Interval = 3000;
             this.timerReturnOrder.Tick += new System.EventHandler(this.timerReturnOrder_Tick);
             // 
             // FrmMain
