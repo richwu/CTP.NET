@@ -11,7 +11,7 @@ namespace WinCtp
     public partial class FrmMain : Form
     {
         private readonly ILog _log;
-        private readonly IDictionary<string, CtpBroker> _dicBroker;
+        private readonly IDictionary<string, BrokerInfo> _dicBroker;
         private readonly  ConcurrentQueue<CtpTrade> _tradeQueue;
         private readonly ConcurrentQueue<CtpInputOrder> _inputOrderQueue;
 
@@ -19,7 +19,7 @@ namespace WinCtp
         {
             InitializeComponent();
             _log = LogManager.GetLogger("CTP");
-            _dicBroker = new Dictionary<string, CtpBroker>();
+            _dicBroker = new Dictionary<string, BrokerInfo>();
             _tradeQueue = new ConcurrentQueue<CtpTrade>();
             _inputOrderQueue = new ConcurrentQueue<CtpInputOrder>();
         }
@@ -30,7 +30,7 @@ namespace WinCtp
             tsslTradeApiStatus.Text = string.Empty;
             tsslBroker.Text = string.Empty;
 
-            var users = new CtpUserList(UserInfo.GetAll());
+            var users = new UserInfoList(UserInfo.GetAll());
             var mstUsers = users.GetMst();
             dsMstUser.DataSource = mstUsers;
             var subUsers = users.GetSub();
@@ -50,7 +50,7 @@ namespace WinCtp
                 tcMstInstrument.TabPages.Add(tp);
             }
 
-            var brokers = CtpBroker.GetAll();
+            var brokers = BrokerInfo.GetAll();
             foreach (var b in brokers)
             {
                 var api = b.InitApi();

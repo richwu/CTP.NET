@@ -17,7 +17,7 @@ namespace WinCtp
             base.OnLoad(e);
             tcMain.ShowPage(tpMst);
             toolStrip.SetStatus("Mst");
-            var brokers = CtpBroker.GetAll();
+            var brokers = BrokerInfo.GetAll();
             brokerIdDataGridViewTextBoxColumn.Bind(brokers);
             brokerIdComboBox.Bind(brokers);
             dsUser.DataSource = UserInfo.GetAll();

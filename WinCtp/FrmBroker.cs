@@ -5,9 +5,9 @@ namespace WinCtp
 {
     public partial class FrmBroker : Form
     {
-        private CtpBroker Current
+        private BrokerInfo Current
         {
-            get { return (CtpBroker)dsBroker.Current; }
+            get { return (BrokerInfo)dsBroker.Current; }
             set
             {
                 if (value == null)
@@ -17,7 +17,7 @@ namespace WinCtp
             }
         }
 
-        private CtpBroker _orig;
+        private BrokerInfo _orig;
 
         public FrmBroker()
         {
@@ -28,7 +28,7 @@ namespace WinCtp
         {
             base.OnLoad(e);
             ToMst();
-            dsBroker.DataSource = CtpBroker.GetAll();
+            dsBroker.DataSource = BrokerInfo.GetAll();
         }
 
         private void ToMst()
@@ -57,7 +57,7 @@ namespace WinCtp
         private void ibtnNew_Click(object sender, EventArgs e)
         {
             _orig = null;
-            var obj = new CtpBroker();
+            var obj = new BrokerInfo();
             dsBroker.Position = dsBroker.Add(obj);
             dsBroker.ResetCurrentItem();
             ToEdit();

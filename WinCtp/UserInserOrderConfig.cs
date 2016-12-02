@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
 
 namespace WinCtp
@@ -8,7 +9,27 @@ namespace WinCtp
     {
         public static IList<UserInserOrderConfig> GetAll()
         {
-            return new List<UserInserOrderConfig>();
+            var arr = new List<UserInserOrderConfig>();
+            DataTable table;
+            using (var con = SQLiteHelper.NewConnection())
+            {
+                con.Open();
+                var cmd = con.CreateCommand();
+                var sql = new SQLiteHelper(cmd);
+                table = sql.Select("select SubUserID,MstUserID,Instrument,Volume,IsInverse from CfgUserInserOrder");
+                con.Close();
+            }
+            foreach (DataRow r in table.Rows)
+            {
+                var a = new UserInserOrderConfig();
+                a.SubUserId = r["SubUserID"].ToString();
+                a.MstUserId = r["MstUserID"].ToString();
+                a.Instrument = r["Instrument"].ToString();
+                a.Volume = Convert.ToInt32(r["Volume"]);
+                a.IsInverse = Convert.ToBoolean(r["IsInverse"]);
+                arr.Add(a);
+            }
+            return arr;
         }
 
         public string SubUserId { get; set; }
@@ -21,8 +42,6 @@ namespace WinCtp
 
         public bool IsInverse { get; set; }
 
-        public int Version { get; set; }
-
         public UserInserOrderConfig Clone()
         {
             var obj = new UserInserOrderConfig();
@@ -31,13 +50,12 @@ namespace WinCtp
             obj.Instrument = Instrument;
             obj.Volume = Volume;
             obj.IsInverse = IsInverse;
-            obj.Version = Version;
             return obj;
         }
 
         public void Save()
         {
-            using (var con = SQLite.NewConnection())
+            using (var con = SQLiteHelper.NewConnection())
             {
                 con.Open();
                 var cmd = con.CreateCommand();
@@ -48,7 +66,6 @@ namespace WinCtp
                 ps["Instrument"] = Instrument;
                 ps["Volume"] = Volume;
                 ps["IsInverse"] = IsInverse;
-                ps["Version"] = Version + 1;
                 sql.Insert("CfgUserInserOrder", ps);
                 con.Close();
             }
@@ -56,7 +73,7 @@ namespace WinCtp
 
         public void Update()
         {
-            using (var con = SQLite.NewConnection())
+            using (var con = SQLiteHelper.NewConnection())
             {
                 con.Open();
                 var cmd = con.CreateCommand();
@@ -65,10 +82,9 @@ namespace WinCtp
                 ps["Instrument"] = Instrument;
                 ps["Volume"] = Volume;
                 ps["IsInverse"] = IsInverse;
-                ps["Version"] = Version + 1;
                 sql.Update("CfgUserInserOrder", ps, new Dictionary<string, object>()
                 {
-                    {"SubUserID", SubUserId }, {"MstUserID", MstUserId }, {"Version", Version }
+                    {"SubUserID", SubUserId }, {"MstUserID", MstUserId }
                 });
                 con.Close();
             }
@@ -76,7 +92,7 @@ namespace WinCtp
 
         public void Delete()
         {
-            using (var con = SQLite.NewConnection())
+            using (var con = SQLiteHelper.NewConnection())
             {
                 con.Open();
                 var cmd = con.CreateCommand();

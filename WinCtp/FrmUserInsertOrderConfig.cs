@@ -58,7 +58,6 @@ namespace WinCtp
         {
             _orig = null;
             var obj = new UserInserOrderConfig();
-            obj.Version = 0;
             dsData.Position = dsData.Add(obj);
             dsData.ResetCurrentItem();
             ToEdit();
@@ -88,11 +87,21 @@ namespace WinCtp
             gvData.EndEdit();
             dsData.EndEdit();
             var cur = Current;
-            if (cur.Version <= 0)
+            if (string.IsNullOrWhiteSpace(cur.MstUserId))
+            {
+                MsgBox.Info("请输入主账户");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(cur.SubUserId))
+            {
+                MsgBox.Info("请输入子账户");
+                return;
+            }
+            if (_orig == null)
                 cur.Save();
             else cur.Update();
-            cur.Version++;
             tpDet.SetEditable(false);
+            _orig = null;
         }
 
         private void ibtnDelete_Click(object sender, EventArgs e)

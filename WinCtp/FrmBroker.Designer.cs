@@ -229,7 +229,7 @@
             // 
             // dsBroker
             // 
-            this.dsBroker.DataSource = typeof(WinCtp.CtpBroker);
+            this.dsBroker.DataSource = typeof(WinCtp.BrokerInfo);
             // 
             // idLabel
             // 
