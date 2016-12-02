@@ -1,0 +1,19 @@
+# Visual Studio build output
+bin
+obj
+
+# MSTest test Results
+TestResults/
+
+# User-specific files 
+*.suo
+*.user
+
+# NuGet packages
+packages/
+
+# Visual Studio 2015 cache/options directory 
+.vs/
+
+# Expanded/resolved project.json files
+project.lock.json
