@@ -1,8 +1,0 @@
-E:\github\CTP.NET\UnitTest\bin\Debug\UnitTest.dll
-E:\github\CTP.NET\UnitTest\bin\Debug\UnitTest.pdb
-E:\github\CTP.NET\UnitTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
-E:\github\CTP.NET\UnitTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
-E:\github\CTP.NET\UnitTest\bin\Debug\zh-Hans\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
-E:\github\CTP.NET\UnitTest\obj\Debug\UnitTest.csprojResolveAssemblyReference.cache
-E:\github\CTP.NET\UnitTest\obj\Debug\UnitTest.dll
-E:\github\CTP.NET\UnitTest\obj\Debug\UnitTest.pdb
