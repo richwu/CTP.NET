@@ -115,7 +115,7 @@ namespace WinCtp
 
         public CtpTraderApi InitApi()
         {
-            var fp = Path.Combine(Application.StartupPath, $@"flow_{Id}\");
+            var fp = Path.Combine(Application.StartupPath, $@"flow{Id}\");
             if (!Directory.Exists(fp))
                 Directory.CreateDirectory(fp);
             TraderApi = new CtpTraderApi(fp);

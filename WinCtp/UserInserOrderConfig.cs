@@ -32,13 +32,39 @@ namespace WinCtp
             return arr;
         }
 
+        public static IList<UserInserOrderConfig> Get(string subUserID)
+        {
+            var arr = new List<UserInserOrderConfig>();
+            DataTable table;
+            using (var con = SQLiteHelper.NewConnection())
+            {
+                con.Open();
+                var cmd = con.CreateCommand();
+                var sql = new SQLiteHelper(cmd);
+                table = sql.Select("select SubUserID,MstUserID,Instrument,Volume,IsInverse from CfgUserInserOrder where SubUserID=@p_SubUserID",
+                    new Dictionary<string, object> { { "@p_SubUserID", subUserID }});
+                con.Close();
+            }
+            foreach (DataRow r in table.Rows)
+            {
+                var a = new UserInserOrderConfig();
+                a.SubUserId = r["SubUserID"].ToString();
+                a.MstUserId = r["MstUserID"].ToString();
+                a.Instrument = r["Instrument"].ToString();
+                a.Volume = Convert.ToInt32(r["Volume"]);
+                a.IsInverse = Convert.ToBoolean(r["IsInverse"]);
+                arr.Add(a);
+            }
+            return arr;
+        }
+
         public string SubUserId { get; set; }
 
         public string MstUserId { get; set; }
 
         public string Instrument { get; set; }
 
-        public int Volume { get; set; }
+        public double Volume { get; set; }
 
         public bool IsInverse { get; set; }
 

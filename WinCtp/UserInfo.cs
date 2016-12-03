@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
+using GalaxyFutures.Sfit.Api;
 
 namespace WinCtp
 {
@@ -135,6 +136,10 @@ namespace WinCtp
 
         public string BrokerId { get; set; }
 
+        public BrokerInfo Broker { get; set; }
+
+        public CtpTraderApi TraderApi => Broker.TraderApi;
+
         /// <summary>
         /// 账户ID。
         /// </summary>
@@ -161,6 +166,43 @@ namespace WinCtp
 
     public class CtpSubUser : CtpUserInfo
     {
-        
+        private IDictionary<string, UserInserOrderConfig> _cfg;
+
+        private void LoadConfig()
+        {
+            if (_cfg != null)
+                return;
+            _cfg = new Dictionary<string, UserInserOrderConfig>();
+            var cfgs = UserInserOrderConfig.Get(UserId);
+            foreach (var c in cfgs)
+            {
+                _cfg[c.MstUserId] = c;
+            }
+        }
+
+        public bool InsertOrder(CtpTrade ctpTrade)
+        {
+            LoadConfig();
+            UserInserOrderConfig cfg;
+            if (!_cfg.TryGetValue(ctpTrade.InvestorID, out cfg))
+                return false;
+            if(ctpTrade.InstrumentID.StartsWith(cfg.Instrument))
+                return false;
+            var req = new CtpInputOrder();
+            //req.CombOffsetFlag = ctpTrade.OffsetFlag.ToString();//==
+            if (ctpTrade.Direction == CtpDirectionType.Buy)
+                req.Direction = cfg.IsInverse ? CtpDirectionType.Sell : CtpDirectionType.Buy;
+            else
+                req.Direction = cfg.IsInverse ? CtpDirectionType.Buy : CtpDirectionType.Sell;
+            req.InstrumentID = ctpTrade.InstrumentID;
+            req.LimitPrice = ctpTrade.Price;
+            req.BusinessUnit = ctpTrade.BusinessUnit;
+            req.VolumeTotalOriginal = (int)Math.Ceiling(ctpTrade.Volume * cfg.Volume);
+            req.ContingentCondition = CtpContingentConditionType.Immediately;
+            req.OrderPriceType = CtpOrderPriceTypeType.LimitPrice;
+            req.VolumeCondition = CtpVolumeConditionType.AV;
+            var rsp = TraderApi.ReqOrderInsert(req, RequestId.OrderInsertId());
+            return rsp == 0;
+        }
     }
 }

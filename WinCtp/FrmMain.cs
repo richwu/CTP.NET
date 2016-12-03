@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using GalaxyFutures.Sfit.Api;
 using log4net;
@@ -12,7 +13,6 @@ namespace WinCtp
     {
         private readonly ILog _log;
         private bool _listening;
-        private readonly IDictionary<string, BrokerInfo> _dicBroker;
         private readonly  ConcurrentQueue<CtpTrade> _tradeQueue;
         private readonly ConcurrentQueue<CtpInputOrder> _inputOrderQueue;
 
@@ -20,7 +20,6 @@ namespace WinCtp
         {
             InitializeComponent();
             _log = LogManager.GetLogger("CTP");
-            _dicBroker = new Dictionary<string, BrokerInfo>();
             _tradeQueue = new ConcurrentQueue<CtpTrade>();
             _inputOrderQueue = new ConcurrentQueue<CtpInputOrder>();
         }
@@ -32,7 +31,9 @@ namespace WinCtp
             tsslBroker.Text = string.Empty;
             _listening = false;
 
+            var brokers = BrokerInfo.GetAll();
             var users = new UserInfoList(UserInfo.GetAll());
+            
             var mstUsers = users.GetMst();
             dsMstUser.DataSource = mstUsers;
             var subUsers = users.GetSub();
@@ -52,9 +53,16 @@ namespace WinCtp
                 tcMstInstrument.TabPages.Add(tp);
             }
 
-            var brokers = BrokerInfo.GetAll();
-            foreach (var b in brokers)
+            var us = new List<CtpUserInfo>();
+            us.AddRange(mstUsers);
+            us.AddRange(subUsers);
+            foreach (var u in us)
             {
+                u.Broker = brokers.First(o => o.Id == u.BrokerId).Clone();
+            }
+            foreach (var u in us)
+            {
+                var b = u.Broker;
                 var api = b.InitApi();
                 api.OnFrontConnected += TradeApiOnFrontConnected;
                 api.OnFrontDisconnected += TradeApiOnFrontDisconnected;
@@ -69,11 +77,6 @@ namespace WinCtp
                 api.OnRspSettlementInfoConfirm += TradeApiOnRspSettlementInfoConfirm;
                 api.SubscribePrivateTopic(CtpResumeType.Quick);
                 api.SubscribePublicTopic(CtpResumeType.Quick);
-                //
-                _dicBroker[b.Id] = b;
-            }
-            foreach (var b in _dicBroker.Values)
-            {
                 b.Start();
             }
         }
@@ -179,9 +182,7 @@ namespace WinCtp
             {
                 if (!user.IsChecked || user.IsLogin)
                     continue;
-                if(!_dicBroker.ContainsKey(user.BrokerId))
-                    continue;
-                var api = _dicBroker[user.BrokerId].TraderApi;
+                var api = user.TraderApi;
                 var userLoginReq = new CtpReqUserLogin();
                 userLoginReq.BrokerID = user.BrokerId;
                 userLoginReq.UserID = user.UserId;
@@ -204,9 +205,7 @@ namespace WinCtp
             {
                 if (!user.IsChecked || !user.IsLogin)
                     continue;
-                if (!_dicBroker.ContainsKey(user.BrokerId))
-                    continue;
-                var api = _dicBroker[user.BrokerId].TraderApi;
+                var api = user.TraderApi;
                 var req = new CtpUserLogout
                 {
                     BrokerID = user.BrokerId,
@@ -241,9 +240,7 @@ namespace WinCtp
             {
                 if (!user.IsChecked || user.IsLogin)
                     continue;
-                if (!_dicBroker.ContainsKey(user.BrokerId))
-                    continue;
-                var api = _dicBroker[user.BrokerId].TraderApi;
+                var api = user.TraderApi;
                 var userLoginReq = new CtpReqUserLogin();
                 userLoginReq.BrokerID = user.BrokerId;
                 userLoginReq.UserID = user.UserId;
@@ -266,9 +263,7 @@ namespace WinCtp
             {
                 if (!user.IsChecked || !user.IsLogin)
                     continue;
-                if (!_dicBroker.ContainsKey(user.BrokerId))
-                    continue;
-                var api = _dicBroker[user.BrokerId].TraderApi;
+                var api = user.TraderApi;
                 var req = new CtpUserLogout
                 {
                     BrokerID = user.BrokerId,
@@ -311,11 +306,9 @@ namespace WinCtp
             {
                 if (!user.IsChecked || !user.IsLogin)
                     continue;
-                if (!_dicBroker.ContainsKey(user.BrokerId))
-                    continue;
                 qry.BrokerID = user.BrokerId;
                 qry.InvestorID = user.UserId;
-                var api = _dicBroker[user.BrokerId].TraderApi;
+                var api = user.Broker.TraderApi;
                 api.ReqQryTrade(qry, RequestId.TradeQryId());
             }
         }
@@ -362,21 +355,7 @@ namespace WinCtp
                     continue;
                 foreach (CtpSubUser u in dsSubUser)
                 {
-                    if (!_dicBroker.ContainsKey(u.BrokerId))
-                        continue;
-                    var api = _dicBroker[u.BrokerId].TraderApi;
-                    var req = new CtpInputOrder();
-                    req.CombOffsetFlag = ctpTrade.OffsetFlag.ToString();//==
-                    req.Direction = ctpTrade.Direction;
-                    req.InstrumentID = ctpTrade.InstrumentID;
-                    req.LimitPrice = ctpTrade.Price;
-                    req.BusinessUnit = ctpTrade.BusinessUnit;
-                    req.VolumeTotalOriginal = ctpTrade.Volume;
-                    req.ContingentCondition = CtpContingentConditionType.Immediately;
-                    req.OrderPriceType = CtpOrderPriceTypeType.LimitPrice;
-                    req.VolumeCondition = CtpVolumeConditionType.AV;
-                    var rsp = api.ReqOrderInsert(req, RequestId.OrderInsertId());
-                    if (rsp != 0)
+                    if (!u.InsertOrder(ctpTrade))
                         continue;
                     var t = new OrderInfo(ctpTrade);
                     dsSubOrder.Add(t);
