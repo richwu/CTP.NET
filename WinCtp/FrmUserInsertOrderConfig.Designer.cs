@@ -147,6 +147,7 @@
             this.gvData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gvData.Location = new System.Drawing.Point(3, 3);
             this.gvData.Name = "gvData";
+            this.gvData.ReadOnly = true;
             this.gvData.RowTemplate.Height = 23;
             this.gvData.Size = new System.Drawing.Size(472, 325);
             this.gvData.TabIndex = 0;
@@ -157,6 +158,7 @@
             this.subUserIdDataGridViewTextBoxColumn.DataPropertyName = "SubUserId";
             this.subUserIdDataGridViewTextBoxColumn.HeaderText = "子账户";
             this.subUserIdDataGridViewTextBoxColumn.Name = "subUserIdDataGridViewTextBoxColumn";
+            this.subUserIdDataGridViewTextBoxColumn.ReadOnly = true;
             this.subUserIdDataGridViewTextBoxColumn.Width = 66;
             // 
             // instrumentDataGridViewTextBoxColumn
@@ -164,6 +166,7 @@
             this.instrumentDataGridViewTextBoxColumn.DataPropertyName = "Instrument";
             this.instrumentDataGridViewTextBoxColumn.HeaderText = "品种";
             this.instrumentDataGridViewTextBoxColumn.Name = "instrumentDataGridViewTextBoxColumn";
+            this.instrumentDataGridViewTextBoxColumn.ReadOnly = true;
             this.instrumentDataGridViewTextBoxColumn.Width = 54;
             // 
             // mstUserIdDataGridViewTextBoxColumn
@@ -171,6 +174,7 @@
             this.mstUserIdDataGridViewTextBoxColumn.DataPropertyName = "MstUserId";
             this.mstUserIdDataGridViewTextBoxColumn.HeaderText = "主账户";
             this.mstUserIdDataGridViewTextBoxColumn.Name = "mstUserIdDataGridViewTextBoxColumn";
+            this.mstUserIdDataGridViewTextBoxColumn.ReadOnly = true;
             this.mstUserIdDataGridViewTextBoxColumn.Width = 66;
             // 
             // volumeDataGridViewTextBoxColumn
@@ -178,6 +182,7 @@
             this.volumeDataGridViewTextBoxColumn.DataPropertyName = "Volume";
             this.volumeDataGridViewTextBoxColumn.HeaderText = "手数倍率";
             this.volumeDataGridViewTextBoxColumn.Name = "volumeDataGridViewTextBoxColumn";
+            this.volumeDataGridViewTextBoxColumn.ReadOnly = true;
             this.volumeDataGridViewTextBoxColumn.Width = 78;
             // 
             // isInverseDataGridViewCheckBoxColumn
@@ -185,6 +190,7 @@
             this.isInverseDataGridViewCheckBoxColumn.DataPropertyName = "IsInverse";
             this.isInverseDataGridViewCheckBoxColumn.HeaderText = "是否反向";
             this.isInverseDataGridViewCheckBoxColumn.Name = "isInverseDataGridViewCheckBoxColumn";
+            this.isInverseDataGridViewCheckBoxColumn.ReadOnly = true;
             this.isInverseDataGridViewCheckBoxColumn.Width = 59;
             // 
             // dsData
