@@ -184,22 +184,22 @@
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsslBroker,
             this.tsslTradeApiStatus});
-            this.statusStrip.Location = new System.Drawing.Point(0, 516);
+            this.statusStrip.Location = new System.Drawing.Point(0, 497);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(937, 22);
+            this.statusStrip.Size = new System.Drawing.Size(932, 22);
             this.statusStrip.TabIndex = 8;
             this.statusStrip.Text = "statusStrip1";
             // 
             // tsslBroker
             // 
             this.tsslBroker.Name = "tsslBroker";
-            this.tsslBroker.Size = new System.Drawing.Size(41, 17);
+            this.tsslBroker.Size = new System.Drawing.Size(48, 17);
             this.tsslBroker.Text = "Broker";
             // 
             // tsslTradeApiStatus
             // 
             this.tsslTradeApiStatus.Name = "tsslTradeApiStatus";
-            this.tsslTradeApiStatus.Size = new System.Drawing.Size(86, 17);
+            this.tsslTradeApiStatus.Size = new System.Drawing.Size(96, 17);
             this.tsslTradeApiStatus.Text = "TradeApiStatus";
             // 
             // panel1
@@ -210,7 +210,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 25);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(937, 157);
+            this.panel1.Size = new System.Drawing.Size(932, 157);
             this.panel1.TabIndex = 14;
             // 
             // tabControl2
@@ -221,7 +221,7 @@
             this.tabControl2.Location = new System.Drawing.Point(586, 0);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(351, 157);
+            this.tabControl2.Size = new System.Drawing.Size(346, 157);
             this.tabControl2.TabIndex = 2;
             // 
             // tpMstOrder
@@ -229,7 +229,7 @@
             this.tpMstOrder.Controls.Add(this.gvMstOrder);
             this.tpMstOrder.Location = new System.Drawing.Point(4, 22);
             this.tpMstOrder.Name = "tpMstOrder";
-            this.tpMstOrder.Size = new System.Drawing.Size(343, 131);
+            this.tpMstOrder.Size = new System.Drawing.Size(338, 131);
             this.tpMstOrder.TabIndex = 2;
             this.tpMstOrder.Text = "委托单";
             this.tpMstOrder.UseVisualStyleBackColor = true;
@@ -260,7 +260,7 @@
             this.gvMstOrder.Name = "gvMstOrder";
             this.gvMstOrder.ReadOnly = true;
             this.gvMstOrder.RowTemplate.Height = 23;
-            this.gvMstOrder.Size = new System.Drawing.Size(343, 131);
+            this.gvMstOrder.Size = new System.Drawing.Size(338, 131);
             this.gvMstOrder.TabIndex = 0;
             // 
             // investorIdDataGridViewTextBoxColumn3
@@ -614,7 +614,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 182);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(937, 191);
+            this.panel2.Size = new System.Drawing.Size(932, 191);
             this.panel2.TabIndex = 15;
             // 
             // gbSubUser
@@ -623,7 +623,7 @@
             this.gbSubUser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbSubUser.Location = new System.Drawing.Point(0, 0);
             this.gbSubUser.Name = "gbSubUser";
-            this.gbSubUser.Size = new System.Drawing.Size(723, 191);
+            this.gbSubUser.Size = new System.Drawing.Size(718, 191);
             this.gbSubUser.TabIndex = 1;
             this.gbSubUser.TabStop = false;
             this.gbSubUser.Text = "子账户";
@@ -729,7 +729,7 @@
             this.panel4.Controls.Add(this.comboBox1);
             this.panel4.Controls.Add(this.label1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel4.Location = new System.Drawing.Point(723, 0);
+            this.panel4.Location = new System.Drawing.Point(718, 0);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(214, 191);
             this.panel4.TabIndex = 0;
@@ -850,7 +850,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 373);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(937, 143);
+            this.panel3.Size = new System.Drawing.Size(932, 124);
             this.panel3.TabIndex = 16;
             // 
             // tabControl4
@@ -861,7 +861,7 @@
             this.tabControl4.Location = new System.Drawing.Point(387, 0);
             this.tabControl4.Name = "tabControl4";
             this.tabControl4.SelectedIndex = 0;
-            this.tabControl4.Size = new System.Drawing.Size(550, 143);
+            this.tabControl4.Size = new System.Drawing.Size(545, 124);
             this.tabControl4.TabIndex = 1;
             // 
             // tpSubOrder
@@ -869,7 +869,7 @@
             this.tpSubOrder.Controls.Add(this.gvSubOrder);
             this.tpSubOrder.Location = new System.Drawing.Point(4, 22);
             this.tpSubOrder.Name = "tpSubOrder";
-            this.tpSubOrder.Size = new System.Drawing.Size(542, 117);
+            this.tpSubOrder.Size = new System.Drawing.Size(537, 98);
             this.tpSubOrder.TabIndex = 2;
             this.tpSubOrder.Text = "委托单";
             this.tpSubOrder.UseVisualStyleBackColor = true;
@@ -901,7 +901,7 @@
             this.gvSubOrder.Name = "gvSubOrder";
             this.gvSubOrder.ReadOnly = true;
             this.gvSubOrder.RowTemplate.Height = 23;
-            this.gvSubOrder.Size = new System.Drawing.Size(542, 117);
+            this.gvSubOrder.Size = new System.Drawing.Size(537, 98);
             this.gvSubOrder.TabIndex = 0;
             // 
             // investorIdDataGridViewTextBoxColumn2
@@ -1133,7 +1133,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(387, 143);
+            this.groupBox1.Size = new System.Drawing.Size(387, 124);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "持仓";
@@ -1145,7 +1145,7 @@
             this.tcSubInstrument.Location = new System.Drawing.Point(3, 17);
             this.tcSubInstrument.Name = "tcSubInstrument";
             this.tcSubInstrument.SelectedIndex = 0;
-            this.tcSubInstrument.Size = new System.Drawing.Size(381, 123);
+            this.tcSubInstrument.Size = new System.Drawing.Size(381, 104);
             this.tcSubInstrument.TabIndex = 0;
             // 
             // tabPage1
@@ -1153,7 +1153,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(373, 97);
+            this.tabPage1.Size = new System.Drawing.Size(373, 78);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -1166,7 +1166,7 @@
             this.tsmiListen});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(937, 25);
+            this.toolStrip.Size = new System.Drawing.Size(932, 25);
             this.toolStrip.TabIndex = 17;
             this.toolStrip.Text = "toolStrip1";
             // 
@@ -1178,14 +1178,14 @@
             this.tsmiUser.Image = global::WinCtp.Properties.Resources.sms_type6;
             this.tsmiUser.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmiUser.Name = "tsmiUser";
-            this.tsmiUser.Size = new System.Drawing.Size(62, 22);
+            this.tsmiUser.Size = new System.Drawing.Size(61, 22);
             this.tsmiUser.Text = "账户";
             // 
             // ibtnUser
             // 
             this.ibtnUser.Image = global::WinCtp.Properties.Resources.man0;
             this.ibtnUser.Name = "ibtnUser";
-            this.ibtnUser.Size = new System.Drawing.Size(126, 22);
+            this.ibtnUser.Size = new System.Drawing.Size(124, 22);
             this.ibtnUser.Text = "账户配置";
             this.ibtnUser.Click += new System.EventHandler(this.ibtnUser_Click);
             // 
@@ -1193,7 +1193,7 @@
             // 
             this.ibtnOrderInsertConfig.Image = global::WinCtp.Properties.Resources._6;
             this.ibtnOrderInsertConfig.Name = "ibtnOrderInsertConfig";
-            this.ibtnOrderInsertConfig.Size = new System.Drawing.Size(126, 22);
+            this.ibtnOrderInsertConfig.Size = new System.Drawing.Size(124, 22);
             this.ibtnOrderInsertConfig.Text = "下单配置";
             this.ibtnOrderInsertConfig.Click += new System.EventHandler(this.ibtnOrderInsertConfig_Click);
             // 
@@ -1202,7 +1202,7 @@
             this.ibtnBroker.Image = global::WinCtp.Properties.Resources.flag;
             this.ibtnBroker.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ibtnBroker.Name = "ibtnBroker";
-            this.ibtnBroker.Size = new System.Drawing.Size(79, 22);
+            this.ibtnBroker.Size = new System.Drawing.Size(76, 22);
             this.ibtnBroker.Text = "期货公司";
             this.ibtnBroker.Click += new System.EventHandler(this.ibtnBroker_Click);
             // 
@@ -1211,7 +1211,7 @@
             this.tsmiListen.Image = global::WinCtp.Properties.Resources.clock;
             this.tsmiListen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmiListen.Name = "tsmiListen";
-            this.tsmiListen.Size = new System.Drawing.Size(79, 22);
+            this.tsmiListen.Size = new System.Drawing.Size(76, 22);
             this.tsmiListen.Text = "开始监听";
             this.tsmiListen.Click += new System.EventHandler(this.tsmiListen_Click);
             // 
@@ -1234,7 +1234,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(937, 538);
+            this.ClientSize = new System.Drawing.Size(932, 519);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
