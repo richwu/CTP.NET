@@ -374,6 +374,7 @@
             this.Controls.Add(this.tcMain);
             this.Controls.Add(this.toolStrip);
             this.Name = "FrmUserInsertOrderConfig";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "下单配置";
             this.tcMain.ResumeLayout(false);
             this.tpMst.ResumeLayout(false);

@@ -102,6 +102,7 @@ namespace WinCtp
             else cur.Update();
             tpDet.SetEditable(false);
             _orig = null;
+            ToDet();
         }
 
         private void ibtnDelete_Click(object sender, EventArgs e)

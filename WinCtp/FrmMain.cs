@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using GalaxyFutures.Sfit.Api;
@@ -16,12 +17,23 @@ namespace WinCtp
         private readonly  ConcurrentQueue<CtpTrade> _tradeQueue;
         private readonly ConcurrentQueue<CtpInputOrder> _inputOrderQueue;
 
+        private readonly BackgroundWorker _workerTimerReturnOrder;
+        private readonly BackgroundWorker _workerTimerQryTrade;
+        private readonly BackgroundWorker _workerTimerInsertOrder;
+
         public FrmMain()
         {
             InitializeComponent();
             _log = LogManager.GetLogger("CTP");
             _tradeQueue = new ConcurrentQueue<CtpTrade>();
             _inputOrderQueue = new ConcurrentQueue<CtpInputOrder>();
+
+            _workerTimerReturnOrder = new BackgroundWorker();
+            _workerTimerReturnOrder.DoWork += WorkerTimerReturnOrderOnDoWork;
+            _workerTimerQryTrade = new BackgroundWorker();
+            _workerTimerQryTrade.DoWork += WorkerTimerQryTradeOnDoWork;
+            _workerTimerInsertOrder = new BackgroundWorker();
+            _workerTimerInsertOrder.DoWork += WorkerTimerInsertOrderOnDoWork;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -83,23 +95,28 @@ namespace WinCtp
 
         private void TradeApiOnRspSettlementInfoConfirm(object sender, CtpSettlementInfoConfirm response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
-            _log.InfoFormat("TradeApiOnRspSettlementInfoConfirm\nresponse:{0}\nrspInfo:{1}", JsonConvert.SerializeObject(response), JsonConvert.SerializeObject(rspInfo));
+            _log.DebugFormat("TradeApiOnRspSettlementInfoConfirm\nresponse:{0}\nrspInfo:{1}", JsonConvert.SerializeObject(response), JsonConvert.SerializeObject(rspInfo));
         }
 
         private void TradeApiOnRspQrySettlementInfo(object sender, CtpSettlementInfo response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
-            _log.InfoFormat("TradeApiOnRspQrySettlementInfo\nresponse:{0}\nrspInfo:{1}", JsonConvert.SerializeObject(response), JsonConvert.SerializeObject(rspInfo));
+            _log.DebugFormat("TradeApiOnRspQrySettlementInfo\nresponse:{0}\nrspInfo:{1}", JsonConvert.SerializeObject(response), JsonConvert.SerializeObject(rspInfo));
         }
 
         private void TradeApiOnRspError(object sender, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
-            _log.InfoFormat("TradeApiOnRspError\nrspInfo:{0}", JsonConvert.SerializeObject(rspInfo));
+            _log.DebugFormat("TradeApiOnRspError[requestId={0}]\nrspInfo:{1}",
+                requestId,
+                JsonConvert.SerializeObject(rspInfo));
         }
 
         private void TradeApiOnRspUserLogout(object sender, CtpUserLogout response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
-            _log.InfoFormat("TradeApiOnRspUserLogout requestId[{0}],response.UserID[{1}]", requestId, response.UserID);
-            if (rspInfo.ErrorID != 0)
+            _log.DebugFormat("TradeApiOnRspUserLogout[requestId={0}]\nresponse:{1}\nrspInfo:{2}",
+               requestId,
+               JsonConvert.SerializeObject(response),
+               JsonConvert.SerializeObject(rspInfo));
+            if (rspInfo == null || rspInfo.ErrorID != 0)
                 return;
             for (var i = 0; i < dsMstUser.Count; i++)
             {
@@ -125,8 +142,11 @@ namespace WinCtp
 
         private void TradeApiOnRspUserLogin(object sender, CtpRspUserLogin response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
-            _log.InfoFormat("TradeApiOnRspUserLogin\nresponse:{0}\nrspInfo:{1}", JsonConvert.SerializeObject(response), JsonConvert.SerializeObject(rspInfo));
-            if (rspInfo.ErrorID != 0)
+            _log.DebugFormat("TradeApiOnRspUserLogin[requestId={0}]\nresponse:{1}\nrspInfo:{2}",
+                requestId,
+                JsonConvert.SerializeObject(response), 
+                JsonConvert.SerializeObject(rspInfo));
+            if (rspInfo == null || rspInfo.ErrorID != 0)
                 return;
             for (var i = 0; i < dsMstUser.Count; i++)
             {
@@ -152,12 +172,12 @@ namespace WinCtp
 
         private void TradeApiOnFrontDisconnected(object sender, int response)
         {
-            _log.InfoFormat("TradeApiOnFrontDisconnected [{0}]", response);
+            _log.DebugFormat("TradeApiOnFrontDisconnected [{0}]", response);
         }
          
         private void TradeApiOnFrontConnected(object sender)
         {
-            _log.Info("TradeApiOnFrontConnected");
+            _log.Debug("TradeApiOnFrontConnected");
         }
 
         #region 主账户
@@ -191,7 +211,7 @@ namespace WinCtp
                 userLoginReq.ProtocolInfo = "X";
                 userLoginReq.InterfaceProductInfo = "X";
                 var rsp = api.ReqUserLogin(userLoginReq, user.ReqId);
-                _log.InfoFormat("ReqUserLogin rsp[{0}]", rsp);
+                _log.DebugFormat("ReqUserLogin rsp[{0}]", rsp);
             }
         }
 
@@ -212,7 +232,7 @@ namespace WinCtp
                     UserID = user.UserId
                 };
                 var rsp = api.ReqUserLogout(req, user.ReqId);
-                _log.InfoFormat("ReqUserLogout rsp[{0}]", rsp);
+                _log.DebugFormat("ReqUserLogout rsp[{0}]", rsp);
             }
         }
         #endregion
@@ -301,6 +321,12 @@ namespace WinCtp
         /// </summary>
         private void timerQryTrade_Tick(object sender, EventArgs e)
         {
+            if (!_workerTimerQryTrade.IsBusy)
+                _workerTimerQryTrade.RunWorkerAsync();
+        }
+        
+        private void WorkerTimerQryTradeOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
+        {
             var qry = new CtpQryTrade();
             foreach (CtpMstUser user in dsMstUser)
             {
@@ -318,8 +344,11 @@ namespace WinCtp
         /// </summary>
         private void TradeApiOnRspQryTrade(object sender, CtpTrade response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
-            _log.InfoFormat("TradeApiOnOnRspQryTrade\nresponse:{0}", JsonConvert.SerializeObject(response));
-            if (rspInfo.ErrorID == 0 && response != null)
+            _log.DebugFormat("TradeApiOnOnRspQryTrade[requestId={0}]\nresponse:{1}\nrspInfo:{2}",
+                requestId,
+                JsonConvert.SerializeObject(response), 
+                JsonConvert.SerializeObject(rspInfo));
+            if (rspInfo != null && rspInfo.ErrorID == 0 && response != null)
                 _tradeQueue.Enqueue(response);
         }
 
@@ -342,6 +371,12 @@ namespace WinCtp
         /// 触发跟单（报单）。
         /// </summary>
         private void timerInsertOrder_Tick(object sender, EventArgs e)
+        {
+            if(!_workerTimerInsertOrder.IsBusy)
+                _workerTimerInsertOrder.RunWorkerAsync();
+        }
+
+        private void WorkerTimerInsertOrderOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
         {
             bool b;
             do
@@ -366,7 +401,7 @@ namespace WinCtp
 
         private void TradeApiOnRtnTrade(object sender, CtpTrade response)
         {
-            _log.InfoFormat("TradeApiOnRtnTrade\nresponse:{0}", JsonConvert.SerializeObject(response));
+            _log.DebugFormat("TradeApiOnRtnTrade\nresponse:{0}", JsonConvert.SerializeObject(response));
         }
 
         /// <summary>
@@ -376,7 +411,7 @@ namespace WinCtp
         /// <param name="response"></param>
         private void TradeApiOnRtnOrder(object sender, CtpOrder response)
         {
-            _log.InfoFormat("TradeApiOnRtnOrder\nresponse:{0}", JsonConvert.SerializeObject(response));
+            _log.DebugFormat("TradeApiOnRtnOrder\nresponse:{0}", JsonConvert.SerializeObject(response));
         }
 
         /// <summary>
@@ -384,8 +419,11 @@ namespace WinCtp
         /// </summary>
         private void TradeApiOnRspOrderInsert(object sender, CtpInputOrder response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
-            _log.InfoFormat("TradeApiOnRspOrderInsert\nresponse:{0}\nrspInfo:{1}", JsonConvert.SerializeObject(response), JsonConvert.SerializeObject(rspInfo));
-            if(rspInfo.ErrorID == 0 && response != null)
+            _log.DebugFormat("TradeApiOnRspOrderInsert[requestId={0}]\nresponse:{1}\nrspInfo:{2}",
+                requestId,
+                JsonConvert.SerializeObject(response), 
+                JsonConvert.SerializeObject(rspInfo));
+            if(rspInfo != null && rspInfo.ErrorID == 0 && response != null)
                 _inputOrderQueue.Enqueue(response);
         }
 
@@ -394,7 +432,12 @@ namespace WinCtp
         /// </summary>
         private void timerReturnOrder_Tick(object sender, EventArgs e)
         {
+            if (!_workerTimerReturnOrder.IsBusy)
+                _workerTimerReturnOrder.RunWorkerAsync();
+        }
 
+        private void WorkerTimerReturnOrderOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
+        {
         }
     }
 }

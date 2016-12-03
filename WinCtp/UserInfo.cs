@@ -186,7 +186,7 @@ namespace WinCtp
             UserInserOrderConfig cfg;
             if (!_cfg.TryGetValue(ctpTrade.InvestorID, out cfg))
                 return false;
-            if(ctpTrade.InstrumentID.StartsWith(cfg.Instrument))
+            if(!string.IsNullOrEmpty(cfg.Instrument) && ctpTrade.InstrumentID.StartsWith(cfg.Instrument))
                 return false;
             var req = new CtpInputOrder();
             //req.CombOffsetFlag = ctpTrade.OffsetFlag.ToString();//==

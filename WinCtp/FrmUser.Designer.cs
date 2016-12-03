@@ -45,6 +45,10 @@
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpMst = new System.Windows.Forms.TabPage();
             this.gvAccount = new WinCtp.DataGridViewEx();
+            this.userIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.userNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.brokerIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.isSubDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dsUser = new System.Windows.Forms.BindingSource(this.components);
             this.tpDet = new System.Windows.Forms.TabPage();
             this.passwordTextBox = new System.Windows.Forms.TextBox();
@@ -52,10 +56,6 @@
             this.userNameTextBox = new System.Windows.Forms.TextBox();
             this.userIdTextBox = new System.Windows.Forms.TextBox();
             this.isSubCheckBox = new System.Windows.Forms.CheckBox();
-            this.userIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.userNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.brokerIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.isSubDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             brokerIdLabel = new System.Windows.Forms.Label();
             userIdLabel = new System.Windows.Forms.Label();
             userNameLabel = new System.Windows.Forms.Label();
@@ -229,6 +229,41 @@
             this.gvAccount.TabIndex = 0;
             this.gvAccount.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvAccount_CellContentDoubleClick);
             // 
+            // userIdDataGridViewTextBoxColumn
+            // 
+            this.userIdDataGridViewTextBoxColumn.DataPropertyName = "UserId";
+            this.userIdDataGridViewTextBoxColumn.HeaderText = "账户ID";
+            this.userIdDataGridViewTextBoxColumn.Name = "userIdDataGridViewTextBoxColumn";
+            this.userIdDataGridViewTextBoxColumn.ReadOnly = true;
+            this.userIdDataGridViewTextBoxColumn.Width = 66;
+            // 
+            // userNameDataGridViewTextBoxColumn
+            // 
+            this.userNameDataGridViewTextBoxColumn.DataPropertyName = "UserName";
+            this.userNameDataGridViewTextBoxColumn.HeaderText = "账户名";
+            this.userNameDataGridViewTextBoxColumn.Name = "userNameDataGridViewTextBoxColumn";
+            this.userNameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.userNameDataGridViewTextBoxColumn.Width = 66;
+            // 
+            // brokerIdDataGridViewTextBoxColumn
+            // 
+            this.brokerIdDataGridViewTextBoxColumn.DataPropertyName = "BrokerId";
+            this.brokerIdDataGridViewTextBoxColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.brokerIdDataGridViewTextBoxColumn.HeaderText = "期货公司";
+            this.brokerIdDataGridViewTextBoxColumn.Name = "brokerIdDataGridViewTextBoxColumn";
+            this.brokerIdDataGridViewTextBoxColumn.ReadOnly = true;
+            this.brokerIdDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.brokerIdDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.brokerIdDataGridViewTextBoxColumn.Width = 78;
+            // 
+            // isSubDataGridViewCheckBoxColumn
+            // 
+            this.isSubDataGridViewCheckBoxColumn.DataPropertyName = "IsSub";
+            this.isSubDataGridViewCheckBoxColumn.HeaderText = "子账户";
+            this.isSubDataGridViewCheckBoxColumn.Name = "isSubDataGridViewCheckBoxColumn";
+            this.isSubDataGridViewCheckBoxColumn.ReadOnly = true;
+            this.isSubDataGridViewCheckBoxColumn.Width = 47;
+            // 
             // dsUser
             // 
             this.dsUser.DataSource = typeof(WinCtp.UserInfo);
@@ -305,41 +340,6 @@
             this.isSubCheckBox.Text = "子账户";
             this.isSubCheckBox.UseVisualStyleBackColor = true;
             // 
-            // userIdDataGridViewTextBoxColumn
-            // 
-            this.userIdDataGridViewTextBoxColumn.DataPropertyName = "UserId";
-            this.userIdDataGridViewTextBoxColumn.HeaderText = "账户ID";
-            this.userIdDataGridViewTextBoxColumn.Name = "userIdDataGridViewTextBoxColumn";
-            this.userIdDataGridViewTextBoxColumn.ReadOnly = true;
-            this.userIdDataGridViewTextBoxColumn.Width = 66;
-            // 
-            // userNameDataGridViewTextBoxColumn
-            // 
-            this.userNameDataGridViewTextBoxColumn.DataPropertyName = "UserName";
-            this.userNameDataGridViewTextBoxColumn.HeaderText = "账户名";
-            this.userNameDataGridViewTextBoxColumn.Name = "userNameDataGridViewTextBoxColumn";
-            this.userNameDataGridViewTextBoxColumn.ReadOnly = true;
-            this.userNameDataGridViewTextBoxColumn.Width = 66;
-            // 
-            // brokerIdDataGridViewTextBoxColumn
-            // 
-            this.brokerIdDataGridViewTextBoxColumn.DataPropertyName = "BrokerId";
-            this.brokerIdDataGridViewTextBoxColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.brokerIdDataGridViewTextBoxColumn.HeaderText = "期货公司";
-            this.brokerIdDataGridViewTextBoxColumn.Name = "brokerIdDataGridViewTextBoxColumn";
-            this.brokerIdDataGridViewTextBoxColumn.ReadOnly = true;
-            this.brokerIdDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.brokerIdDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.brokerIdDataGridViewTextBoxColumn.Width = 78;
-            // 
-            // isSubDataGridViewCheckBoxColumn
-            // 
-            this.isSubDataGridViewCheckBoxColumn.DataPropertyName = "IsSub";
-            this.isSubDataGridViewCheckBoxColumn.HeaderText = "子账户";
-            this.isSubDataGridViewCheckBoxColumn.Name = "isSubDataGridViewCheckBoxColumn";
-            this.isSubDataGridViewCheckBoxColumn.ReadOnly = true;
-            this.isSubDataGridViewCheckBoxColumn.Width = 47;
-            // 
             // FrmUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -351,7 +351,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmUser";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "账户管理";
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
