@@ -88,7 +88,7 @@ namespace WinCtp
         /// <summary>
         /// 报单状态。
         /// </summary>
-        public string OrderStatus { get; set; }
+        public byte OrderStatus { get; set; }
 
         /// <summary>
         /// 组合开平标识。
@@ -108,6 +108,11 @@ namespace WinCtp
             LimitPrice = ctpTrade.Price;
             VolumeTotal = ctpTrade.Volume;
             CombOffsetFlag = ctpTrade.OffsetFlag;
+        }
+
+        public OrderInfo(CtpOrder ctpOrder)
+        {
+            
         }
     }
 }

@@ -15,18 +15,19 @@ namespace WinCtp
         private readonly ILog _log;
         private bool _listening;
         private readonly  ConcurrentQueue<CtpTrade> _tradeQueue;
-        private readonly ConcurrentQueue<CtpInputOrder> _inputOrderQueue;
+        private readonly ConcurrentQueue<CtpOrder> _inputOrderQueue;
 
         private readonly BackgroundWorker _workerTimerReturnOrder;
         private readonly BackgroundWorker _workerTimerQryTrade;
         private readonly BackgroundWorker _workerTimerInsertOrder;
 
+        #region 初始化
         public FrmMain()
         {
             InitializeComponent();
             _log = LogManager.GetLogger("CTP");
             _tradeQueue = new ConcurrentQueue<CtpTrade>();
-            _inputOrderQueue = new ConcurrentQueue<CtpInputOrder>();
+            _inputOrderQueue = new ConcurrentQueue<CtpOrder>();
 
             _workerTimerReturnOrder = new BackgroundWorker();
             _workerTimerReturnOrder.DoWork += WorkerTimerReturnOrderOnDoWork;
@@ -76,41 +77,77 @@ namespace WinCtp
             {
                 var b = u.Broker;
                 var api = b.InitApi();
-                api.OnFrontConnected += TradeApiOnFrontConnected;
-                api.OnFrontDisconnected += TradeApiOnFrontDisconnected;
-                api.OnRspUserLogin += TradeApiOnRspUserLogin;
-                api.OnRspUserLogout += TradeApiOnRspUserLogout;
-                api.OnRspError += TradeApiOnRspError;
-                api.OnRtnOrder += TradeApiOnRtnOrder;
-                api.OnRtnTrade += TradeApiOnRtnTrade;
-                api.OnRspQryTrade += TradeApiOnRspQryTrade;
-                api.OnRspQrySettlementInfo += TradeApiOnRspQrySettlementInfo;
-                api.OnRspOrderInsert += TradeApiOnRspOrderInsert;
-                api.OnRspSettlementInfoConfirm += TradeApiOnRspSettlementInfoConfirm;
+                api.OnFrontConnected += OnFrontConnected;
+                api.OnFrontDisconnected += OnFrontDisconnected;
+                api.OnRspUserLogin += OnRspUserLogin;
+                api.OnRspUserLogout += OnRspUserLogout;
+                api.OnRspError += OnRspError;
+
+                api.OnRtnOrder += OnRtnOrder;
+                api.OnRtnTrade += OnRtnTrade;
+                api.OnRspOrderInsert += OnRspOrderInsert;
+                api.OnErrRtnOrderInsert += OnErrRtnOrderInsert;
+
+                api.OnRspQryTrade += OnRspQryTrade;
+                api.OnRspQrySettlementInfo += OnRspQrySettlementInfo;
+                api.OnRspSettlementInfoConfirm += OnRspSettlementInfoConfirm;
                 api.SubscribePrivateTopic(CtpResumeType.Quick);
                 api.SubscribePublicTopic(CtpResumeType.Quick);
                 b.Start();
             }
         }
 
-        private void TradeApiOnRspSettlementInfoConfirm(object sender, CtpSettlementInfoConfirm response, CtpRspInfo rspInfo, int requestId, bool isLast)
+        #endregion
+
+        #region 基础信息管理
+        private void ibtnUser_Click(object sender, EventArgs e)
+        {
+            new FrmUser().ShowDialog(this);
+        }
+
+        private void ibtnOrderInsertConfig_Click(object sender, EventArgs e)
+        {
+            new FrmUserInsertOrderConfig().ShowDialog(this);
+        }
+
+        private void ibtnBroker_Click(object sender, EventArgs e)
+        {
+            new FrmBroker().ShowDialog(this);
+        }
+        #endregion
+
+        #region 结算
+        private void OnRspSettlementInfoConfirm(object sender, CtpSettlementInfoConfirm response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
             _log.DebugFormat("TradeApiOnRspSettlementInfoConfirm\nresponse:{0}\nrspInfo:{1}", JsonConvert.SerializeObject(response), JsonConvert.SerializeObject(rspInfo));
         }
 
-        private void TradeApiOnRspQrySettlementInfo(object sender, CtpSettlementInfo response, CtpRspInfo rspInfo, int requestId, bool isLast)
+        private void OnRspQrySettlementInfo(object sender, CtpSettlementInfo response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
             _log.DebugFormat("TradeApiOnRspQrySettlementInfo\nresponse:{0}\nrspInfo:{1}", JsonConvert.SerializeObject(response), JsonConvert.SerializeObject(rspInfo));
         }
+        #endregion
 
-        private void TradeApiOnRspError(object sender, CtpRspInfo rspInfo, int requestId, bool isLast)
+        private void OnFrontDisconnected(object sender, int response)
+        {
+            _log.DebugFormat("TradeApiOnFrontDisconnected [{0}]", response);
+        }
+
+        private void OnFrontConnected(object sender)
+        {
+            _log.Debug("TradeApiOnFrontConnected");
+        }
+
+        private void OnRspError(object sender, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
             _log.DebugFormat("TradeApiOnRspError[requestId={0}]\nrspInfo:{1}",
                 requestId,
                 JsonConvert.SerializeObject(rspInfo));
         }
 
-        private void TradeApiOnRspUserLogout(object sender, CtpUserLogout response, CtpRspInfo rspInfo, int requestId, bool isLast)
+        #region 账户
+
+        private void OnRspUserLogout(object sender, CtpUserLogout response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
             _log.DebugFormat("TradeApiOnRspUserLogout[requestId={0}]\nresponse:{1}\nrspInfo:{2}",
                requestId,
@@ -140,7 +177,7 @@ namespace WinCtp
             }
         }
 
-        private void TradeApiOnRspUserLogin(object sender, CtpRspUserLogin response, CtpRspInfo rspInfo, int requestId, bool isLast)
+        private void OnRspUserLogin(object sender, CtpRspUserLogin response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
             _log.DebugFormat("TradeApiOnRspUserLogin[requestId={0}]\nresponse:{1}\nrspInfo:{2}",
                 requestId,
@@ -170,17 +207,6 @@ namespace WinCtp
             }
         }
 
-        private void TradeApiOnFrontDisconnected(object sender, int response)
-        {
-            _log.DebugFormat("TradeApiOnFrontDisconnected [{0}]", response);
-        }
-         
-        private void TradeApiOnFrontConnected(object sender)
-        {
-            _log.Debug("TradeApiOnFrontConnected");
-        }
-
-        #region 主账户
         private void tsmiSelectAllMstUser_Click(object sender, EventArgs e)
         {
             if (dsMstUser.Count == 0)
@@ -235,9 +261,6 @@ namespace WinCtp
                 _log.DebugFormat("ReqUserLogout rsp[{0}]", rsp);
             }
         }
-        #endregion
-
-        #region 子账户
         
         private void tsmiSelectAllSubUser_Click(object sender, EventArgs e)
         {
@@ -295,9 +318,6 @@ namespace WinCtp
         }
         #endregion
 
-        #region 
-        #endregion
-
         private void tsmiListen_Click(object sender, EventArgs e)
         {
             if (_listening)
@@ -316,6 +336,7 @@ namespace WinCtp
             }
         }
 
+        #region 查询主账户成交单
         /// <summary>
         /// 触发查询成交单。
         /// </summary>
@@ -342,7 +363,7 @@ namespace WinCtp
         /// <summary>
         /// 查询成交单回报。
         /// </summary>
-        private void TradeApiOnRspQryTrade(object sender, CtpTrade response, CtpRspInfo rspInfo, int requestId, bool isLast)
+        private void OnRspQryTrade(object sender, CtpTrade response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
             _log.DebugFormat("TradeApiOnOnRspQryTrade[requestId={0}]\nresponse:{1}\nrspInfo:{2}",
                 requestId,
@@ -351,22 +372,9 @@ namespace WinCtp
             if (rspInfo != null && rspInfo.ErrorID == 0 && response != null)
                 _tradeQueue.Enqueue(response);
         }
+        #endregion
 
-        private void ibtnUser_Click(object sender, EventArgs e)
-        {
-            new FrmUser().ShowDialog(this);
-        }
-
-        private void ibtnOrderInsertConfig_Click(object sender, EventArgs e)
-        {
-            new FrmUserInsertOrderConfig().ShowDialog(this);
-        }
-
-        private void ibtnBroker_Click(object sender, EventArgs e)
-        {
-            new FrmBroker().ShowDialog(this);
-        }
-
+        #region 子账户跟单
         /// <summary>
         /// 触发跟单（报单）。
         /// </summary>
@@ -376,8 +384,10 @@ namespace WinCtp
                 _workerTimerInsertOrder.RunWorkerAsync();
         }
 
-        private void WorkerTimerInsertOrderOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
+        private void WorkerTimerInsertOrderOnDoWork(object sender, DoWorkEventArgs args)
         {
+            if (_tradeQueue.Count == 0)
+                return;
             bool b;
             do
             {
@@ -399,32 +409,47 @@ namespace WinCtp
             dsSubTradeInfo.ResetBindings(false);
         }
 
-        private void TradeApiOnRtnTrade(object sender, CtpTrade response)
+        /// <summary>
+        /// 成交回报。
+        /// </summary>
+        private void OnRtnTrade(object sender, CtpTrade response)
         {
             _log.DebugFormat("TradeApiOnRtnTrade\nresponse:{0}", JsonConvert.SerializeObject(response));
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="response"></param>
-        private void TradeApiOnRtnOrder(object sender, CtpOrder response)
-        {
-            _log.DebugFormat("TradeApiOnRtnOrder\nresponse:{0}", JsonConvert.SerializeObject(response));
+            if (response == null)
+                return;
+            var ord = new OrderInfo(response);
+            dsSubOrder.Add(ord);
+            dsSubOrder.ResetBindings(false);
         }
 
         /// <summary>
         /// 报单回报。
         /// </summary>
-        private void TradeApiOnRspOrderInsert(object sender, CtpInputOrder response, CtpRspInfo rspInfo, int requestId, bool isLast)
+        /// <remarks>报单状态发生变化时。</remarks>
+        private void OnRtnOrder(object sender, CtpOrder response)
         {
-            _log.DebugFormat("TradeApiOnRspOrderInsert[requestId={0}]\nresponse:{1}\nrspInfo:{2}",
-                requestId,
-                JsonConvert.SerializeObject(response), 
-                JsonConvert.SerializeObject(rspInfo));
-            if(rspInfo != null && rspInfo.ErrorID == 0 && response != null)
+            _log.InfoFormat("TradeApiOnRtnOrder\nresponse:{0}", JsonConvert.SerializeObject(response));
+            if (response != null)
                 _inputOrderQueue.Enqueue(response);
+        }
+
+        /// <summary>
+        /// 没有通过参数校验，拒绝接受报单指令。用户收到此消息，其中包含了错误编码和错误消息。
+        /// </summary>
+        private void OnRspOrderInsert(object sender, CtpInputOrder response, CtpRspInfo rspInfo, int requestId, bool isLast)
+        {
+            _log.ErrorFormat("TradeApiOnRspOrderInsert[requestId={0}]\nresponse:{1}\nrspInfo:{2}",
+                requestId,
+                JsonConvert.SerializeObject(response),
+                JsonConvert.SerializeObject(rspInfo));
+        }
+
+        /// <summary>
+        /// 报单录入错误回报。
+        /// </summary>
+        private void OnErrRtnOrderInsert(object sender, CtpInputOrder response, CtpRspInfo rspInfo)
+        {
+            _log.ErrorFormat("OnErrRtnOrderInsert\nrspInfo:{0}\nresponse:{1}", JsonConvert.SerializeObject(rspInfo), JsonConvert.SerializeObject(response));
         }
 
         /// <summary>
@@ -432,12 +457,40 @@ namespace WinCtp
         /// </summary>
         private void timerReturnOrder_Tick(object sender, EventArgs e)
         {
+            if (_inputOrderQueue.Count == 0)
+                return;
             if (!_workerTimerReturnOrder.IsBusy)
                 _workerTimerReturnOrder.RunWorkerAsync();
         }
 
-        private void WorkerTimerReturnOrderOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
+        private void WorkerTimerReturnOrderOnDoWork(object sender, DoWorkEventArgs args)
         {
+            CtpOrder od;
+            if (!_inputOrderQueue.TryDequeue(out od) || od == null)
+                return;
+            int p = -1;
+            for (var i = 0; i < dsSubOrder.Count; i++)
+            {
+                var order = (OrderInfo)dsSubOrder[i];
+                if (order.ExchangeId == od.ExchangeID &&
+                    order.OrderSysId == od.OrderSysID)
+                {
+                    p = i;
+                    break;
+                }
+            }
+            if (p < 0)
+            {
+                var o = new OrderInfo(od);
+                dsSubOrder.Add(o);
+            }
+            else
+            {
+                var o = (OrderInfo)dsSubOrder[p];
+                o.OrderStatus = od.OrderStatus;
+                dsSubOrder.ResetItem(p);
+            }
         }
+        #endregion
     }
 }
