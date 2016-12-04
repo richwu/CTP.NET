@@ -5,31 +5,12 @@ namespace WinCtp
     /// <summary>
     /// 成交单。
     /// </summary>
-    public class TradeInfo
+    public class TradeInfo : OrderBase
     {
-        public string OrderSysId { get; set; }
-
-        /// <summary>
-        /// 投资者ID。
-        /// </summary>
-        public string InvestorId { get; set; }
-
-        /// <summary>
-        /// 合约。
-        /// </summary>
-        public string InstrumentId { get; set; }
-
-        /// <summary>
-        /// 交易所。
-        /// </summary>
-        public string ExchangeId { get; set; }
-
         /// <summary>
         /// 
         /// </summary>
         public string TradeId { get; set; }
-
-        public byte Direction { get; set; }
 
         public double Price { get; set; }
 

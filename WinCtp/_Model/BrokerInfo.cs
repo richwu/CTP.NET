@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SQLite;
@@ -8,18 +9,33 @@ using GalaxyFutures.Sfit.Api;
 
 namespace WinCtp
 {
+    /// <summary>
+    /// 期货公司。
+    /// </summary>
     public class BrokerInfo : ILookupObject
     {
         public CtpTraderApi TraderApi { get; private set; }
 
         public BackgroundWorker Worker { get; private set; }
 
+        /// <summary>
+        /// 公司代码。
+        /// </summary>
         public string Id { get; set; }
 
+        /// <summary>
+        /// 公司名称。
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// 交易前置地址。
+        /// </summary>
         public string TraderFrontAddress { get; set; }
 
+        /// <summary>
+        /// 行情前置地址。
+        /// </summary>
         public string MarketFrontAddress { get; set; }
 
         public static IList<BrokerInfo> GetAll()
@@ -48,14 +64,19 @@ namespace WinCtp
             return arr;
         }
 
+        /// <summary>
+        /// 深度复制对象。
+        /// </summary>
+        /// <returns></returns>
         public BrokerInfo Clone()
         {
-            var obj = new BrokerInfo();
-            obj.Id = Id;
-            obj.Name = Name;
-            obj.TraderFrontAddress = TraderFrontAddress;
-            obj.MarketFrontAddress = MarketFrontAddress;
-            return obj;
+            return new BrokerInfo
+            {
+                Id = Id,
+                Name = Name,
+                TraderFrontAddress = TraderFrontAddress,
+                MarketFrontAddress = MarketFrontAddress
+            };
         }
 
         public void Save()

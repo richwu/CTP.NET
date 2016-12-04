@@ -5,6 +5,9 @@ using System.Data.SQLite;
 
 namespace WinCtp
 {
+    /// <summary>
+    /// 用户跟单配置。
+    /// </summary>
     public class UserInserOrderConfig
     {
         public static IList<UserInserOrderConfig> GetAll()
@@ -32,7 +35,7 @@ namespace WinCtp
             return arr;
         }
 
-        public static IList<UserInserOrderConfig> Get(string subUserID)
+        public static IList<UserInserOrderConfig> Get(string subUserId)
         {
             var arr = new List<UserInserOrderConfig>();
             DataTable table;
@@ -42,7 +45,7 @@ namespace WinCtp
                 var cmd = con.CreateCommand();
                 var sql = new SQLiteHelper(cmd);
                 table = sql.Select("select SubUserID,MstUserID,Instrument,Volume,IsInverse from CfgUserInserOrder where SubUserID=@p_SubUserID",
-                    new Dictionary<string, object> { { "@p_SubUserID", subUserID }});
+                    new Dictionary<string, object> { { "@p_SubUserID", subUserId }});
                 con.Close();
             }
             foreach (DataRow r in table.Rows)
@@ -58,14 +61,34 @@ namespace WinCtp
             return arr;
         }
 
+        /// <summary>
+        /// 子账户。
+        /// </summary>
         public string SubUserId { get; set; }
 
+        /// <summary>
+        /// 主账户。
+        /// </summary>
         public string MstUserId { get; set; }
 
+        /// <summary>
+        /// 不跟单合约品种。
+        /// </summary>
         public string Instrument { get; set; }
 
+        /// <summary>
+        /// 手数倍率。
+        /// </summary>
         public double Volume { get; set; }
 
+        /// <summary>
+        /// 价格。
+        /// </summary>
+        public double Price { get; set; }
+
+        /// <summary>
+        /// 是否反向。
+        /// </summary>
         public bool IsInverse { get; set; }
 
         public UserInserOrderConfig Clone()

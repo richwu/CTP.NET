@@ -8,7 +8,7 @@ namespace WinCtp
     /// <remarks>
     /// 
     /// </remarks>
-    public class OrderInfo
+    public class OrderInfo : OrderBase
     {
         /// <summary>
         /// 请求ID。
@@ -16,34 +16,9 @@ namespace WinCtp
         public string RequestId { get; set; }
 
         /// <summary>
-        /// 投资者代码。
-        /// </summary>
-        public string InvestorId { get; set; }
-
-        /// <summary>
-        /// 合约代码。
-        /// </summary>
-        public string InstrumentId { get; set; }
-
-        /// <summary>
         /// 报单引用。
         /// </summary>
         public string OrderRef { get; set; }
-
-        /// <summary>
-        /// 交易所代码。
-        /// </summary>
-        public string ExchangeId { get; set; }
-
-        /// <summary>
-        /// 报单编号。
-        /// </summary>
-        public string OrderSysId { get; set; }
-
-        /// <summary>
-        /// 买卖。
-        /// </summary>
-        public byte Direction { get; set; }
 
         /// <summary>
         /// 价格。

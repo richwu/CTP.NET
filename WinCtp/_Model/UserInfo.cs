@@ -6,6 +6,9 @@ using GalaxyFutures.Sfit.Api;
 
 namespace WinCtp
 {
+    /// <summary>
+    /// 账户信息。
+    /// </summary>
     public class UserInfo
     {
         public static IList<UserInfo> GetAll()
@@ -120,12 +123,14 @@ namespace WinCtp
 
         public UserInfo Clone()
         {
-            var obj = new UserInfo();
-            obj.UserId = UserId;
-            obj.UserName = UserName;
-            obj.Password = Password;
-            obj.BrokerId = BrokerId;
-            obj.IsSub = IsSub;
+            var obj = new UserInfo
+            {
+                UserId = UserId,
+                UserName = UserName,
+                Password = Password,
+                BrokerId = BrokerId,
+                IsSub = IsSub
+            };
             return obj;
         }
     }
@@ -180,6 +185,11 @@ namespace WinCtp
             }
         }
 
+        /// <summary>
+        /// 跟单。
+        /// </summary>
+        /// <param name="ctpTrade">主账户成交单。</param>
+        /// <returns></returns>
         public bool InsertOrder(CtpTrade ctpTrade)
         {
             LoadConfig();
@@ -189,7 +199,7 @@ namespace WinCtp
             if(!string.IsNullOrEmpty(cfg.Instrument) && ctpTrade.InstrumentID.StartsWith(cfg.Instrument))
                 return false;
             var req = new CtpInputOrder();
-            //req.CombOffsetFlag = ctpTrade.OffsetFlag.ToString();//==
+            req.CombOffsetFlag = ((char)ctpTrade.OffsetFlag).ToString();
             if (ctpTrade.Direction == CtpDirectionType.Buy)
                 req.Direction = cfg.IsInverse ? CtpDirectionType.Sell : CtpDirectionType.Buy;
             else
@@ -202,6 +212,8 @@ namespace WinCtp
             req.OrderPriceType = CtpOrderPriceTypeType.LimitPrice;
             req.VolumeCondition = CtpVolumeConditionType.AV;
             var rsp = TraderApi.ReqOrderInsert(req, RequestId.OrderInsertId());
+            if(rsp != 0)
+                throw new ApplicationException(Rsp.This[rsp]);
             return rsp == 0;
         }
     }

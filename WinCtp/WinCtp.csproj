@@ -74,7 +74,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataCache.cs" />
     <Compile Include="FrmBroker.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,22 +88,24 @@
     </Compile>
     <Compile Include="ILookupObject.cs" />
     <Compile Include="IMainView.cs" />
-    <Compile Include="InvestorPositionInfo.cs" />
+    <Compile Include="RspInfo.cs" />
+    <Compile Include="_Model\InvestorPositionInfo.cs" />
     <Compile Include="MainViewImpl.cs" />
     <Compile Include="MsgBox.cs" />
-    <Compile Include="OrderInfo.cs" />
+    <Compile Include="_Model\OrderBase.cs" />
+    <Compile Include="_Model\OrderInfo.cs" />
     <Compile Include="RequestId.cs" />
-    <Compile Include="TradeInfo.cs" />
+    <Compile Include="_Model\TradeInfo.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserInfoList.cs" />
-    <Compile Include="UserInserOrderConfig.cs" />
-    <Compile Include="BrokerInfo.cs" />
-    <Compile Include="UserInfo.cs" />
+    <Compile Include="_Model\UserInfoList.cs" />
+    <Compile Include="_Model\UserInserOrderConfig.cs" />
+    <Compile Include="_Model\BrokerInfo.cs" />
+    <Compile Include="_Model\UserInfo.cs" />
     <Compile Include="ControlUtil.cs" />
     <Compile Include="DataGridViewEx.cs">
       <SubType>Component</SubType>

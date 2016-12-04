@@ -18,8 +18,6 @@ namespace WinCtp
         private readonly  ConcurrentQueue<CtpTrade> _tradeQueue;
         private readonly ConcurrentQueue<CtpOrder> _inputOrderQueue;
 
-        private IDictionary<int, string> _dirRsp;
-
         private readonly BackgroundWorker _workerTimerReturnOrder;
         private readonly BackgroundWorker _workerTimerQryTrade;
         private readonly BackgroundWorker _workerTimerInsertOrder;
@@ -28,14 +26,6 @@ namespace WinCtp
         public FrmMain()
         {
             InitializeComponent();
-
-            _dirRsp = new Dictionary<int, string>()
-            {
-                {0,"发送成功" },
-                { -1,"因网络原因发送失败" },
-                { -2,"未处理请求队列总数量超限" },
-                { -3,"每秒发送请求数量超限" }
-            };
 
             _log = LogManager.GetLogger("CTP");
             _impl = new MainViewImpl(this);
@@ -464,7 +454,7 @@ namespace WinCtp
             var rsp = user.TraderApi.ReqOrderInsert(req, reqId);
             _log.DebugFormat("ReqOrderInsert[{0}],rsp[{1}]\nrequest:{2}",
                 reqId, rsp, JsonConvert.SerializeObject(req));
-            MsgBox.Info(_dirRsp[rsp]);
+            MsgBox.Info(Rsp.This[rsp]);
         }
 
         /// <summary>
