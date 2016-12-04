@@ -89,11 +89,12 @@
             this.tsmiSubUserLogout = new System.Windows.Forms.ToolStripMenuItem();
             this.dsSubUser = new System.Windows.Forms.BindingSource(this.components);
             this.panel4 = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
             this.btnInsertOrder = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.cmbOffsetFlag = new System.Windows.Forms.ComboBox();
             this.cmbDirection = new System.Windows.Forms.ComboBox();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.numPrice = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -164,7 +165,7 @@
             this.cmsSubUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dsSubUser)).BeginInit();
             this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numPrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numVolume)).BeginInit();
             this.panel3.SuspendLayout();
             this.tabControl4.SuspendLayout();
@@ -716,11 +717,12 @@
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.label5);
             this.panel4.Controls.Add(this.btnInsertOrder);
             this.panel4.Controls.Add(this.button3);
             this.panel4.Controls.Add(this.cmbOffsetFlag);
             this.panel4.Controls.Add(this.cmbDirection);
-            this.panel4.Controls.Add(this.numericUpDown2);
+            this.panel4.Controls.Add(this.numPrice);
             this.panel4.Controls.Add(this.label4);
             this.panel4.Controls.Add(this.label3);
             this.panel4.Controls.Add(this.label2);
@@ -733,6 +735,15 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(214, 191);
             this.panel4.TabIndex = 0;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(10, 114);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(41, 12);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "指定价";
             // 
             // btnInsertOrder
             // 
@@ -757,9 +768,6 @@
             // 
             this.cmbOffsetFlag.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbOffsetFlag.FormattingEnabled = true;
-            this.cmbOffsetFlag.Items.AddRange(new object[] {
-            "开仓",
-            "平仓"});
             this.cmbOffsetFlag.Location = new System.Drawing.Point(54, 59);
             this.cmbOffsetFlag.Name = "cmbOffsetFlag";
             this.cmbOffsetFlag.Size = new System.Drawing.Size(99, 20);
@@ -769,20 +777,18 @@
             // 
             this.cmbDirection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbDirection.FormattingEnabled = true;
-            this.cmbDirection.Items.AddRange(new object[] {
-            "买入",
-            "卖出"});
             this.cmbDirection.Location = new System.Drawing.Point(54, 32);
             this.cmbDirection.Name = "cmbDirection";
             this.cmbDirection.Size = new System.Drawing.Size(99, 20);
             this.cmbDirection.TabIndex = 8;
             // 
-            // numericUpDown2
+            // numPrice
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(54, 112);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(99, 21);
-            this.numericUpDown2.TabIndex = 7;
+            this.numPrice.DecimalPlaces = 2;
+            this.numPrice.Location = new System.Drawing.Point(54, 112);
+            this.numPrice.Name = "numPrice";
+            this.numPrice.Size = new System.Drawing.Size(99, 21);
+            this.numPrice.TabIndex = 7;
             // 
             // label4
             // 
@@ -826,6 +832,11 @@
             this.numVolume.Name = "numVolume";
             this.numVolume.Size = new System.Drawing.Size(99, 21);
             this.numVolume.TabIndex = 2;
+            this.numVolume.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // cmbInstrumentId
             // 
@@ -1269,7 +1280,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dsSubUser)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numPrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numVolume)).EndInit();
             this.panel3.ResumeLayout(false);
             this.tabControl4.ResumeLayout(false);
@@ -1309,7 +1320,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ComboBox cmbOffsetFlag;
         private System.Windows.Forms.ComboBox cmbDirection;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown numPrice;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
@@ -1402,6 +1413,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Timer timerReturnOrder;
+        private System.Windows.Forms.Label label5;
     }
 }
 

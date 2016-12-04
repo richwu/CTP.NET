@@ -18,6 +18,8 @@ namespace WinCtp
         private readonly  ConcurrentQueue<CtpTrade> _tradeQueue;
         private readonly ConcurrentQueue<CtpOrder> _inputOrderQueue;
 
+        private IDictionary<int, string> _dirRsp;
+
         private readonly BackgroundWorker _workerTimerReturnOrder;
         private readonly BackgroundWorker _workerTimerQryTrade;
         private readonly BackgroundWorker _workerTimerInsertOrder;
@@ -26,6 +28,15 @@ namespace WinCtp
         public FrmMain()
         {
             InitializeComponent();
+
+            _dirRsp = new Dictionary<int, string>()
+            {
+                {0,"发送成功" },
+                { -1,"因网络原因发送失败" },
+                { -2,"未处理请求队列总数量超限" },
+                { -3,"每秒发送请求数量超限" }
+            };
+
             _log = LogManager.GetLogger("CTP");
             _impl = new MainViewImpl(this);
             _tradeQueue = new ConcurrentQueue<CtpTrade>();
@@ -45,6 +56,20 @@ namespace WinCtp
             tsslTradeApiStatus.Text = string.Empty;
             tsslBroker.Text = string.Empty;
             _listening = false;
+
+            var direction = new List<LookupObject>
+            {
+                new LookupObject(CtpDirectionType.Buy, "买"),
+                new LookupObject(CtpDirectionType.Sell, "卖")
+            };
+            cmbDirection.Bind(direction);
+
+            var offsetFlag = new List<LookupObject>
+            {
+                new LookupObject(CtpOffsetFlagType.Open, "开"),
+                new LookupObject(CtpOffsetFlagType.Close, "平")
+            };
+            cmbOffsetFlag.Bind(offsetFlag);
 
             var brokers = BrokerInfo.GetAll();
             var users = new UserInfoList(UserInfo.GetAll());
@@ -419,21 +444,27 @@ namespace WinCtp
         /// </summary>
         private void btnInsertOrder_Click(object sender, EventArgs e)
         {
-            foreach (CtpSubUser u in dsSubUser)
+            var user = (CtpSubUser) dsSubUser.Current;
+            if (user == null)
             {
-                if(!u.IsChecked)
-                    continue;
-                var req = new CtpInputOrder();
-                //req.CombOffsetFlag = ctpTrade.OffsetFlag.ToString();//==
-                req.Direction = cmbDirection.Text == "买" ? CtpDirectionType.Buy : CtpDirectionType.Sell;
-                req.InstrumentID = cmbInstrumentId.Text;
-                //req.LimitPrice = ctpTrade.Price;
-                req.VolumeTotalOriginal = (int) numVolume.Value;
-                var reqId = RequestId.OrderInsertId();
-                var rsp = u.TraderApi.ReqOrderInsert(req, reqId);
-                _log.DebugFormat("ReqOrderInsert[{0}],rsp[{1}]\nrequest:{2}",
-                    reqId, rsp, JsonConvert.SerializeObject(req));
+                MsgBox.Info("请选中要下单的子账户");
+                return;
             }
+            var req = new CtpInputOrder();
+            //该字段用来指定该报单是开仓，平仓还是平今仓。
+            //该字段是一个长度为5 的字符数组，可以同时用来描述单腿合约和组合合约的报单属性。单腿合约只需要为
+            //数组的第1 个元素赋值，组合合约需要为数组的第1 & 2 个元素赋值。字符取值为枚举值，在头文件
+            //“ThostFtdcUserApiStruct.h”中可以查到。
+            req.CombOffsetFlag = ((char)Convert.ToByte(cmbOffsetFlag.SelectedValue)).ToString();
+            req.Direction = Convert.ToByte(cmbDirection.SelectedValue);
+            req.InstrumentID = cmbInstrumentId.Text;
+            req.LimitPrice = (double)numPrice.Value;
+            req.VolumeTotalOriginal = (int)numVolume.Value;
+            var reqId = RequestId.OrderInsertId();
+            var rsp = user.TraderApi.ReqOrderInsert(req, reqId);
+            _log.DebugFormat("ReqOrderInsert[{0}],rsp[{1}]\nrequest:{2}",
+                reqId, rsp, JsonConvert.SerializeObject(req));
+            MsgBox.Info(_dirRsp[rsp]);
         }
 
         /// <summary>
