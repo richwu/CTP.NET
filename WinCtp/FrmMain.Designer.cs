@@ -89,17 +89,17 @@
             this.tsmiSubUserLogout = new System.Windows.Forms.ToolStripMenuItem();
             this.dsSubUser = new System.Windows.Forms.BindingSource(this.components);
             this.panel4 = new System.Windows.Forms.Panel();
-            this.button4 = new System.Windows.Forms.Button();
+            this.btnInsertOrder = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.cmbOffsetFlag = new System.Windows.Forms.ComboBox();
+            this.cmbDirection = new System.Windows.Forms.ComboBox();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.numVolume = new System.Windows.Forms.NumericUpDown();
+            this.cmbInstrumentId = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.tabControl4 = new System.Windows.Forms.TabControl();
@@ -165,7 +165,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dsSubUser)).BeginInit();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numVolume)).BeginInit();
             this.panel3.SuspendLayout();
             this.tabControl4.SuspendLayout();
             this.tpSubOrder.SuspendLayout();
@@ -361,7 +361,7 @@
             this.tpMstTrade.Location = new System.Drawing.Point(4, 22);
             this.tpMstTrade.Name = "tpMstTrade";
             this.tpMstTrade.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMstTrade.Size = new System.Drawing.Size(343, 131);
+            this.tpMstTrade.Size = new System.Drawing.Size(338, 131);
             this.tpMstTrade.TabIndex = 1;
             this.tpMstTrade.Text = "成交记录";
             this.tpMstTrade.UseVisualStyleBackColor = true;
@@ -391,7 +391,7 @@
             this.dataGridViewEx2.Name = "dataGridViewEx2";
             this.dataGridViewEx2.ReadOnly = true;
             this.dataGridViewEx2.RowTemplate.Height = 23;
-            this.dataGridViewEx2.Size = new System.Drawing.Size(337, 125);
+            this.dataGridViewEx2.Size = new System.Drawing.Size(332, 125);
             this.dataGridViewEx2.TabIndex = 0;
             // 
             // investorIdDataGridViewTextBoxColumn1
@@ -716,17 +716,17 @@
             // 
             // panel4
             // 
-            this.panel4.Controls.Add(this.button4);
+            this.panel4.Controls.Add(this.btnInsertOrder);
             this.panel4.Controls.Add(this.button3);
-            this.panel4.Controls.Add(this.comboBox3);
-            this.panel4.Controls.Add(this.comboBox2);
+            this.panel4.Controls.Add(this.cmbOffsetFlag);
+            this.panel4.Controls.Add(this.cmbDirection);
             this.panel4.Controls.Add(this.numericUpDown2);
             this.panel4.Controls.Add(this.label4);
             this.panel4.Controls.Add(this.label3);
             this.panel4.Controls.Add(this.label2);
             this.panel4.Controls.Add(this.button2);
-            this.panel4.Controls.Add(this.numericUpDown1);
-            this.panel4.Controls.Add(this.comboBox1);
+            this.panel4.Controls.Add(this.numVolume);
+            this.panel4.Controls.Add(this.cmbInstrumentId);
             this.panel4.Controls.Add(this.label1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel4.Location = new System.Drawing.Point(718, 0);
@@ -734,14 +734,15 @@
             this.panel4.Size = new System.Drawing.Size(214, 191);
             this.panel4.TabIndex = 0;
             // 
-            // button4
+            // btnInsertOrder
             // 
-            this.button4.Location = new System.Drawing.Point(21, 139);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 51);
-            this.button4.TabIndex = 11;
-            this.button4.Text = "下单";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btnInsertOrder.Location = new System.Drawing.Point(21, 139);
+            this.btnInsertOrder.Name = "btnInsertOrder";
+            this.btnInsertOrder.Size = new System.Drawing.Size(75, 51);
+            this.btnInsertOrder.TabIndex = 11;
+            this.btnInsertOrder.Text = "下单";
+            this.btnInsertOrder.UseVisualStyleBackColor = true;
+            this.btnInsertOrder.Click += new System.EventHandler(this.btnInsertOrder_Click);
             // 
             // button3
             // 
@@ -752,29 +753,29 @@
             this.button3.Text = "市价";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // comboBox3
+            // cmbOffsetFlag
             // 
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
+            this.cmbOffsetFlag.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbOffsetFlag.FormattingEnabled = true;
+            this.cmbOffsetFlag.Items.AddRange(new object[] {
             "开仓",
             "平仓"});
-            this.comboBox3.Location = new System.Drawing.Point(54, 59);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(99, 20);
-            this.comboBox3.TabIndex = 9;
+            this.cmbOffsetFlag.Location = new System.Drawing.Point(54, 59);
+            this.cmbOffsetFlag.Name = "cmbOffsetFlag";
+            this.cmbOffsetFlag.Size = new System.Drawing.Size(99, 20);
+            this.cmbOffsetFlag.TabIndex = 9;
             // 
-            // comboBox2
+            // cmbDirection
             // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
+            this.cmbDirection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbDirection.FormattingEnabled = true;
+            this.cmbDirection.Items.AddRange(new object[] {
             "买入",
             "卖出"});
-            this.comboBox2.Location = new System.Drawing.Point(54, 32);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(99, 20);
-            this.comboBox2.TabIndex = 8;
+            this.cmbDirection.Location = new System.Drawing.Point(54, 32);
+            this.cmbDirection.Name = "cmbDirection";
+            this.cmbDirection.Size = new System.Drawing.Size(99, 20);
+            this.cmbDirection.TabIndex = 8;
             // 
             // numericUpDown2
             // 
@@ -819,20 +820,20 @@
             this.button2.Text = "取消";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // numericUpDown1
+            // numVolume
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(54, 85);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(99, 21);
-            this.numericUpDown1.TabIndex = 2;
+            this.numVolume.Location = new System.Drawing.Point(54, 85);
+            this.numVolume.Name = "numVolume";
+            this.numVolume.Size = new System.Drawing.Size(99, 21);
+            this.numVolume.TabIndex = 2;
             // 
-            // comboBox1
+            // cmbInstrumentId
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(54, 5);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(99, 20);
-            this.comboBox1.TabIndex = 1;
+            this.cmbInstrumentId.FormattingEnabled = true;
+            this.cmbInstrumentId.Location = new System.Drawing.Point(54, 5);
+            this.cmbInstrumentId.Name = "cmbInstrumentId";
+            this.cmbInstrumentId.Size = new System.Drawing.Size(99, 20);
+            this.cmbInstrumentId.TabIndex = 1;
             // 
             // label1
             // 
@@ -1010,7 +1011,7 @@
             this.tpSubTrade.Location = new System.Drawing.Point(4, 22);
             this.tpSubTrade.Name = "tpSubTrade";
             this.tpSubTrade.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSubTrade.Size = new System.Drawing.Size(542, 117);
+            this.tpSubTrade.Size = new System.Drawing.Size(537, 98);
             this.tpSubTrade.TabIndex = 1;
             this.tpSubTrade.Text = "成交记录";
             this.tpSubTrade.UseVisualStyleBackColor = true;
@@ -1040,7 +1041,7 @@
             this.dataGridViewEx1.Name = "dataGridViewEx1";
             this.dataGridViewEx1.ReadOnly = true;
             this.dataGridViewEx1.RowTemplate.Height = 23;
-            this.dataGridViewEx1.Size = new System.Drawing.Size(536, 111);
+            this.dataGridViewEx1.Size = new System.Drawing.Size(531, 92);
             this.dataGridViewEx1.TabIndex = 0;
             // 
             // investorIdDataGridViewTextBoxColumn
@@ -1269,7 +1270,7 @@
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numVolume)).EndInit();
             this.panel3.ResumeLayout(false);
             this.tabControl4.ResumeLayout(false);
             this.tpSubOrder.ResumeLayout(false);
@@ -1304,17 +1305,17 @@
         private System.Windows.Forms.TabControl tabControl4;
         private System.Windows.Forms.TabPage tpSubTrade;
         private System.Windows.Forms.TabControl tcSubInstrument;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btnInsertOrder;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox cmbOffsetFlag;
+        private System.Windows.Forms.ComboBox cmbDirection;
         private System.Windows.Forms.NumericUpDown numericUpDown2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.NumericUpDown numVolume;
+        private System.Windows.Forms.ComboBox cmbInstrumentId;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.ToolStripButton tsmiListen;

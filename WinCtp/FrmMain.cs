@@ -10,9 +10,10 @@ using Newtonsoft.Json;
 
 namespace WinCtp
 {
-    public partial class FrmMain : Form
+    public partial class FrmMain : Form , IMainView
     {
         private readonly ILog _log;
+        private readonly MainViewImpl _impl;
         private bool _listening;
         private readonly  ConcurrentQueue<CtpTrade> _tradeQueue;
         private readonly ConcurrentQueue<CtpOrder> _inputOrderQueue;
@@ -26,6 +27,7 @@ namespace WinCtp
         {
             InitializeComponent();
             _log = LogManager.GetLogger("CTP");
+            _impl = new MainViewImpl(this);
             _tradeQueue = new ConcurrentQueue<CtpTrade>();
             _inputOrderQueue = new ConcurrentQueue<CtpOrder>();
 
@@ -87,6 +89,9 @@ namespace WinCtp
                 api.OnRtnTrade += OnRtnTrade;
                 api.OnRspOrderInsert += OnRspOrderInsert;
                 api.OnErrRtnOrderInsert += OnErrRtnOrderInsert;
+
+                api.OnRspQryInvestorPosition += OnRspQryInvestorPosition;
+                api.OnRspQryInvestorPositionDetail += OnRspQryInvestorPositionDetail;
 
                 api.OnRspQryTrade += OnRspQryTrade;
                 api.OnRspQrySettlementInfo += OnRspQrySettlementInfo;
@@ -410,6 +415,28 @@ namespace WinCtp
         }
 
         /// <summary>
+        /// 手工下单。
+        /// </summary>
+        private void btnInsertOrder_Click(object sender, EventArgs e)
+        {
+            foreach (CtpSubUser u in dsSubUser)
+            {
+                if(!u.IsChecked)
+                    continue;
+                var req = new CtpInputOrder();
+                //req.CombOffsetFlag = ctpTrade.OffsetFlag.ToString();//==
+                req.Direction = cmbDirection.Text == "买" ? CtpDirectionType.Buy : CtpDirectionType.Sell;
+                req.InstrumentID = cmbInstrumentId.Text;
+                //req.LimitPrice = ctpTrade.Price;
+                req.VolumeTotalOriginal = (int) numVolume.Value;
+                var reqId = RequestId.OrderInsertId();
+                var rsp = u.TraderApi.ReqOrderInsert(req, reqId);
+                _log.DebugFormat("ReqOrderInsert[{0}],rsp[{1}]\nrequest:{2}",
+                    reqId, rsp, JsonConvert.SerializeObject(req));
+            }
+        }
+
+        /// <summary>
         /// 成交回报。
         /// </summary>
         private void OnRtnTrade(object sender, CtpTrade response)
@@ -490,6 +517,49 @@ namespace WinCtp
                 o.OrderStatus = od.OrderStatus;
                 dsSubOrder.ResetItem(p);
             }
+        }
+        #endregion
+
+        #region 持仓
+
+        private void QryInvestorPosition()
+        {
+            var req = new CtpQryInvestorPosition();
+            foreach (CtpMstUser u in dsMstUser)
+            {
+                req.InvestorID = u.UserId;
+                u.TraderApi.ReqQryInvestorPosition(req, 0);
+            }
+            foreach (CtpSubUser u in dsSubUser)
+            {
+                req.InvestorID = u.UserId;
+                u.TraderApi.ReqQryInvestorPosition(req, 0);
+            }
+        }
+
+        /// <summary>
+        /// 持仓查询响应。
+        /// </summary>
+        private void OnRspQryInvestorPosition(object sender, CtpInvestorPosition response, CtpRspInfo rspInfo, int requestId, bool isLast)
+        {
+            _log.DebugFormat("OnRspQryInvestorPosition[{0}]\nrspInfo:{1}\nresponse:{2}",
+                requestId,
+                JsonConvert.SerializeObject(rspInfo), 
+                JsonConvert.SerializeObject(response));
+            if (rspInfo == null || rspInfo.ErrorID != 0 || response == null)
+                return;
+            var info = new InvestorPositionInfo(response);
+        }
+
+        /// <summary>
+        /// 持仓明细查询响应。
+        /// </summary>
+        private void OnRspQryInvestorPositionDetail(object sender, CtpInvestorPositionDetail response, CtpRspInfo rspInfo, int requestId, bool isLast)
+        {
+            _log.DebugFormat("OnRspQryInvestorPositionDetail[{0}]\nrspInfo:{1}\nresponse:{2}",
+                requestId,
+                JsonConvert.SerializeObject(rspInfo),
+                JsonConvert.SerializeObject(response));
         }
         #endregion
     }

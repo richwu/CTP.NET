@@ -88,6 +88,9 @@
       <DependentUpon>FrmUserInsertOrderConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="ILookupObject.cs" />
+    <Compile Include="IMainView.cs" />
+    <Compile Include="InvestorPositionInfo.cs" />
+    <Compile Include="MainViewImpl.cs" />
     <Compile Include="MsgBox.cs" />
     <Compile Include="OrderInfo.cs" />
     <Compile Include="RequestId.cs" />
