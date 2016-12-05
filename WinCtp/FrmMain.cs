@@ -160,7 +160,7 @@ namespace WinCtp
 
         private void OnRspError(object sender, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
-            _log.DebugFormat("TradeApiOnRspError[requestId={0}]\nrspInfo:{1}",
+            _log.DebugFormat("TradeApiOnRspError[{0}]\nrspInfo:{1}",
                 requestId,
                 JsonConvert.SerializeObject(rspInfo));
         }
@@ -169,7 +169,7 @@ namespace WinCtp
 
         private void OnRspUserLogout(object sender, CtpUserLogout response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
-            _log.DebugFormat("TradeApiOnRspUserLogout[requestId={0}]\nresponse:{1}\nrspInfo:{2}",
+            _log.DebugFormat("TradeApiOnRspUserLogout[{0}]\nresponse:{1}\nrspInfo:{2}",
                requestId,
                JsonConvert.SerializeObject(response),
                JsonConvert.SerializeObject(rspInfo));
@@ -199,7 +199,7 @@ namespace WinCtp
 
         private void OnRspUserLogin(object sender, CtpRspUserLogin response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
-            _log.DebugFormat("TradeApiOnRspUserLogin[requestId={0}]\nresponse:{1}\nrspInfo:{2}",
+            _log.DebugFormat("TradeApiOnRspUserLogin[{0}]\nresponse:{1}\nrspInfo:{2}",
                 requestId,
                 JsonConvert.SerializeObject(response), 
                 JsonConvert.SerializeObject(rspInfo));
@@ -257,7 +257,7 @@ namespace WinCtp
                 userLoginReq.ProtocolInfo = "X";
                 userLoginReq.InterfaceProductInfo = "X";
                 var rsp = api.ReqUserLogin(userLoginReq, user.ReqId);
-                _log.DebugFormat("ReqUserLogin rsp[{0}]", rsp);
+                _log.DebugFormat("ReqUserLogin:{0}", Rsp.This[rsp]);
             }
         }
 
@@ -278,7 +278,7 @@ namespace WinCtp
                     UserID = user.UserId
                 };
                 var rsp = api.ReqUserLogout(req, user.ReqId);
-                _log.DebugFormat("ReqUserLogout rsp[{0}]", rsp);
+                _log.DebugFormat("ReqUserLogout:{0}", Rsp.This[rsp]);
             }
         }
         
@@ -312,7 +312,7 @@ namespace WinCtp
                 userLoginReq.ProtocolInfo = "X";
                 userLoginReq.InterfaceProductInfo = "X";
                 var rsp = api.ReqUserLogin(userLoginReq, user.ReqId);
-                _log.InfoFormat("ReqUserLogin rsp[{0}]", rsp);
+                _log.InfoFormat("ReqUserLogin:{0}", Rsp.This[rsp]);
             }
         }
 
@@ -333,7 +333,7 @@ namespace WinCtp
                     UserID = user.UserId
                 };
                 var rsp = api.ReqUserLogout(req, user.ReqId);
-                _log.InfoFormat("ReqUserLogout rsp[{0}]", rsp);
+                _log.InfoFormat("ReqUserLogout:{0}", Rsp.This[rsp]);
             }
         }
         #endregion
