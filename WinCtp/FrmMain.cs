@@ -145,12 +145,16 @@ namespace WinCtp
 
         private void tsmiSettlementInfoConfirm_Click(object sender, EventArgs e)
         {
+            gvSubOrder.EndEdit();
+            dsSubUser.EndEdit();
             for (var i = 0; i < dsSubUser.Count; i++)
             {
                 var u = (CtpSubUser)dsSubUser[i];
                 if(!u.IsChecked)
                     continue;
                 var req = new CtpSettlementInfoConfirm();
+                req.BrokerID = u.BrokerId;
+                req.InvestorID = u.UserId;
                 var reqId = 0;
                 var rsp = u.TraderApi.ReqSettlementInfoConfirm(req, reqId);
                 _log.DebugFormat("ReqQrySettlementInfoConfirm[{0}]:{1}\nrequest:{2}",
@@ -304,7 +308,7 @@ namespace WinCtp
 
         private void OnRspUserLogin(object sender, CtpRspUserLogin response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
-            _log.DebugFormat("TradeApiOnRspUserLogin[{0}]\nresponse:{1}\nrspInfo:{2}",
+            _log.DebugFormat("OnRspUserLogin[{0}]\nresponse:{1}\nrspInfo:{2}",
                 requestId,
                 JsonConvert.SerializeObject(response), 
                 JsonConvert.SerializeObject(rspInfo));
@@ -322,10 +326,16 @@ namespace WinCtp
             }
             for (var i = 0; i < dsSubUser.Count; i++)
             {
-                var u = (CtpUserInfo)dsSubUser[i];
+                var u = (CtpSubUser)dsSubUser[i];
                 if (u.ReqId == requestId)
                 {
                     u.IsLogin = true;
+                    if (response != null)
+                    {
+                        u.FrontId = response.FrontID;
+                        u.SessionId = response.SessionID;
+                        u.MaxOrderRef = Convert.ToInt32(response.MaxOrderRef);
+                    }
                     dsSubUser.ResetItem(i);
                     return;
                 }
@@ -409,15 +419,17 @@ namespace WinCtp
                 if (!user.IsChecked || user.IsLogin)
                     continue;
                 var api = user.TraderApi;
-                var userLoginReq = new CtpReqUserLogin();
-                userLoginReq.BrokerID = user.BrokerId;
-                userLoginReq.UserID = user.UserId;
-                userLoginReq.Password = user.Password;
-                userLoginReq.UserProductInfo = "JCTP";
-                userLoginReq.ProtocolInfo = "X";
-                userLoginReq.InterfaceProductInfo = "X";
-                var rsp = api.ReqUserLogin(userLoginReq, user.ReqId);
-                _log.InfoFormat("ReqUserLogin:{0}", Rsp.This[rsp]);
+                var req = new CtpReqUserLogin();
+                req.BrokerID = user.BrokerId;
+                req.UserID = user.UserId;
+                req.Password = user.Password;
+                req.UserProductInfo = "JCTP";
+                req.ProtocolInfo = "X";
+                req.InterfaceProductInfo = "X";
+                var reqId = user.ReqId;
+                var rsp = api.ReqUserLogin(req, reqId);
+                _log.InfoFormat("ReqUserLogout[{0}]:{1}\nrequest:{2}",
+                    reqId, Rsp.This[rsp], JsonConvert.SerializeObject(req));
             }
         }
 
@@ -437,8 +449,10 @@ namespace WinCtp
                     BrokerID = user.BrokerId,
                     UserID = user.UserId
                 };
-                var rsp = api.ReqUserLogout(req, user.ReqId);
-                _log.InfoFormat("ReqUserLogout:{0}", Rsp.This[rsp]);
+                var reqId = user.ReqId;
+                var rsp = api.ReqUserLogout(req, reqId);
+                _log.InfoFormat("ReqUserLogout[{0}]:{1}\nrequest:{2}",
+                    reqId, Rsp.This[rsp], JsonConvert.SerializeObject(req));
             }
         }
         #endregion
@@ -539,27 +553,35 @@ namespace WinCtp
         /// </summary>
         private void btnInsertOrder_Click(object sender, EventArgs e)
         {
-            var user = (CtpSubUser) dsSubUser.Current;
-            if (user == null)
-            {
-                MsgBox.Info("请选中要下单的子账户");
+            if (dsSubUser.Count == 0)
                 return;
+            gvSubUser.EndEdit();
+            dsSubUser.EndEdit();
+            for (var i = 0; i < dsSubUser.Count; i++)
+            {
+                var u = (CtpSubUser) dsSubUser[i];
+                if(!u.IsChecked || !u.IsLogin)
+                    continue;
+                var req = new CtpInputOrder();
+                req.BrokerID = u.BrokerId;
+                req.InvestorID = u.UserId;
+                req.UserID = u.UserId;
+                //该字段用来指定该报单是开仓，平仓还是平今仓。
+                //该字段是一个长度为5 的字符数组，可以同时用来描述单腿合约和组合合约的报单属性。单腿合约只需要为
+                //数组的第1 个元素赋值，组合合约需要为数组的第1 & 2 个元素赋值。字符取值为枚举值，在头文件
+                //“ThostFtdcUserApiStruct.h”中可以查到。
+                req.CombOffsetFlag = ((char)Convert.ToByte(cmbOffsetFlag.SelectedValue)).ToString();
+                req.Direction = Convert.ToByte(cmbDirection.SelectedValue);
+                req.InstrumentID = cmbInstrumentId.Text;
+                req.LimitPrice = (double)numPrice.Value;
+                req.VolumeTotalOriginal = (int)numVolume.Value;
+                req.OrderRef = u.GetOrderRef();
+                req.MinVolume = (int)numVolume.Value;
+                var reqId = RequestId.OrderInsertId();
+                var rsp = u.TraderApi.ReqOrderInsert(req, reqId);
+                _log.DebugFormat("ReqOrderInsert[{0}]:{1}\nrequest:{2}",
+                    reqId, Rsp.This[rsp], JsonConvert.SerializeObject(req));
             }
-            var req = new CtpInputOrder();
-            //该字段用来指定该报单是开仓，平仓还是平今仓。
-            //该字段是一个长度为5 的字符数组，可以同时用来描述单腿合约和组合合约的报单属性。单腿合约只需要为
-            //数组的第1 个元素赋值，组合合约需要为数组的第1 & 2 个元素赋值。字符取值为枚举值，在头文件
-            //“ThostFtdcUserApiStruct.h”中可以查到。
-            req.CombOffsetFlag = ((char)Convert.ToByte(cmbOffsetFlag.SelectedValue)).ToString();
-            req.Direction = Convert.ToByte(cmbDirection.SelectedValue);
-            req.InstrumentID = cmbInstrumentId.Text;
-            req.LimitPrice = (double)numPrice.Value;
-            req.VolumeTotalOriginal = (int)numVolume.Value;
-            var reqId = RequestId.OrderInsertId();
-            var rsp = user.TraderApi.ReqOrderInsert(req, reqId);
-            _log.DebugFormat("ReqOrderInsert[{0}],rsp[{1}]\nrequest:{2}",
-                reqId, rsp, JsonConvert.SerializeObject(req));
-            MsgBox.Info(Rsp.This[rsp]);
         }
 
         /// <summary>

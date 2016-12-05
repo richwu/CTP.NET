@@ -160,8 +160,6 @@ namespace WinCtp
         public bool IsLogin { get; set; }
 
         public int ReqId { get; set; }
-
-        public int MaxOrderRef { get; set; }
     }
 
     public class CtpMstUser : CtpUserInfo
@@ -171,6 +169,19 @@ namespace WinCtp
 
     public class CtpSubUser : CtpUserInfo
     {
+        public int MaxOrderRef { get; set; }
+
+        public int FrontId { get; set; }
+
+        public int SessionId { get; set; }
+
+        public string GetOrderRef()
+        {
+            var r = MaxOrderRef;
+            MaxOrderRef++;
+            return r.ToString();
+        }
+        
         /// <summary>
         /// 结算信息确认时间。
         /// </summary>
