@@ -31,8 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.tsslBroker = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tsslTradeApiStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tpMstOrder = new System.Windows.Forms.TabPage();
@@ -144,7 +142,7 @@
             this.timerQryTrade = new System.Windows.Forms.Timer(this.components);
             this.timerInsertOrder = new System.Windows.Forms.Timer(this.components);
             this.timerReturnOrder = new System.Windows.Forms.Timer(this.components);
-            this.statusStrip.SuspendLayout();
+            this.tsmiSettlementInfoConfirm = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tpMstOrder.SuspendLayout();
@@ -182,26 +180,11 @@
             // 
             // statusStrip
             // 
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsslBroker,
-            this.tsslTradeApiStatus});
             this.statusStrip.Location = new System.Drawing.Point(0, 497);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(932, 22);
             this.statusStrip.TabIndex = 8;
             this.statusStrip.Text = "statusStrip1";
-            // 
-            // tsslBroker
-            // 
-            this.tsslBroker.Name = "tsslBroker";
-            this.tsslBroker.Size = new System.Drawing.Size(48, 17);
-            this.tsslBroker.Text = "Broker";
-            // 
-            // tsslTradeApiStatus
-            // 
-            this.tsslTradeApiStatus.Name = "tsslTradeApiStatus";
-            this.tsslTradeApiStatus.Size = new System.Drawing.Size(96, 17);
-            this.tsslTradeApiStatus.Text = "TradeApiStatus";
             // 
             // panel1
             // 
@@ -686,28 +669,29 @@
             this.cmsSubUser.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiSelectAllSubUser,
             this.tsmiSubUserLogin,
-            this.tsmiSubUserLogout});
+            this.tsmiSubUserLogout,
+            this.tsmiSettlementInfoConfirm});
             this.cmsSubUser.Name = "cmsMstUser";
-            this.cmsSubUser.Size = new System.Drawing.Size(101, 70);
+            this.cmsSubUser.Size = new System.Drawing.Size(153, 114);
             // 
             // tsmiSelectAllSubUser
             // 
             this.tsmiSelectAllSubUser.Name = "tsmiSelectAllSubUser";
-            this.tsmiSelectAllSubUser.Size = new System.Drawing.Size(100, 22);
+            this.tsmiSelectAllSubUser.Size = new System.Drawing.Size(152, 22);
             this.tsmiSelectAllSubUser.Text = "全选";
             this.tsmiSelectAllSubUser.Click += new System.EventHandler(this.tsmiSelectAllSubUser_Click);
             // 
             // tsmiSubUserLogin
             // 
             this.tsmiSubUserLogin.Name = "tsmiSubUserLogin";
-            this.tsmiSubUserLogin.Size = new System.Drawing.Size(100, 22);
+            this.tsmiSubUserLogin.Size = new System.Drawing.Size(152, 22);
             this.tsmiSubUserLogin.Text = "登录";
             this.tsmiSubUserLogin.Click += new System.EventHandler(this.tsmiSubUserLogin_Click);
             // 
             // tsmiSubUserLogout
             // 
             this.tsmiSubUserLogout.Name = "tsmiSubUserLogout";
-            this.tsmiSubUserLogout.Size = new System.Drawing.Size(100, 22);
+            this.tsmiSubUserLogout.Size = new System.Drawing.Size(152, 22);
             this.tsmiSubUserLogout.Text = "注销";
             this.tsmiSubUserLogout.Click += new System.EventHandler(this.tsmiSubUserLogout_Click);
             // 
@@ -1242,6 +1226,13 @@
             this.timerReturnOrder.Interval = 3000;
             this.timerReturnOrder.Tick += new System.EventHandler(this.timerReturnOrder_Tick);
             // 
+            // tsmiSettlementInfoConfirm
+            // 
+            this.tsmiSettlementInfoConfirm.Name = "tsmiSettlementInfoConfirm";
+            this.tsmiSettlementInfoConfirm.Size = new System.Drawing.Size(152, 22);
+            this.tsmiSettlementInfoConfirm.Text = "结算确认";
+            this.tsmiSettlementInfoConfirm.Click += new System.EventHandler(this.tsmiSettlementInfoConfirm_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1257,8 +1248,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "跟单系统";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.statusStrip.ResumeLayout(false);
-            this.statusStrip.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tpMstOrder.ResumeLayout(false);
@@ -1301,7 +1290,6 @@
 
         #endregion
         private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel tsslBroker;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
@@ -1374,7 +1362,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn tradeTimeDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn orderLocalIdDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn exchangeIdDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.ToolStripStatusLabel tsslTradeApiStatus;
         private System.Windows.Forms.ToolStripDropDownButton tsmiUser;
         private System.Windows.Forms.ToolStripMenuItem ibtnUser;
         private System.Windows.Forms.ToolStripMenuItem ibtnOrderInsertConfig;
@@ -1414,6 +1401,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Timer timerReturnOrder;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ToolStripMenuItem tsmiSettlementInfoConfirm;
     }
 }
 

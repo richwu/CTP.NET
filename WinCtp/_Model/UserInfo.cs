@@ -171,6 +171,11 @@ namespace WinCtp
 
     public class CtpSubUser : CtpUserInfo
     {
+        /// <summary>
+        /// 结算信息确认时间。
+        /// </summary>
+        public DateTime? SettlementInfoConfirmTime { get; set; }
+
         private IDictionary<string, UserInserOrderConfig> _cfg;
 
         private void LoadConfig()

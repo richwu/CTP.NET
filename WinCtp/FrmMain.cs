@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using GalaxyFutures.Sfit.Api;
@@ -43,8 +44,6 @@ namespace WinCtp
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            tsslTradeApiStatus.Text = string.Empty;
-            tsslBroker.Text = string.Empty;
             _listening = false;
 
             var direction = new List<LookupObject>
@@ -109,13 +108,19 @@ namespace WinCtp
                 api.OnRspQryInvestorPositionDetail += OnRspQryInvestorPositionDetail;
 
                 api.OnRspQryTrade += OnRspQryTrade;
+
                 api.OnRspQrySettlementInfo += OnRspQrySettlementInfo;
                 api.OnRspSettlementInfoConfirm += OnRspSettlementInfoConfirm;
+                api.OnRspQrySettlementInfoConfirm += OnRspQrySettlementInfoConfirm;
+
                 api.SubscribePrivateTopic(CtpResumeType.Quick);
                 api.SubscribePublicTopic(CtpResumeType.Quick);
                 b.Start();
             }
+            QrySettlementInfoConfirm();
         }
+
+        
 
         #endregion
 
@@ -137,14 +142,114 @@ namespace WinCtp
         #endregion
 
         #region 结算
-        private void OnRspSettlementInfoConfirm(object sender, CtpSettlementInfoConfirm response, CtpRspInfo rspInfo, int requestId, bool isLast)
+
+        private void tsmiSettlementInfoConfirm_Click(object sender, EventArgs e)
         {
-            _log.DebugFormat("TradeApiOnRspSettlementInfoConfirm\nresponse:{0}\nrspInfo:{1}", JsonConvert.SerializeObject(response), JsonConvert.SerializeObject(rspInfo));
+            for (var i = 0; i < dsSubUser.Count; i++)
+            {
+                var u = (CtpSubUser)dsSubUser[i];
+                if(!u.IsChecked)
+                    continue;
+                var req = new CtpSettlementInfoConfirm();
+                var reqId = 0;
+                var rsp = u.TraderApi.ReqSettlementInfoConfirm(req, reqId);
+                _log.DebugFormat("ReqQrySettlementInfoConfirm[{0}]:{1}\nrequest:{2}",
+                    reqId,
+                    Rsp.This[rsp], 
+                    JsonConvert.SerializeObject(req));
+            }
         }
 
+        /// <summary>
+        /// 查询结算信息确认。
+        /// </summary>
+        private void QrySettlementInfoConfirm()
+        {
+            foreach (CtpSubUser u in dsSubUser)
+            {
+                var api = u.TraderApi;
+                var req = new CtpQrySettlementInfoConfirm();
+                req.BrokerID = u.BrokerId;
+                req.InvestorID = u.UserId;
+                var rsp = api.ReqQrySettlementInfoConfirm(req, 0);
+                _log.DebugFormat("ReqQrySettlementInfoConfirm:{0}\nrequest:{1}", Rsp.This[rsp], JsonConvert.SerializeObject(req));
+            }
+        }
+
+        /// <summary>
+        /// 查询结算信息确认响应。
+        /// </summary>
+        private void OnRspQrySettlementInfoConfirm(object sender, CtpSettlementInfoConfirm response, CtpRspInfo rspInfo, int requestId, bool isLast)
+        {
+            _log.DebugFormat("OnRspQrySettlementInfoConfirm[{0}]\nresponse:{1}\nrspInfo:{2}",
+               requestId,
+               JsonConvert.SerializeObject(response),
+               JsonConvert.SerializeObject(rspInfo));
+            if (rspInfo == null || rspInfo.ErrorID == 0 || response == null)
+                return;
+            for (var i = 0; i < dsSubUser.Count; i++)
+            {
+                var u = (CtpSubUser)dsSubUser[i];
+                if (u.BrokerId == response.BrokerID && u.UserId == response.InvestorID)
+                {
+                    var dt = response.ConfirmDate + response.ConfirmTime;
+                    DateTime d;
+                    if (!DateTime.TryParseExact(dt, "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out d))
+                        break;
+                    u.SettlementInfoConfirmTime = d;
+                    dsSubUser.ResetItem(i);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 确认结算信息响应。
+        /// </summary>
+        private void OnRspSettlementInfoConfirm(object sender, CtpSettlementInfoConfirm response, CtpRspInfo rspInfo, int requestId, bool isLast)
+        {
+            _log.DebugFormat("TradeApiOnRspSettlementInfoConfirm[{0}]\nresponse:{1}\nrspInfo:{2}",
+                requestId,
+                JsonConvert.SerializeObject(response), 
+                JsonConvert.SerializeObject(rspInfo));
+            if (rspInfo == null || rspInfo.ErrorID == 0 || response == null)
+                return;
+            for (var i = 0; i < dsSubUser.Count; i++)
+            {
+                var u = (CtpSubUser)dsSubUser[i];
+                if (u.BrokerId == response.BrokerID && u.UserId == response.InvestorID)
+                {
+                    var dt = response.ConfirmDate + response.ConfirmTime;
+                    DateTime d;
+                    if (!DateTime.TryParseExact(dt, "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out d))
+                        break;
+                    u.SettlementInfoConfirmTime = d;
+                    dsSubUser.ResetItem(i);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         private void OnRspQrySettlementInfo(object sender, CtpSettlementInfo response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
-            _log.DebugFormat("TradeApiOnRspQrySettlementInfo\nresponse:{0}\nrspInfo:{1}", JsonConvert.SerializeObject(response), JsonConvert.SerializeObject(rspInfo));
+            _log.DebugFormat("OnRspQrySettlementInfo[{0}]\nresponse:{1}\nrspInfo:{2}",
+                requestId,
+                JsonConvert.SerializeObject(response), 
+                JsonConvert.SerializeObject(rspInfo));
+            if (rspInfo == null || rspInfo.ErrorID == 0 || response == null)
+                return;
+            for (var i = 0; i < dsSubUser.Count; i++)
+            {
+                var u = (CtpSubUser)dsSubUser[i];
+                if (u.BrokerId == response.BrokerID && u.UserId == response.InvestorID)
+                {
+                    dsSubUser.ResetItem(i);
+                    break;
+                }
+            }
         }
         #endregion
 
