@@ -162,9 +162,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="ctp.db3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\CtpMstUser.datasource" />
     <None Include="Properties\DataSources\CtpSubUser.datasource" />
@@ -189,7 +186,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo.ico" />
-    <Content Include="note.txt" />
     <None Include="Resources\6.gif" />
     <None Include="Resources\bookmark.gif" />
     <None Include="Resources\clock.gif" />
