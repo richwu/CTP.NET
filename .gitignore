@@ -17,3 +17,5 @@ packages/
 
 # Expanded/resolved project.json files
 project.lock.json
+/Ctp.VC.db
+/Ctp.VC.VC.opendb
