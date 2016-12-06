@@ -2,6 +2,8 @@
 {
     public abstract class OrderBase
     {
+        public string BrokerId { get; set; }
+
         /// <summary>
         /// 投资者ID。
         /// </summary>

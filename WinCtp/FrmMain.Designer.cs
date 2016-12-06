@@ -78,6 +78,11 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.gbSubUser = new System.Windows.Forms.GroupBox();
             this.gvSubUser = new WinCtp.DataGridViewEx();
+            this.isCheckedDataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.userIdDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.userNameDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isLoginDataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.gcSubUserSettlementInfoConfirmTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmsSubUser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiSelectAllSubUser = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSubUserLogin = new System.Windows.Forms.ToolStripMenuItem();
@@ -102,18 +107,6 @@
             this.tabControl4 = new System.Windows.Forms.TabControl();
             this.tpSubOrder = new System.Windows.Forms.TabPage();
             this.gvSubOrder = new WinCtp.DataGridViewEx();
-            this.investorIdDataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.orderSysIdDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.instrumentIdDataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.directionDataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.combOffsetFlagDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.orderStatusDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.limitPriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.volumeTotalOriginalDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.volumeTotalDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.volumeTradedDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.insertTimeDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.updateTimeDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dsSubOrder = new System.Windows.Forms.BindingSource(this.components);
             this.tpSubTrade = new System.Windows.Forms.TabPage();
             this.dataGridViewEx1 = new WinCtp.DataGridViewEx();
@@ -140,11 +133,19 @@
             this.timerQryTrade = new System.Windows.Forms.Timer(this.components);
             this.timerInsertOrder = new System.Windows.Forms.Timer(this.components);
             this.timerReturnOrder = new System.Windows.Forms.Timer(this.components);
-            this.isCheckedDataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.userIdDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.userNameDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.isLoginDataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.gcSubUserSettlementInfoConfirmTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.investorIdDataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.orderSysIdDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.instrumentIdDataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gcSubOrderDirection = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.gcSubOrderCombOffsetFlag = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.gcSubOrderStatus = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.limitPriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.volumeTotalOriginalDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.volumeTotalDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.volumeTradedDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.insertTimeDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.updateTimeDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gcSubOrderErrorMsg = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tpMstOrder.SuspendLayout();
@@ -636,6 +637,48 @@
             this.gvSubUser.Size = new System.Drawing.Size(388, 157);
             this.gvSubUser.TabIndex = 1;
             // 
+            // isCheckedDataGridViewCheckBoxColumn1
+            // 
+            this.isCheckedDataGridViewCheckBoxColumn1.DataPropertyName = "IsChecked";
+            this.isCheckedDataGridViewCheckBoxColumn1.HeaderText = "选择";
+            this.isCheckedDataGridViewCheckBoxColumn1.Name = "isCheckedDataGridViewCheckBoxColumn1";
+            this.isCheckedDataGridViewCheckBoxColumn1.Width = 35;
+            // 
+            // userIdDataGridViewTextBoxColumn1
+            // 
+            this.userIdDataGridViewTextBoxColumn1.DataPropertyName = "UserId";
+            this.userIdDataGridViewTextBoxColumn1.HeaderText = "投资者账户";
+            this.userIdDataGridViewTextBoxColumn1.Name = "userIdDataGridViewTextBoxColumn1";
+            this.userIdDataGridViewTextBoxColumn1.ReadOnly = true;
+            this.userIdDataGridViewTextBoxColumn1.Width = 90;
+            // 
+            // userNameDataGridViewTextBoxColumn1
+            // 
+            this.userNameDataGridViewTextBoxColumn1.DataPropertyName = "UserName";
+            this.userNameDataGridViewTextBoxColumn1.HeaderText = "投资者";
+            this.userNameDataGridViewTextBoxColumn1.Name = "userNameDataGridViewTextBoxColumn1";
+            this.userNameDataGridViewTextBoxColumn1.ReadOnly = true;
+            this.userNameDataGridViewTextBoxColumn1.Width = 66;
+            // 
+            // isLoginDataGridViewCheckBoxColumn1
+            // 
+            this.isLoginDataGridViewCheckBoxColumn1.DataPropertyName = "IsLogin";
+            this.isLoginDataGridViewCheckBoxColumn1.HeaderText = "登录";
+            this.isLoginDataGridViewCheckBoxColumn1.Name = "isLoginDataGridViewCheckBoxColumn1";
+            this.isLoginDataGridViewCheckBoxColumn1.ReadOnly = true;
+            this.isLoginDataGridViewCheckBoxColumn1.Width = 35;
+            // 
+            // gcSubUserSettlementInfoConfirmTime
+            // 
+            this.gcSubUserSettlementInfoConfirmTime.DataPropertyName = "SettlementInfoConfirmTime";
+            dataGridViewCellStyle1.Format = "yy-M-d H:m";
+            dataGridViewCellStyle1.NullValue = "0";
+            this.gcSubUserSettlementInfoConfirmTime.DefaultCellStyle = dataGridViewCellStyle1;
+            this.gcSubUserSettlementInfoConfirmTime.HeaderText = "结算确认";
+            this.gcSubUserSettlementInfoConfirmTime.Name = "gcSubUserSettlementInfoConfirmTime";
+            this.gcSubUserSettlementInfoConfirmTime.ReadOnly = true;
+            this.gcSubUserSettlementInfoConfirmTime.Width = 78;
+            // 
             // cmsSubUser
             // 
             this.cmsSubUser.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -752,6 +795,11 @@
             this.numPrice.Name = "numPrice";
             this.numPrice.Size = new System.Drawing.Size(99, 21);
             this.numPrice.TabIndex = 7;
+            this.numPrice.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // label4
             // 
@@ -804,6 +852,10 @@
             // cmbInstrumentId
             // 
             this.cmbInstrumentId.FormattingEnabled = true;
+            this.cmbInstrumentId.Items.AddRange(new object[] {
+            "",
+            "rb1705",
+            "p1705"});
             this.cmbInstrumentId.Location = new System.Drawing.Point(54, 5);
             this.cmbInstrumentId.Name = "cmbInstrumentId";
             this.cmbInstrumentId.Size = new System.Drawing.Size(99, 20);
@@ -861,15 +913,16 @@
             this.investorIdDataGridViewTextBoxColumn2,
             this.orderSysIdDataGridViewTextBoxColumn1,
             this.instrumentIdDataGridViewTextBoxColumn2,
-            this.directionDataGridViewTextBoxColumn2,
-            this.combOffsetFlagDataGridViewTextBoxColumn1,
-            this.orderStatusDataGridViewTextBoxColumn1,
+            this.gcSubOrderDirection,
+            this.gcSubOrderCombOffsetFlag,
+            this.gcSubOrderStatus,
             this.limitPriceDataGridViewTextBoxColumn,
             this.volumeTotalOriginalDataGridViewTextBoxColumn1,
             this.volumeTotalDataGridViewTextBoxColumn1,
             this.volumeTradedDataGridViewTextBoxColumn1,
             this.insertTimeDataGridViewTextBoxColumn1,
-            this.updateTimeDataGridViewTextBoxColumn1});
+            this.updateTimeDataGridViewTextBoxColumn1,
+            this.gcSubOrderErrorMsg});
             this.gvSubOrder.DataSource = this.dsSubOrder;
             this.gvSubOrder.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gvSubOrder.Location = new System.Drawing.Point(0, 0);
@@ -878,102 +931,6 @@
             this.gvSubOrder.RowTemplate.Height = 23;
             this.gvSubOrder.Size = new System.Drawing.Size(711, 209);
             this.gvSubOrder.TabIndex = 0;
-            // 
-            // investorIdDataGridViewTextBoxColumn2
-            // 
-            this.investorIdDataGridViewTextBoxColumn2.DataPropertyName = "InvestorId";
-            this.investorIdDataGridViewTextBoxColumn2.HeaderText = "投资者";
-            this.investorIdDataGridViewTextBoxColumn2.Name = "investorIdDataGridViewTextBoxColumn2";
-            this.investorIdDataGridViewTextBoxColumn2.ReadOnly = true;
-            this.investorIdDataGridViewTextBoxColumn2.Width = 66;
-            // 
-            // orderSysIdDataGridViewTextBoxColumn1
-            // 
-            this.orderSysIdDataGridViewTextBoxColumn1.DataPropertyName = "OrderSysId";
-            this.orderSysIdDataGridViewTextBoxColumn1.HeaderText = "编号";
-            this.orderSysIdDataGridViewTextBoxColumn1.Name = "orderSysIdDataGridViewTextBoxColumn1";
-            this.orderSysIdDataGridViewTextBoxColumn1.ReadOnly = true;
-            this.orderSysIdDataGridViewTextBoxColumn1.Width = 54;
-            // 
-            // instrumentIdDataGridViewTextBoxColumn2
-            // 
-            this.instrumentIdDataGridViewTextBoxColumn2.DataPropertyName = "InstrumentId";
-            this.instrumentIdDataGridViewTextBoxColumn2.HeaderText = "合约";
-            this.instrumentIdDataGridViewTextBoxColumn2.Name = "instrumentIdDataGridViewTextBoxColumn2";
-            this.instrumentIdDataGridViewTextBoxColumn2.ReadOnly = true;
-            this.instrumentIdDataGridViewTextBoxColumn2.Width = 54;
-            // 
-            // directionDataGridViewTextBoxColumn2
-            // 
-            this.directionDataGridViewTextBoxColumn2.DataPropertyName = "Direction";
-            this.directionDataGridViewTextBoxColumn2.HeaderText = "买卖";
-            this.directionDataGridViewTextBoxColumn2.Name = "directionDataGridViewTextBoxColumn2";
-            this.directionDataGridViewTextBoxColumn2.ReadOnly = true;
-            this.directionDataGridViewTextBoxColumn2.Width = 54;
-            // 
-            // combOffsetFlagDataGridViewTextBoxColumn1
-            // 
-            this.combOffsetFlagDataGridViewTextBoxColumn1.DataPropertyName = "CombOffsetFlag";
-            this.combOffsetFlagDataGridViewTextBoxColumn1.HeaderText = "开平";
-            this.combOffsetFlagDataGridViewTextBoxColumn1.Name = "combOffsetFlagDataGridViewTextBoxColumn1";
-            this.combOffsetFlagDataGridViewTextBoxColumn1.ReadOnly = true;
-            this.combOffsetFlagDataGridViewTextBoxColumn1.Width = 54;
-            // 
-            // orderStatusDataGridViewTextBoxColumn1
-            // 
-            this.orderStatusDataGridViewTextBoxColumn1.DataPropertyName = "OrderStatus";
-            this.orderStatusDataGridViewTextBoxColumn1.HeaderText = "状态";
-            this.orderStatusDataGridViewTextBoxColumn1.Name = "orderStatusDataGridViewTextBoxColumn1";
-            this.orderStatusDataGridViewTextBoxColumn1.ReadOnly = true;
-            this.orderStatusDataGridViewTextBoxColumn1.Width = 54;
-            // 
-            // limitPriceDataGridViewTextBoxColumn
-            // 
-            this.limitPriceDataGridViewTextBoxColumn.DataPropertyName = "LimitPrice";
-            this.limitPriceDataGridViewTextBoxColumn.HeaderText = "价格";
-            this.limitPriceDataGridViewTextBoxColumn.Name = "limitPriceDataGridViewTextBoxColumn";
-            this.limitPriceDataGridViewTextBoxColumn.ReadOnly = true;
-            this.limitPriceDataGridViewTextBoxColumn.Width = 54;
-            // 
-            // volumeTotalOriginalDataGridViewTextBoxColumn1
-            // 
-            this.volumeTotalOriginalDataGridViewTextBoxColumn1.DataPropertyName = "VolumeTotalOriginal";
-            this.volumeTotalOriginalDataGridViewTextBoxColumn1.HeaderText = "报单手数";
-            this.volumeTotalOriginalDataGridViewTextBoxColumn1.Name = "volumeTotalOriginalDataGridViewTextBoxColumn1";
-            this.volumeTotalOriginalDataGridViewTextBoxColumn1.ReadOnly = true;
-            this.volumeTotalOriginalDataGridViewTextBoxColumn1.Width = 78;
-            // 
-            // volumeTotalDataGridViewTextBoxColumn1
-            // 
-            this.volumeTotalDataGridViewTextBoxColumn1.DataPropertyName = "VolumeTotal";
-            this.volumeTotalDataGridViewTextBoxColumn1.HeaderText = "未成交";
-            this.volumeTotalDataGridViewTextBoxColumn1.Name = "volumeTotalDataGridViewTextBoxColumn1";
-            this.volumeTotalDataGridViewTextBoxColumn1.ReadOnly = true;
-            this.volumeTotalDataGridViewTextBoxColumn1.Width = 66;
-            // 
-            // volumeTradedDataGridViewTextBoxColumn1
-            // 
-            this.volumeTradedDataGridViewTextBoxColumn1.DataPropertyName = "VolumeTraded";
-            this.volumeTradedDataGridViewTextBoxColumn1.HeaderText = "成交手数";
-            this.volumeTradedDataGridViewTextBoxColumn1.Name = "volumeTradedDataGridViewTextBoxColumn1";
-            this.volumeTradedDataGridViewTextBoxColumn1.ReadOnly = true;
-            this.volumeTradedDataGridViewTextBoxColumn1.Width = 78;
-            // 
-            // insertTimeDataGridViewTextBoxColumn1
-            // 
-            this.insertTimeDataGridViewTextBoxColumn1.DataPropertyName = "InsertTime";
-            this.insertTimeDataGridViewTextBoxColumn1.HeaderText = "报单时间";
-            this.insertTimeDataGridViewTextBoxColumn1.Name = "insertTimeDataGridViewTextBoxColumn1";
-            this.insertTimeDataGridViewTextBoxColumn1.ReadOnly = true;
-            this.insertTimeDataGridViewTextBoxColumn1.Width = 78;
-            // 
-            // updateTimeDataGridViewTextBoxColumn1
-            // 
-            this.updateTimeDataGridViewTextBoxColumn1.DataPropertyName = "UpdateTime";
-            this.updateTimeDataGridViewTextBoxColumn1.HeaderText = "成交时间";
-            this.updateTimeDataGridViewTextBoxColumn1.Name = "updateTimeDataGridViewTextBoxColumn1";
-            this.updateTimeDataGridViewTextBoxColumn1.ReadOnly = true;
-            this.updateTimeDataGridViewTextBoxColumn1.Width = 78;
             // 
             // dsSubOrder
             // 
@@ -1205,47 +1162,118 @@
             this.timerReturnOrder.Interval = 3000;
             this.timerReturnOrder.Tick += new System.EventHandler(this.timerReturnOrder_Tick);
             // 
-            // isCheckedDataGridViewCheckBoxColumn1
+            // investorIdDataGridViewTextBoxColumn2
             // 
-            this.isCheckedDataGridViewCheckBoxColumn1.DataPropertyName = "IsChecked";
-            this.isCheckedDataGridViewCheckBoxColumn1.HeaderText = "选择";
-            this.isCheckedDataGridViewCheckBoxColumn1.Name = "isCheckedDataGridViewCheckBoxColumn1";
-            this.isCheckedDataGridViewCheckBoxColumn1.Width = 35;
+            this.investorIdDataGridViewTextBoxColumn2.DataPropertyName = "InvestorId";
+            this.investorIdDataGridViewTextBoxColumn2.HeaderText = "投资者";
+            this.investorIdDataGridViewTextBoxColumn2.Name = "investorIdDataGridViewTextBoxColumn2";
+            this.investorIdDataGridViewTextBoxColumn2.ReadOnly = true;
+            this.investorIdDataGridViewTextBoxColumn2.Width = 66;
             // 
-            // userIdDataGridViewTextBoxColumn1
+            // orderSysIdDataGridViewTextBoxColumn1
             // 
-            this.userIdDataGridViewTextBoxColumn1.DataPropertyName = "UserId";
-            this.userIdDataGridViewTextBoxColumn1.HeaderText = "投资者账户";
-            this.userIdDataGridViewTextBoxColumn1.Name = "userIdDataGridViewTextBoxColumn1";
-            this.userIdDataGridViewTextBoxColumn1.ReadOnly = true;
-            this.userIdDataGridViewTextBoxColumn1.Width = 90;
+            this.orderSysIdDataGridViewTextBoxColumn1.DataPropertyName = "OrderSysId";
+            this.orderSysIdDataGridViewTextBoxColumn1.HeaderText = "编号";
+            this.orderSysIdDataGridViewTextBoxColumn1.Name = "orderSysIdDataGridViewTextBoxColumn1";
+            this.orderSysIdDataGridViewTextBoxColumn1.ReadOnly = true;
+            this.orderSysIdDataGridViewTextBoxColumn1.Width = 54;
             // 
-            // userNameDataGridViewTextBoxColumn1
+            // instrumentIdDataGridViewTextBoxColumn2
             // 
-            this.userNameDataGridViewTextBoxColumn1.DataPropertyName = "UserName";
-            this.userNameDataGridViewTextBoxColumn1.HeaderText = "投资者";
-            this.userNameDataGridViewTextBoxColumn1.Name = "userNameDataGridViewTextBoxColumn1";
-            this.userNameDataGridViewTextBoxColumn1.ReadOnly = true;
-            this.userNameDataGridViewTextBoxColumn1.Width = 66;
+            this.instrumentIdDataGridViewTextBoxColumn2.DataPropertyName = "InstrumentId";
+            this.instrumentIdDataGridViewTextBoxColumn2.HeaderText = "合约";
+            this.instrumentIdDataGridViewTextBoxColumn2.Name = "instrumentIdDataGridViewTextBoxColumn2";
+            this.instrumentIdDataGridViewTextBoxColumn2.ReadOnly = true;
+            this.instrumentIdDataGridViewTextBoxColumn2.Width = 54;
             // 
-            // isLoginDataGridViewCheckBoxColumn1
+            // gcSubOrderDirection
             // 
-            this.isLoginDataGridViewCheckBoxColumn1.DataPropertyName = "IsLogin";
-            this.isLoginDataGridViewCheckBoxColumn1.HeaderText = "登录";
-            this.isLoginDataGridViewCheckBoxColumn1.Name = "isLoginDataGridViewCheckBoxColumn1";
-            this.isLoginDataGridViewCheckBoxColumn1.ReadOnly = true;
-            this.isLoginDataGridViewCheckBoxColumn1.Width = 35;
+            this.gcSubOrderDirection.DataPropertyName = "Direction";
+            this.gcSubOrderDirection.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.gcSubOrderDirection.HeaderText = "买卖";
+            this.gcSubOrderDirection.Name = "gcSubOrderDirection";
+            this.gcSubOrderDirection.ReadOnly = true;
+            this.gcSubOrderDirection.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.gcSubOrderDirection.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.gcSubOrderDirection.Width = 54;
             // 
-            // gcSubUserSettlementInfoConfirmTime
+            // gcSubOrderCombOffsetFlag
             // 
-            this.gcSubUserSettlementInfoConfirmTime.DataPropertyName = "SettlementInfoConfirmTime";
-            dataGridViewCellStyle1.Format = "yy-M-d H:m";
-            dataGridViewCellStyle1.NullValue = "0";
-            this.gcSubUserSettlementInfoConfirmTime.DefaultCellStyle = dataGridViewCellStyle1;
-            this.gcSubUserSettlementInfoConfirmTime.HeaderText = "结算确认";
-            this.gcSubUserSettlementInfoConfirmTime.Name = "gcSubUserSettlementInfoConfirmTime";
-            this.gcSubUserSettlementInfoConfirmTime.ReadOnly = true;
-            this.gcSubUserSettlementInfoConfirmTime.Width = 78;
+            this.gcSubOrderCombOffsetFlag.DataPropertyName = "CombOffsetFlag";
+            this.gcSubOrderCombOffsetFlag.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.gcSubOrderCombOffsetFlag.HeaderText = "开平";
+            this.gcSubOrderCombOffsetFlag.Name = "gcSubOrderCombOffsetFlag";
+            this.gcSubOrderCombOffsetFlag.ReadOnly = true;
+            this.gcSubOrderCombOffsetFlag.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.gcSubOrderCombOffsetFlag.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.gcSubOrderCombOffsetFlag.Width = 54;
+            // 
+            // gcSubOrderStatus
+            // 
+            this.gcSubOrderStatus.DataPropertyName = "OrderStatus";
+            this.gcSubOrderStatus.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.gcSubOrderStatus.HeaderText = "状态";
+            this.gcSubOrderStatus.Name = "gcSubOrderStatus";
+            this.gcSubOrderStatus.ReadOnly = true;
+            this.gcSubOrderStatus.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.gcSubOrderStatus.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.gcSubOrderStatus.Width = 54;
+            // 
+            // limitPriceDataGridViewTextBoxColumn
+            // 
+            this.limitPriceDataGridViewTextBoxColumn.DataPropertyName = "LimitPrice";
+            this.limitPriceDataGridViewTextBoxColumn.HeaderText = "价格";
+            this.limitPriceDataGridViewTextBoxColumn.Name = "limitPriceDataGridViewTextBoxColumn";
+            this.limitPriceDataGridViewTextBoxColumn.ReadOnly = true;
+            this.limitPriceDataGridViewTextBoxColumn.Width = 54;
+            // 
+            // volumeTotalOriginalDataGridViewTextBoxColumn1
+            // 
+            this.volumeTotalOriginalDataGridViewTextBoxColumn1.DataPropertyName = "VolumeTotalOriginal";
+            this.volumeTotalOriginalDataGridViewTextBoxColumn1.HeaderText = "报单手数";
+            this.volumeTotalOriginalDataGridViewTextBoxColumn1.Name = "volumeTotalOriginalDataGridViewTextBoxColumn1";
+            this.volumeTotalOriginalDataGridViewTextBoxColumn1.ReadOnly = true;
+            this.volumeTotalOriginalDataGridViewTextBoxColumn1.Width = 78;
+            // 
+            // volumeTotalDataGridViewTextBoxColumn1
+            // 
+            this.volumeTotalDataGridViewTextBoxColumn1.DataPropertyName = "VolumeTotal";
+            this.volumeTotalDataGridViewTextBoxColumn1.HeaderText = "未成交";
+            this.volumeTotalDataGridViewTextBoxColumn1.Name = "volumeTotalDataGridViewTextBoxColumn1";
+            this.volumeTotalDataGridViewTextBoxColumn1.ReadOnly = true;
+            this.volumeTotalDataGridViewTextBoxColumn1.Width = 66;
+            // 
+            // volumeTradedDataGridViewTextBoxColumn1
+            // 
+            this.volumeTradedDataGridViewTextBoxColumn1.DataPropertyName = "VolumeTraded";
+            this.volumeTradedDataGridViewTextBoxColumn1.HeaderText = "成交手数";
+            this.volumeTradedDataGridViewTextBoxColumn1.Name = "volumeTradedDataGridViewTextBoxColumn1";
+            this.volumeTradedDataGridViewTextBoxColumn1.ReadOnly = true;
+            this.volumeTradedDataGridViewTextBoxColumn1.Width = 78;
+            // 
+            // insertTimeDataGridViewTextBoxColumn1
+            // 
+            this.insertTimeDataGridViewTextBoxColumn1.DataPropertyName = "InsertTime";
+            this.insertTimeDataGridViewTextBoxColumn1.HeaderText = "报单时间";
+            this.insertTimeDataGridViewTextBoxColumn1.Name = "insertTimeDataGridViewTextBoxColumn1";
+            this.insertTimeDataGridViewTextBoxColumn1.ReadOnly = true;
+            this.insertTimeDataGridViewTextBoxColumn1.Width = 78;
+            // 
+            // updateTimeDataGridViewTextBoxColumn1
+            // 
+            this.updateTimeDataGridViewTextBoxColumn1.DataPropertyName = "UpdateTime";
+            this.updateTimeDataGridViewTextBoxColumn1.HeaderText = "成交时间";
+            this.updateTimeDataGridViewTextBoxColumn1.Name = "updateTimeDataGridViewTextBoxColumn1";
+            this.updateTimeDataGridViewTextBoxColumn1.ReadOnly = true;
+            this.updateTimeDataGridViewTextBoxColumn1.Width = 78;
+            // 
+            // gcSubOrderErrorMsg
+            // 
+            this.gcSubOrderErrorMsg.DataPropertyName = "ErrorMsg";
+            this.gcSubOrderErrorMsg.HeaderText = "错误消息";
+            this.gcSubOrderErrorMsg.Name = "gcSubOrderErrorMsg";
+            this.gcSubOrderErrorMsg.ReadOnly = true;
+            this.gcSubOrderErrorMsg.Width = 78;
             // 
             // FrmMain
             // 
@@ -1395,18 +1423,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn volumeTradedDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn insertTimeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn updateTimeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn investorIdDataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn orderSysIdDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn instrumentIdDataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn directionDataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn combOffsetFlagDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn orderStatusDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn limitPriceDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn volumeTotalOriginalDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn volumeTotalDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn volumeTradedDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn insertTimeDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn updateTimeDataGridViewTextBoxColumn1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Timer timerReturnOrder;
@@ -1417,6 +1433,19 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn userNameDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewCheckBoxColumn isLoginDataGridViewCheckBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn gcSubUserSettlementInfoConfirmTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn investorIdDataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn orderSysIdDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn instrumentIdDataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewComboBoxColumn gcSubOrderDirection;
+        private System.Windows.Forms.DataGridViewComboBoxColumn gcSubOrderCombOffsetFlag;
+        private System.Windows.Forms.DataGridViewComboBoxColumn gcSubOrderStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn limitPriceDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn volumeTotalOriginalDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn volumeTotalDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn volumeTradedDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn insertTimeDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn updateTimeDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn gcSubOrderErrorMsg;
     }
 }
 

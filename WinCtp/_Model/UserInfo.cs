@@ -177,7 +177,7 @@ namespace WinCtp
         {
             var r = MaxOrderRef;
             MaxOrderRef++;
-            return r.ToString();
+            return r.ToString("d12");
         }
         
         /// <summary>

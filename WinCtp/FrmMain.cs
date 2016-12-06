@@ -45,20 +45,42 @@ namespace WinCtp
         {
             base.OnLoad(e);
             _listening = false;
-
-            var direction = new List<LookupObject>
+            //买卖
+            var ludir = new List<LookupObject>
             {
                 new LookupObject(CtpDirectionType.Buy, "买"),
                 new LookupObject(CtpDirectionType.Sell, "卖")
             };
-            cmbDirection.Bind(direction);
-
-            var offsetFlag = new List<LookupObject>
+            cmbDirection.Bind(ludir);
+            gcSubOrderDirection.Bind(ludir);
+            //开平标志
+            var luof = new List<LookupObject>
             {
                 new LookupObject(CtpOffsetFlagType.Open, "开"),
                 new LookupObject(CtpOffsetFlagType.Close, "平")
             };
-            cmbOffsetFlag.Bind(offsetFlag);
+            cmbOffsetFlag.Bind(luof);
+            //组合开平标志
+            var lucof = new List<LookupObject>
+            {
+                new LookupObject(((char)CtpOffsetFlagType.Open).ToString(), "开"),
+                new LookupObject(((char)CtpOffsetFlagType.Close).ToString(), "平")
+            };
+            gcSubOrderCombOffsetFlag.Bind(lucof);
+            //报单状态
+            var lustatus= new List<LookupObject>
+            {
+                new LookupObject(CtpOrderStatusType.Unknown, "未知"),//表示Thost已经接受用户的委托指令，还没有转发到交易所
+                new LookupObject(CtpOrderStatusType.AllTraded, "全部成交"),
+                new LookupObject(CtpOrderStatusType.Canceled, "撤单"),
+                new LookupObject(CtpOrderStatusType.NoTradeNotQueueing, "未成交不在队列中"),
+                new LookupObject(CtpOrderStatusType.NoTradeQueueing, "未成交还在队列中"),
+                new LookupObject(CtpOrderStatusType.NotTouched, "未触发"),
+                new LookupObject(CtpOrderStatusType.PartTradedNotQueueing, "部分成交不在队列中"),
+                new LookupObject(CtpOrderStatusType.PartTradedQueueing, "部分成交还在队列中"),
+                new LookupObject(CtpOrderStatusType.Touched, "已触发")
+            };
+            gcSubOrderStatus.Bind(lustatus);
 
             var brokers = BrokerInfo.GetAll();
             var users = new UserInfoList(UserInfo.GetAll());
@@ -572,16 +594,32 @@ namespace WinCtp
                 //数组的第1 个元素赋值，组合合约需要为数组的第1 & 2 个元素赋值。字符取值为枚举值，在头文件
                 //“ThostFtdcUserApiStruct.h”中可以查到。
                 req.CombOffsetFlag = ((char)Convert.ToByte(cmbOffsetFlag.SelectedValue)).ToString();
+                req.CombHedgeFlag = ((char) CtpHedgeFlagType.Speculation).ToString();
                 req.Direction = Convert.ToByte(cmbDirection.SelectedValue);
                 req.InstrumentID = cmbInstrumentId.Text;
-                req.LimitPrice = (double)numPrice.Value;
-                req.VolumeTotalOriginal = (int)numVolume.Value;
                 req.OrderRef = u.GetOrderRef();
-                req.MinVolume = (int)numVolume.Value;
+                req.VolumeTotalOriginal = (int)numVolume.Value;
+                req.VolumeCondition = CtpVolumeConditionType.AV;
+                req.MinVolume = 1;
+                req.ForceCloseReason = CtpForceCloseReasonType.NotForceClose;
+                req.IsAutoSuspend = 0;
+                req.UserForceClose = 0;
+                req.OrderPriceType = CtpOrderPriceTypeType.LimitPrice;
+                req.LimitPrice = (double)numPrice.Value;
+                req.TimeCondition = CtpTimeConditionType.GFD;
+
                 var reqId = RequestId.OrderInsertId();
+                req.RequestID = reqId;
                 var rsp = u.TraderApi().ReqOrderInsert(req, reqId);
                 _log.DebugFormat("ReqOrderInsert[{0}]:{1}\nrequest:{2}",
                     reqId, Rsp.This[rsp], JsonConvert.SerializeObject(req));
+                if (rsp == 0)
+                {
+                    var od = new OrderInfo(req);
+                    od.FrontId = u.FrontId;
+                    od.SessionId = u.SessionId;
+                    dsSubOrder.Insert(0, od);
+                }
             }
         }
 
@@ -590,12 +628,12 @@ namespace WinCtp
         /// </summary>
         private void OnRtnTrade(object sender, CtpTrade response)
         {
-            _log.DebugFormat("TradeApiOnRtnTrade\nresponse:{0}", JsonConvert.SerializeObject(response));
+            _log.DebugFormat("OnRtnTrade\nresponse:{0}", JsonConvert.SerializeObject(response));
             if (response == null)
                 return;
-            var ord = new OrderInfo(response);
-            dsSubOrder.Add(ord);
-            dsSubOrder.ResetBindings(false);
+            var ord = new TradeInfo(response);
+            dsSubTradeInfo.Add(ord);
+            dsSubTradeInfo.ResetBindings(false);
         }
 
         /// <summary>
@@ -604,9 +642,21 @@ namespace WinCtp
         /// <remarks>报单状态发生变化时。</remarks>
         private void OnRtnOrder(object sender, CtpOrder response)
         {
-            _log.InfoFormat("TradeApiOnRtnOrder\nresponse:{0}", JsonConvert.SerializeObject(response));
-            if (response != null)
-                _inputOrderQueue.Enqueue(response);
+            _log.InfoFormat("OnRtnOrder\nresponse:{0}", 
+                JsonConvert.SerializeObject(response));
+            if (response == null)
+                return;
+            for (var i = 0; i < dsSubOrder.Count; i++)
+            {
+                var od = (OrderInfo)dsSubOrder[i];
+                if (od.BrokerId == response.BrokerID &&
+                    od.InvestorId == response.InvestorID &&
+                    od.OrderRef == response.OrderRef)
+                {
+                    od.OrderStatus = response.OrderStatus;
+                    dsSubOrder.ResetItem(i);
+                }
+            }
         }
 
         /// <summary>
@@ -614,10 +664,23 @@ namespace WinCtp
         /// </summary>
         private void OnRspOrderInsert(object sender, CtpInputOrder response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
-            _log.ErrorFormat("TradeApiOnRspOrderInsert[requestId={0}]\nresponse:{1}\nrspInfo:{2}",
+            _log.ErrorFormat("OnRspOrderInsert[{0}]\nresponse:{1}\nrspInfo:{2}",
                 requestId,
                 JsonConvert.SerializeObject(response),
                 JsonConvert.SerializeObject(rspInfo));
+            if (response == null)
+                return;
+            for (var i = 0; i < dsSubOrder.Count; i++)
+            {
+                var od = (OrderInfo) dsSubOrder[i];
+                if (od.BrokerId == response.BrokerID && 
+                    od.InvestorId == response.InvestorID &&
+                    od.OrderRef == response.OrderRef)
+                {
+                    od.ErrorMsg = rspInfo?.ErrorMsg;
+                    dsSubOrder.ResetItem(i);
+                }
+            }
         }
 
         /// <summary>
@@ -625,7 +688,9 @@ namespace WinCtp
         /// </summary>
         private void OnErrRtnOrderInsert(object sender, CtpInputOrder response, CtpRspInfo rspInfo)
         {
-            _log.ErrorFormat("OnErrRtnOrderInsert\nrspInfo:{0}\nresponse:{1}", JsonConvert.SerializeObject(rspInfo), JsonConvert.SerializeObject(response));
+            _log.ErrorFormat("OnErrRtnOrderInsert\nrspInfo:{0}\nresponse:{1}", 
+                JsonConvert.SerializeObject(rspInfo), 
+                JsonConvert.SerializeObject(response));
         }
 
         /// <summary>
