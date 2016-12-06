@@ -91,8 +91,9 @@ namespace WinCtp
             }
             foreach (var u in us)
             {
-                var b = u.Broker;
-                var api = b.InitApi();
+                var ua = new UserApi(u.UserId,u.Broker.TraderFrontAddress);
+                var api = ua.TraderApi;
+
                 api.OnFrontConnected += OnFrontConnected;
                 api.OnFrontDisconnected += OnFrontDisconnected;
                 api.OnRspUserLogin += OnRspUserLogin;
@@ -115,12 +116,11 @@ namespace WinCtp
 
                 api.SubscribePrivateTopic(CtpResumeType.Quick);
                 api.SubscribePublicTopic(CtpResumeType.Quick);
-                b.Start();
-            }
-            QrySettlementInfoConfirm();
-        }
 
-        
+                UserApi.This[u.UserId] = ua;
+                ua.Start();
+            }
+        }
 
         #endregion
 
@@ -150,14 +150,14 @@ namespace WinCtp
             for (var i = 0; i < dsSubUser.Count; i++)
             {
                 var u = (CtpSubUser)dsSubUser[i];
-                if(!u.IsChecked)
+                if(!u.IsChecked || !u.IsLogin)
                     continue;
                 var req = new CtpSettlementInfoConfirm();
                 req.BrokerID = u.BrokerId;
                 req.InvestorID = u.UserId;
                 var reqId = 0;
-                var rsp = u.TraderApi.ReqSettlementInfoConfirm(req, reqId);
-                _log.DebugFormat("ReqQrySettlementInfoConfirm[{0}]:{1}\nrequest:{2}",
+                var rsp = u.TraderApi().ReqSettlementInfoConfirm(req, reqId);
+                _log.DebugFormat("ReqSettlementInfoConfirm[{0}]:{1}\nrequest:{2}",
                     reqId,
                     Rsp.This[rsp], 
                     JsonConvert.SerializeObject(req));
@@ -167,17 +167,14 @@ namespace WinCtp
         /// <summary>
         /// 查询结算信息确认。
         /// </summary>
-        private void QrySettlementInfoConfirm()
+        private void QrySettlementInfoConfirm(CtpUserInfo u)
         {
-            foreach (CtpSubUser u in dsSubUser)
-            {
-                var api = u.TraderApi;
-                var req = new CtpQrySettlementInfoConfirm();
-                req.BrokerID = u.BrokerId;
-                req.InvestorID = u.UserId;
-                var rsp = api.ReqQrySettlementInfoConfirm(req, 0);
-                _log.DebugFormat("ReqQrySettlementInfoConfirm:{0}\nrequest:{1}", Rsp.This[rsp], JsonConvert.SerializeObject(req));
-            }
+            var api = u.TraderApi();
+            var req = new CtpQrySettlementInfoConfirm();
+            req.BrokerID = u.BrokerId;
+            req.InvestorID = u.UserId;
+            var rsp = api.ReqQrySettlementInfoConfirm(req, 0);
+            _log.DebugFormat("ReqQrySettlementInfoConfirm:{0}\nrequest:{1}", Rsp.This[rsp], JsonConvert.SerializeObject(req));
         }
 
         /// <summary>
@@ -189,16 +186,17 @@ namespace WinCtp
                requestId,
                JsonConvert.SerializeObject(response),
                JsonConvert.SerializeObject(rspInfo));
-            if (rspInfo == null || rspInfo.ErrorID == 0 || response == null)
+            if (rspInfo == null || rspInfo.ErrorID != 0 || response == null)
                 return;
             for (var i = 0; i < dsSubUser.Count; i++)
             {
                 var u = (CtpSubUser)dsSubUser[i];
                 if (u.BrokerId == response.BrokerID && u.UserId == response.InvestorID)
                 {
+                    //"ConfirmDate":"20161205","ConfirmTime":"15:22:09"
                     var dt = response.ConfirmDate + response.ConfirmTime;
                     DateTime d;
-                    if (!DateTime.TryParseExact(dt, "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out d))
+                    if (!DateTime.TryParseExact(dt, "yyyyMMddHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out d))
                         break;
                     u.SettlementInfoConfirmTime = d;
                     dsSubUser.ResetItem(i);
@@ -212,11 +210,11 @@ namespace WinCtp
         /// </summary>
         private void OnRspSettlementInfoConfirm(object sender, CtpSettlementInfoConfirm response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
-            _log.DebugFormat("TradeApiOnRspSettlementInfoConfirm[{0}]\nresponse:{1}\nrspInfo:{2}",
+            _log.DebugFormat("OnRspSettlementInfoConfirm[{0}]\nresponse:{1}\nrspInfo:{2}",
                 requestId,
                 JsonConvert.SerializeObject(response), 
                 JsonConvert.SerializeObject(rspInfo));
-            if (rspInfo == null || rspInfo.ErrorID == 0 || response == null)
+            if (rspInfo == null || rspInfo.ErrorID != 0 || response == null)
                 return;
             for (var i = 0; i < dsSubUser.Count; i++)
             {
@@ -224,9 +222,11 @@ namespace WinCtp
                 if (u.BrokerId == response.BrokerID && u.UserId == response.InvestorID)
                 {
                     var dt = response.ConfirmDate + response.ConfirmTime;
+                    _log.Debug($"确认结算信息：orig {dt}");
                     DateTime d;
-                    if (!DateTime.TryParseExact(dt, "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out d))
+                    if (!DateTime.TryParseExact(dt, "yyyyMMddHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out d))
                         break;
+                    _log.Debug($"确认结算信息：dest {d}");
                     u.SettlementInfoConfirmTime = d;
                     dsSubUser.ResetItem(i);
                     break;
@@ -337,6 +337,7 @@ namespace WinCtp
                         u.MaxOrderRef = Convert.ToInt32(response.MaxOrderRef);
                     }
                     dsSubUser.ResetItem(i);
+                    QrySettlementInfoConfirm(u);
                     return;
                 }
             }
@@ -363,7 +364,7 @@ namespace WinCtp
             {
                 if (!user.IsChecked || user.IsLogin)
                     continue;
-                var api = user.TraderApi;
+                var api = user.TraderApi();
                 var userLoginReq = new CtpReqUserLogin();
                 userLoginReq.BrokerID = user.BrokerId;
                 userLoginReq.UserID = user.UserId;
@@ -386,7 +387,7 @@ namespace WinCtp
             {
                 if (!user.IsChecked || !user.IsLogin)
                     continue;
-                var api = user.TraderApi;
+                var api = user.TraderApi();
                 var req = new CtpUserLogout
                 {
                     BrokerID = user.BrokerId,
@@ -418,7 +419,7 @@ namespace WinCtp
             {
                 if (!user.IsChecked || user.IsLogin)
                     continue;
-                var api = user.TraderApi;
+                var api = user.TraderApi();
                 var req = new CtpReqUserLogin();
                 req.BrokerID = user.BrokerId;
                 req.UserID = user.UserId;
@@ -443,7 +444,7 @@ namespace WinCtp
             {
                 if (!user.IsChecked || !user.IsLogin)
                     continue;
-                var api = user.TraderApi;
+                var api = user.TraderApi();
                 var req = new CtpUserLogout
                 {
                     BrokerID = user.BrokerId,
@@ -578,7 +579,7 @@ namespace WinCtp
                 req.OrderRef = u.GetOrderRef();
                 req.MinVolume = (int)numVolume.Value;
                 var reqId = RequestId.OrderInsertId();
-                var rsp = u.TraderApi.ReqOrderInsert(req, reqId);
+                var rsp = u.TraderApi().ReqOrderInsert(req, reqId);
                 _log.DebugFormat("ReqOrderInsert[{0}]:{1}\nrequest:{2}",
                     reqId, Rsp.This[rsp], JsonConvert.SerializeObject(req));
             }
@@ -676,12 +677,12 @@ namespace WinCtp
             foreach (CtpMstUser u in dsMstUser)
             {
                 req.InvestorID = u.UserId;
-                u.TraderApi.ReqQryInvestorPosition(req, 0);
+                u.TraderApi().ReqQryInvestorPosition(req, 0);
             }
             foreach (CtpSubUser u in dsSubUser)
             {
                 req.InvestorID = u.UserId;
-                u.TraderApi.ReqQryInvestorPosition(req, 0);
+                u.TraderApi().ReqQryInvestorPosition(req, 0);
             }
         }
 

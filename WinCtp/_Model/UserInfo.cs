@@ -143,8 +143,6 @@ namespace WinCtp
 
         public BrokerInfo Broker { get; set; }
 
-        public CtpTraderApi TraderApi => Broker.TraderApi;
-
         /// <summary>
         /// 账户ID。
         /// </summary>
@@ -227,10 +225,19 @@ namespace WinCtp
             req.ContingentCondition = CtpContingentConditionType.Immediately;
             req.OrderPriceType = CtpOrderPriceTypeType.LimitPrice;
             req.VolumeCondition = CtpVolumeConditionType.AV;
-            var rsp = TraderApi.ReqOrderInsert(req, RequestId.OrderInsertId());
+            var rsp = this.TraderApi().ReqOrderInsert(req, RequestId.OrderInsertId());
             if(rsp != 0)
                 throw new ApplicationException(Rsp.This[rsp]);
             return rsp == 0;
+        }
+    }
+
+    public static class CtpUserInfoEx
+    {
+        public static CtpTraderApi TraderApi(this CtpUserInfo user)
+        {
+            UserApi userApi;
+            return !UserApi.This.TryGetValue(user.UserId, out userApi) ? null : userApi.TraderApi;
         }
     }
 }
