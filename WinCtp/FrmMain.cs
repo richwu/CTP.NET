@@ -640,6 +640,8 @@ namespace WinCtp
 
         private void WorkerTimerReturnOrderOnDoWork(object sender, DoWorkEventArgs args)
         {
+            if (_inputOrderQueue.Count == 0)
+                return;
             CtpOrder od;
             if (!_inputOrderQueue.TryDequeue(out od) || od == null)
                 return;
