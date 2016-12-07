@@ -33,7 +33,6 @@
             System.Windows.Forms.Label userIdLabel;
             System.Windows.Forms.Label userNameLabel;
             System.Windows.Forms.Label passwordLabel;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmUser));
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.ibtnMst = new System.Windows.Forms.ToolStripButton();
             this.ibtnNew = new System.Windows.Forms.ToolStripButton();
@@ -56,6 +55,8 @@
             this.userNameTextBox = new System.Windows.Forms.TextBox();
             this.userIdTextBox = new System.Windows.Forms.TextBox();
             this.isSubCheckBox = new System.Windows.Forms.CheckBox();
+            this.ibtnDelete = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             brokerIdLabel = new System.Windows.Forms.Label();
             userIdLabel = new System.Windows.Forms.Label();
             userNameLabel = new System.Windows.Forms.Label();
@@ -113,6 +114,8 @@
             this.ibtnCancel,
             this.ibtnSave,
             this.toolStripSeparator1,
+            this.ibtnDelete,
+            this.toolStripSeparator2,
             this.ibtnClose});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
@@ -125,7 +128,7 @@
             this.ibtnMst.Image = global::WinCtp.Properties.Resources._5;
             this.ibtnMst.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ibtnMst.Name = "ibtnMst";
-            this.ibtnMst.Size = new System.Drawing.Size(52, 22);
+            this.ibtnMst.Size = new System.Drawing.Size(53, 22);
             this.ibtnMst.Tag = "Det";
             this.ibtnMst.Text = "概要";
             this.ibtnMst.Click += new System.EventHandler(this.ibtnMst_Click);
@@ -135,17 +138,17 @@
             this.ibtnNew.Image = global::WinCtp.Properties.Resources._new;
             this.ibtnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ibtnNew.Name = "ibtnNew";
-            this.ibtnNew.Size = new System.Drawing.Size(52, 22);
+            this.ibtnNew.Size = new System.Drawing.Size(53, 22);
             this.ibtnNew.Tag = "Mst Det";
             this.ibtnNew.Text = "新建";
             this.ibtnNew.Click += new System.EventHandler(this.ibtnNew_Click);
             // 
             // ibtnEdit
             // 
-            this.ibtnEdit.Image = ((System.Drawing.Image)(resources.GetObject("ibtnEdit.Image")));
+            this.ibtnEdit.Image = global::WinCtp.Properties.Resources.edit;
             this.ibtnEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ibtnEdit.Name = "ibtnEdit";
-            this.ibtnEdit.Size = new System.Drawing.Size(52, 22);
+            this.ibtnEdit.Size = new System.Drawing.Size(53, 22);
             this.ibtnEdit.Tag = "Mst Det";
             this.ibtnEdit.Text = "编辑";
             this.ibtnEdit.Click += new System.EventHandler(this.ibtnEdit_Click);
@@ -155,7 +158,7 @@
             this.ibtnCancel.Image = global::WinCtp.Properties.Resources.undo;
             this.ibtnCancel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ibtnCancel.Name = "ibtnCancel";
-            this.ibtnCancel.Size = new System.Drawing.Size(52, 22);
+            this.ibtnCancel.Size = new System.Drawing.Size(53, 22);
             this.ibtnCancel.Tag = "Edit";
             this.ibtnCancel.Text = "取消";
             this.ibtnCancel.Click += new System.EventHandler(this.ibtnCancel_Click);
@@ -165,7 +168,7 @@
             this.ibtnSave.Image = global::WinCtp.Properties.Resources.save;
             this.ibtnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ibtnSave.Name = "ibtnSave";
-            this.ibtnSave.Size = new System.Drawing.Size(52, 22);
+            this.ibtnSave.Size = new System.Drawing.Size(53, 22);
             this.ibtnSave.Tag = "Edit";
             this.ibtnSave.Text = "保存";
             this.ibtnSave.Click += new System.EventHandler(this.ibtnSave_Click);
@@ -180,7 +183,7 @@
             this.ibtnClose.Image = global::WinCtp.Properties.Resources.close;
             this.ibtnClose.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ibtnClose.Name = "ibtnClose";
-            this.ibtnClose.Size = new System.Drawing.Size(52, 22);
+            this.ibtnClose.Size = new System.Drawing.Size(53, 22);
             this.ibtnClose.Text = "关闭";
             this.ibtnClose.Click += new System.EventHandler(this.ibtnClose_Click);
             // 
@@ -340,6 +343,20 @@
             this.isSubCheckBox.Text = "子账户";
             this.isSubCheckBox.UseVisualStyleBackColor = true;
             // 
+            // ibtnDelete
+            // 
+            this.ibtnDelete.Image = global::WinCtp.Properties.Resources.delete;
+            this.ibtnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ibtnDelete.Name = "ibtnDelete";
+            this.ibtnDelete.Size = new System.Drawing.Size(53, 22);
+            this.ibtnDelete.Text = "删除";
+            this.ibtnDelete.Click += new System.EventHandler(this.ibtnDelete_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
             // FrmUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -390,5 +407,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn userNameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn brokerIdDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn isSubDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.ToolStripButton ibtnDelete;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }

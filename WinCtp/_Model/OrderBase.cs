@@ -1,4 +1,6 @@
-﻿namespace WinCtp
+﻿using GalaxyFutures.Sfit.Api;
+
+namespace WinCtp
 {
     public abstract class OrderBase
     {
@@ -28,5 +30,10 @@
         /// 买卖。
         /// </summary>
         public byte Direction { get; set; }
+
+        /// <summary>
+        /// 跟单主键。
+        /// </summary>
+        public string FollowKey { get; set; }
     }
 }

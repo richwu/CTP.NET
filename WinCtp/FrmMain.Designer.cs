@@ -107,32 +107,6 @@
             this.tabControl4 = new System.Windows.Forms.TabControl();
             this.tpSubOrder = new System.Windows.Forms.TabPage();
             this.gvSubOrder = new WinCtp.DataGridViewEx();
-            this.dsSubOrder = new System.Windows.Forms.BindingSource(this.components);
-            this.tpSubTrade = new System.Windows.Forms.TabPage();
-            this.dataGridViewEx1 = new WinCtp.DataGridViewEx();
-            this.investorIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tradeIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.instrumentIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.directionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.offsetFlagDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.priceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.volumeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tradeTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.orderLocalIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.exchangeIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dsSubTradeInfo = new System.Windows.Forms.BindingSource(this.components);
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tcSubInstrument = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.tsmiUser = new System.Windows.Forms.ToolStripDropDownButton();
-            this.ibtnUser = new System.Windows.Forms.ToolStripMenuItem();
-            this.ibtnOrderInsertConfig = new System.Windows.Forms.ToolStripMenuItem();
-            this.ibtnBroker = new System.Windows.Forms.ToolStripButton();
-            this.tsmiListen = new System.Windows.Forms.ToolStripButton();
-            this.timerQryTrade = new System.Windows.Forms.Timer(this.components);
-            this.timerInsertOrder = new System.Windows.Forms.Timer(this.components);
-            this.timerReturnOrder = new System.Windows.Forms.Timer(this.components);
             this.investorIdDataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.orderSysIdDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.instrumentIdDataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -146,6 +120,31 @@
             this.insertTimeDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.updateTimeDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gcSubOrderErrorMsg = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dsSubOrder = new System.Windows.Forms.BindingSource(this.components);
+            this.tpSubTrade = new System.Windows.Forms.TabPage();
+            this.dataGridViewEx1 = new WinCtp.DataGridViewEx();
+            this.dsSubTradeInfo = new System.Windows.Forms.BindingSource(this.components);
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tcSubInstrument = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.tsmiUser = new System.Windows.Forms.ToolStripDropDownButton();
+            this.ibtnUser = new System.Windows.Forms.ToolStripMenuItem();
+            this.ibtnOrderInsertConfig = new System.Windows.Forms.ToolStripMenuItem();
+            this.ibtnBroker = new System.Windows.Forms.ToolStripButton();
+            this.tsmiListen = new System.Windows.Forms.ToolStripButton();
+            this.timerQryTrade = new System.Windows.Forms.Timer(this.components);
+            this.timerFollowOrder = new System.Windows.Forms.Timer(this.components);
+            this.investorIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tradeIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.instrumentIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gcSubTradeDirection = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.gcSubTradeOffsetFlag = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.priceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.volumeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tradeTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.orderLocalIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.exchangeIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tpMstOrder.SuspendLayout();
@@ -183,9 +182,9 @@
             // 
             // statusStrip
             // 
-            this.statusStrip.Location = new System.Drawing.Point(0, 608);
+            this.statusStrip.Location = new System.Drawing.Point(0, 709);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(1106, 22);
+            this.statusStrip.Size = new System.Drawing.Size(1190, 22);
             this.statusStrip.TabIndex = 8;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -197,7 +196,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 25);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1106, 157);
+            this.panel1.Size = new System.Drawing.Size(1190, 204);
             this.panel1.TabIndex = 14;
             // 
             // tabControl2
@@ -208,7 +207,7 @@
             this.tabControl2.Location = new System.Drawing.Point(586, 0);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(520, 157);
+            this.tabControl2.Size = new System.Drawing.Size(604, 204);
             this.tabControl2.TabIndex = 2;
             // 
             // tpMstOrder
@@ -216,7 +215,7 @@
             this.tpMstOrder.Controls.Add(this.gvMstOrder);
             this.tpMstOrder.Location = new System.Drawing.Point(4, 22);
             this.tpMstOrder.Name = "tpMstOrder";
-            this.tpMstOrder.Size = new System.Drawing.Size(512, 131);
+            this.tpMstOrder.Size = new System.Drawing.Size(596, 178);
             this.tpMstOrder.TabIndex = 2;
             this.tpMstOrder.Text = "委托单";
             this.tpMstOrder.UseVisualStyleBackColor = true;
@@ -247,7 +246,7 @@
             this.gvMstOrder.Name = "gvMstOrder";
             this.gvMstOrder.ReadOnly = true;
             this.gvMstOrder.RowTemplate.Height = 23;
-            this.gvMstOrder.Size = new System.Drawing.Size(512, 131);
+            this.gvMstOrder.Size = new System.Drawing.Size(596, 178);
             this.gvMstOrder.TabIndex = 0;
             // 
             // investorIdDataGridViewTextBoxColumn3
@@ -348,7 +347,7 @@
             this.tpMstTrade.Location = new System.Drawing.Point(4, 22);
             this.tpMstTrade.Name = "tpMstTrade";
             this.tpMstTrade.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMstTrade.Size = new System.Drawing.Size(512, 131);
+            this.tpMstTrade.Size = new System.Drawing.Size(596, 178);
             this.tpMstTrade.TabIndex = 1;
             this.tpMstTrade.Text = "成交记录";
             this.tpMstTrade.UseVisualStyleBackColor = true;
@@ -378,7 +377,7 @@
             this.dataGridViewEx2.Name = "dataGridViewEx2";
             this.dataGridViewEx2.ReadOnly = true;
             this.dataGridViewEx2.RowTemplate.Height = 23;
-            this.dataGridViewEx2.Size = new System.Drawing.Size(506, 125);
+            this.dataGridViewEx2.Size = new System.Drawing.Size(590, 172);
             this.dataGridViewEx2.TabIndex = 0;
             // 
             // investorIdDataGridViewTextBoxColumn1
@@ -471,7 +470,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox2.Location = new System.Drawing.Point(314, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(272, 157);
+            this.groupBox2.Size = new System.Drawing.Size(272, 204);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "持仓";
@@ -483,7 +482,7 @@
             this.tcMstInstrument.Location = new System.Drawing.Point(3, 17);
             this.tcMstInstrument.Name = "tcMstInstrument";
             this.tcMstInstrument.SelectedIndex = 0;
-            this.tcMstInstrument.Size = new System.Drawing.Size(266, 137);
+            this.tcMstInstrument.Size = new System.Drawing.Size(266, 184);
             this.tcMstInstrument.TabIndex = 1;
             // 
             // tabPage2
@@ -491,7 +490,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(258, 111);
+            this.tabPage2.Size = new System.Drawing.Size(258, 158);
             this.tabPage2.TabIndex = 0;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -502,7 +501,7 @@
             this.gbMstUser.Dock = System.Windows.Forms.DockStyle.Left;
             this.gbMstUser.Location = new System.Drawing.Point(0, 0);
             this.gbMstUser.Name = "gbMstUser";
-            this.gbMstUser.Size = new System.Drawing.Size(314, 157);
+            this.gbMstUser.Size = new System.Drawing.Size(314, 204);
             this.gbMstUser.TabIndex = 0;
             this.gbMstUser.TabStop = false;
             this.gbMstUser.Text = "主账户";
@@ -526,7 +525,7 @@
             this.gvMstUser.Location = new System.Drawing.Point(3, 17);
             this.gvMstUser.Name = "gvMstUser";
             this.gvMstUser.RowTemplate.Height = 23;
-            this.gvMstUser.Size = new System.Drawing.Size(308, 137);
+            this.gvMstUser.Size = new System.Drawing.Size(308, 184);
             this.gvMstUser.TabIndex = 0;
             // 
             // isCheckedDataGridViewCheckBoxColumn
@@ -599,9 +598,9 @@
             this.panel2.Controls.Add(this.gbSubUser);
             this.panel2.Controls.Add(this.panel4);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 182);
+            this.panel2.Location = new System.Drawing.Point(0, 229);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1106, 191);
+            this.panel2.Size = new System.Drawing.Size(1190, 207);
             this.panel2.TabIndex = 15;
             // 
             // gbSubUser
@@ -610,7 +609,7 @@
             this.gbSubUser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbSubUser.Location = new System.Drawing.Point(0, 0);
             this.gbSubUser.Name = "gbSubUser";
-            this.gbSubUser.Size = new System.Drawing.Size(892, 191);
+            this.gbSubUser.Size = new System.Drawing.Size(976, 207);
             this.gbSubUser.TabIndex = 1;
             this.gbSubUser.TabStop = false;
             this.gbSubUser.Text = "子账户";
@@ -672,7 +671,6 @@
             // 
             this.gcSubUserSettlementInfoConfirmTime.DataPropertyName = "SettlementInfoConfirmTime";
             dataGridViewCellStyle1.Format = "yy-M-d H:m";
-            dataGridViewCellStyle1.NullValue = "0";
             this.gcSubUserSettlementInfoConfirmTime.DefaultCellStyle = dataGridViewCellStyle1;
             this.gcSubUserSettlementInfoConfirmTime.HeaderText = "结算确认";
             this.gcSubUserSettlementInfoConfirmTime.Name = "gcSubUserSettlementInfoConfirmTime";
@@ -737,9 +735,9 @@
             this.panel4.Controls.Add(this.cmbInstrumentId);
             this.panel4.Controls.Add(this.label1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel4.Location = new System.Drawing.Point(892, 0);
+            this.panel4.Location = new System.Drawing.Point(976, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(214, 191);
+            this.panel4.Size = new System.Drawing.Size(214, 207);
             this.panel4.TabIndex = 0;
             // 
             // label5
@@ -875,9 +873,9 @@
             this.panel3.Controls.Add(this.tabControl4);
             this.panel3.Controls.Add(this.groupBox1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(0, 373);
+            this.panel3.Location = new System.Drawing.Point(0, 436);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1106, 235);
+            this.panel3.Size = new System.Drawing.Size(1190, 273);
             this.panel3.TabIndex = 16;
             // 
             // tabControl4
@@ -888,7 +886,7 @@
             this.tabControl4.Location = new System.Drawing.Point(387, 0);
             this.tabControl4.Name = "tabControl4";
             this.tabControl4.SelectedIndex = 0;
-            this.tabControl4.Size = new System.Drawing.Size(719, 235);
+            this.tabControl4.Size = new System.Drawing.Size(803, 273);
             this.tabControl4.TabIndex = 1;
             // 
             // tpSubOrder
@@ -896,7 +894,7 @@
             this.tpSubOrder.Controls.Add(this.gvSubOrder);
             this.tpSubOrder.Location = new System.Drawing.Point(4, 22);
             this.tpSubOrder.Name = "tpSubOrder";
-            this.tpSubOrder.Size = new System.Drawing.Size(711, 209);
+            this.tpSubOrder.Size = new System.Drawing.Size(795, 247);
             this.tpSubOrder.TabIndex = 2;
             this.tpSubOrder.Text = "委托单";
             this.tpSubOrder.UseVisualStyleBackColor = true;
@@ -929,238 +927,8 @@
             this.gvSubOrder.Name = "gvSubOrder";
             this.gvSubOrder.ReadOnly = true;
             this.gvSubOrder.RowTemplate.Height = 23;
-            this.gvSubOrder.Size = new System.Drawing.Size(711, 209);
+            this.gvSubOrder.Size = new System.Drawing.Size(795, 247);
             this.gvSubOrder.TabIndex = 0;
-            // 
-            // dsSubOrder
-            // 
-            this.dsSubOrder.DataSource = typeof(WinCtp.OrderInfo);
-            // 
-            // tpSubTrade
-            // 
-            this.tpSubTrade.Controls.Add(this.dataGridViewEx1);
-            this.tpSubTrade.Location = new System.Drawing.Point(4, 22);
-            this.tpSubTrade.Name = "tpSubTrade";
-            this.tpSubTrade.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSubTrade.Size = new System.Drawing.Size(711, 209);
-            this.tpSubTrade.TabIndex = 1;
-            this.tpSubTrade.Text = "成交记录";
-            this.tpSubTrade.UseVisualStyleBackColor = true;
-            // 
-            // dataGridViewEx1
-            // 
-            this.dataGridViewEx1.AllowUserToAddRows = false;
-            this.dataGridViewEx1.AllowUserToDeleteRows = false;
-            this.dataGridViewEx1.AutoGenerateColumns = false;
-            this.dataGridViewEx1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dataGridViewEx1.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dataGridViewEx1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewEx1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.investorIdDataGridViewTextBoxColumn,
-            this.tradeIdDataGridViewTextBoxColumn,
-            this.instrumentIdDataGridViewTextBoxColumn,
-            this.directionDataGridViewTextBoxColumn,
-            this.offsetFlagDataGridViewTextBoxColumn,
-            this.priceDataGridViewTextBoxColumn,
-            this.volumeDataGridViewTextBoxColumn,
-            this.tradeTimeDataGridViewTextBoxColumn,
-            this.orderLocalIdDataGridViewTextBoxColumn,
-            this.exchangeIdDataGridViewTextBoxColumn});
-            this.dataGridViewEx1.DataSource = this.dsSubTradeInfo;
-            this.dataGridViewEx1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewEx1.Location = new System.Drawing.Point(3, 3);
-            this.dataGridViewEx1.Name = "dataGridViewEx1";
-            this.dataGridViewEx1.ReadOnly = true;
-            this.dataGridViewEx1.RowTemplate.Height = 23;
-            this.dataGridViewEx1.Size = new System.Drawing.Size(705, 203);
-            this.dataGridViewEx1.TabIndex = 0;
-            // 
-            // investorIdDataGridViewTextBoxColumn
-            // 
-            this.investorIdDataGridViewTextBoxColumn.DataPropertyName = "InvestorId";
-            this.investorIdDataGridViewTextBoxColumn.HeaderText = "投资者";
-            this.investorIdDataGridViewTextBoxColumn.Name = "investorIdDataGridViewTextBoxColumn";
-            this.investorIdDataGridViewTextBoxColumn.ReadOnly = true;
-            this.investorIdDataGridViewTextBoxColumn.Width = 66;
-            // 
-            // tradeIdDataGridViewTextBoxColumn
-            // 
-            this.tradeIdDataGridViewTextBoxColumn.DataPropertyName = "TradeId";
-            this.tradeIdDataGridViewTextBoxColumn.HeaderText = "编号";
-            this.tradeIdDataGridViewTextBoxColumn.Name = "tradeIdDataGridViewTextBoxColumn";
-            this.tradeIdDataGridViewTextBoxColumn.ReadOnly = true;
-            this.tradeIdDataGridViewTextBoxColumn.Width = 54;
-            // 
-            // instrumentIdDataGridViewTextBoxColumn
-            // 
-            this.instrumentIdDataGridViewTextBoxColumn.DataPropertyName = "InstrumentId";
-            this.instrumentIdDataGridViewTextBoxColumn.HeaderText = "合约";
-            this.instrumentIdDataGridViewTextBoxColumn.Name = "instrumentIdDataGridViewTextBoxColumn";
-            this.instrumentIdDataGridViewTextBoxColumn.ReadOnly = true;
-            this.instrumentIdDataGridViewTextBoxColumn.Width = 54;
-            // 
-            // directionDataGridViewTextBoxColumn
-            // 
-            this.directionDataGridViewTextBoxColumn.DataPropertyName = "Direction";
-            this.directionDataGridViewTextBoxColumn.HeaderText = "买卖";
-            this.directionDataGridViewTextBoxColumn.Name = "directionDataGridViewTextBoxColumn";
-            this.directionDataGridViewTextBoxColumn.ReadOnly = true;
-            this.directionDataGridViewTextBoxColumn.Width = 54;
-            // 
-            // offsetFlagDataGridViewTextBoxColumn
-            // 
-            this.offsetFlagDataGridViewTextBoxColumn.DataPropertyName = "OffsetFlag";
-            this.offsetFlagDataGridViewTextBoxColumn.HeaderText = "开平";
-            this.offsetFlagDataGridViewTextBoxColumn.Name = "offsetFlagDataGridViewTextBoxColumn";
-            this.offsetFlagDataGridViewTextBoxColumn.ReadOnly = true;
-            this.offsetFlagDataGridViewTextBoxColumn.Width = 54;
-            // 
-            // priceDataGridViewTextBoxColumn
-            // 
-            this.priceDataGridViewTextBoxColumn.DataPropertyName = "Price";
-            this.priceDataGridViewTextBoxColumn.HeaderText = "成交价格";
-            this.priceDataGridViewTextBoxColumn.Name = "priceDataGridViewTextBoxColumn";
-            this.priceDataGridViewTextBoxColumn.ReadOnly = true;
-            this.priceDataGridViewTextBoxColumn.Width = 78;
-            // 
-            // volumeDataGridViewTextBoxColumn
-            // 
-            this.volumeDataGridViewTextBoxColumn.DataPropertyName = "Volume";
-            this.volumeDataGridViewTextBoxColumn.HeaderText = "成交手数";
-            this.volumeDataGridViewTextBoxColumn.Name = "volumeDataGridViewTextBoxColumn";
-            this.volumeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.volumeDataGridViewTextBoxColumn.Width = 78;
-            // 
-            // tradeTimeDataGridViewTextBoxColumn
-            // 
-            this.tradeTimeDataGridViewTextBoxColumn.DataPropertyName = "TradeTime";
-            this.tradeTimeDataGridViewTextBoxColumn.HeaderText = "成交时间";
-            this.tradeTimeDataGridViewTextBoxColumn.Name = "tradeTimeDataGridViewTextBoxColumn";
-            this.tradeTimeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.tradeTimeDataGridViewTextBoxColumn.Width = 78;
-            // 
-            // orderLocalIdDataGridViewTextBoxColumn
-            // 
-            this.orderLocalIdDataGridViewTextBoxColumn.DataPropertyName = "OrderLocalId";
-            this.orderLocalIdDataGridViewTextBoxColumn.HeaderText = "报单编号";
-            this.orderLocalIdDataGridViewTextBoxColumn.Name = "orderLocalIdDataGridViewTextBoxColumn";
-            this.orderLocalIdDataGridViewTextBoxColumn.ReadOnly = true;
-            this.orderLocalIdDataGridViewTextBoxColumn.Width = 78;
-            // 
-            // exchangeIdDataGridViewTextBoxColumn
-            // 
-            this.exchangeIdDataGridViewTextBoxColumn.DataPropertyName = "ExchangeId";
-            this.exchangeIdDataGridViewTextBoxColumn.HeaderText = "交易所";
-            this.exchangeIdDataGridViewTextBoxColumn.Name = "exchangeIdDataGridViewTextBoxColumn";
-            this.exchangeIdDataGridViewTextBoxColumn.ReadOnly = true;
-            this.exchangeIdDataGridViewTextBoxColumn.Width = 66;
-            // 
-            // dsSubTradeInfo
-            // 
-            this.dsSubTradeInfo.DataSource = typeof(WinCtp.TradeInfo);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.tcSubInstrument);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(387, 235);
-            this.groupBox1.TabIndex = 2;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "持仓";
-            // 
-            // tcSubInstrument
-            // 
-            this.tcSubInstrument.Controls.Add(this.tabPage1);
-            this.tcSubInstrument.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcSubInstrument.Location = new System.Drawing.Point(3, 17);
-            this.tcSubInstrument.Name = "tcSubInstrument";
-            this.tcSubInstrument.SelectedIndex = 0;
-            this.tcSubInstrument.Size = new System.Drawing.Size(381, 215);
-            this.tcSubInstrument.TabIndex = 0;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(373, 189);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // toolStrip
-            // 
-            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiUser,
-            this.ibtnBroker,
-            this.tsmiListen});
-            this.toolStrip.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(1106, 25);
-            this.toolStrip.TabIndex = 17;
-            this.toolStrip.Text = "toolStrip1";
-            // 
-            // tsmiUser
-            // 
-            this.tsmiUser.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ibtnUser,
-            this.ibtnOrderInsertConfig});
-            this.tsmiUser.Image = global::WinCtp.Properties.Resources.sms_type6;
-            this.tsmiUser.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsmiUser.Name = "tsmiUser";
-            this.tsmiUser.Size = new System.Drawing.Size(62, 22);
-            this.tsmiUser.Text = "账户";
-            // 
-            // ibtnUser
-            // 
-            this.ibtnUser.Image = global::WinCtp.Properties.Resources.man0;
-            this.ibtnUser.Name = "ibtnUser";
-            this.ibtnUser.Size = new System.Drawing.Size(126, 22);
-            this.ibtnUser.Text = "账户配置";
-            this.ibtnUser.Click += new System.EventHandler(this.ibtnUser_Click);
-            // 
-            // ibtnOrderInsertConfig
-            // 
-            this.ibtnOrderInsertConfig.Image = global::WinCtp.Properties.Resources._6;
-            this.ibtnOrderInsertConfig.Name = "ibtnOrderInsertConfig";
-            this.ibtnOrderInsertConfig.Size = new System.Drawing.Size(126, 22);
-            this.ibtnOrderInsertConfig.Text = "下单配置";
-            this.ibtnOrderInsertConfig.Click += new System.EventHandler(this.ibtnOrderInsertConfig_Click);
-            // 
-            // ibtnBroker
-            // 
-            this.ibtnBroker.Image = global::WinCtp.Properties.Resources.flag;
-            this.ibtnBroker.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ibtnBroker.Name = "ibtnBroker";
-            this.ibtnBroker.Size = new System.Drawing.Size(79, 22);
-            this.ibtnBroker.Text = "期货公司";
-            this.ibtnBroker.Click += new System.EventHandler(this.ibtnBroker_Click);
-            // 
-            // tsmiListen
-            // 
-            this.tsmiListen.Image = global::WinCtp.Properties.Resources.clock;
-            this.tsmiListen.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsmiListen.Name = "tsmiListen";
-            this.tsmiListen.Size = new System.Drawing.Size(79, 22);
-            this.tsmiListen.Text = "开始监听";
-            this.tsmiListen.Click += new System.EventHandler(this.tsmiListen_Click);
-            // 
-            // timerQryTrade
-            // 
-            this.timerQryTrade.Interval = 10000;
-            this.timerQryTrade.Tick += new System.EventHandler(this.timerQryTrade_Tick);
-            // 
-            // timerInsertOrder
-            // 
-            this.timerInsertOrder.Interval = 3000;
-            this.timerInsertOrder.Tick += new System.EventHandler(this.timerInsertOrder_Tick);
-            // 
-            // timerReturnOrder
-            // 
-            this.timerReturnOrder.Interval = 3000;
-            this.timerReturnOrder.Tick += new System.EventHandler(this.timerReturnOrder_Tick);
             // 
             // investorIdDataGridViewTextBoxColumn2
             // 
@@ -1275,11 +1043,243 @@
             this.gcSubOrderErrorMsg.ReadOnly = true;
             this.gcSubOrderErrorMsg.Width = 78;
             // 
+            // dsSubOrder
+            // 
+            this.dsSubOrder.DataSource = typeof(WinCtp.OrderInfo);
+            // 
+            // tpSubTrade
+            // 
+            this.tpSubTrade.Controls.Add(this.dataGridViewEx1);
+            this.tpSubTrade.Location = new System.Drawing.Point(4, 22);
+            this.tpSubTrade.Name = "tpSubTrade";
+            this.tpSubTrade.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSubTrade.Size = new System.Drawing.Size(795, 247);
+            this.tpSubTrade.TabIndex = 1;
+            this.tpSubTrade.Text = "成交记录";
+            this.tpSubTrade.UseVisualStyleBackColor = true;
+            // 
+            // dataGridViewEx1
+            // 
+            this.dataGridViewEx1.AllowUserToAddRows = false;
+            this.dataGridViewEx1.AllowUserToDeleteRows = false;
+            this.dataGridViewEx1.AutoGenerateColumns = false;
+            this.dataGridViewEx1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dataGridViewEx1.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dataGridViewEx1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewEx1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.investorIdDataGridViewTextBoxColumn,
+            this.tradeIdDataGridViewTextBoxColumn,
+            this.instrumentIdDataGridViewTextBoxColumn,
+            this.gcSubTradeDirection,
+            this.gcSubTradeOffsetFlag,
+            this.priceDataGridViewTextBoxColumn,
+            this.volumeDataGridViewTextBoxColumn,
+            this.tradeTimeDataGridViewTextBoxColumn,
+            this.orderLocalIdDataGridViewTextBoxColumn,
+            this.exchangeIdDataGridViewTextBoxColumn});
+            this.dataGridViewEx1.DataSource = this.dsSubTradeInfo;
+            this.dataGridViewEx1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewEx1.Location = new System.Drawing.Point(3, 3);
+            this.dataGridViewEx1.Name = "dataGridViewEx1";
+            this.dataGridViewEx1.ReadOnly = true;
+            this.dataGridViewEx1.RowTemplate.Height = 23;
+            this.dataGridViewEx1.Size = new System.Drawing.Size(789, 241);
+            this.dataGridViewEx1.TabIndex = 0;
+            // 
+            // dsSubTradeInfo
+            // 
+            this.dsSubTradeInfo.DataSource = typeof(WinCtp.TradeInfo);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.tcSubInstrument);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(387, 273);
+            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "持仓";
+            // 
+            // tcSubInstrument
+            // 
+            this.tcSubInstrument.Controls.Add(this.tabPage1);
+            this.tcSubInstrument.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcSubInstrument.Location = new System.Drawing.Point(3, 17);
+            this.tcSubInstrument.Name = "tcSubInstrument";
+            this.tcSubInstrument.SelectedIndex = 0;
+            this.tcSubInstrument.Size = new System.Drawing.Size(381, 253);
+            this.tcSubInstrument.TabIndex = 0;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(373, 227);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // toolStrip
+            // 
+            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiUser,
+            this.ibtnBroker,
+            this.tsmiListen});
+            this.toolStrip.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip.Name = "toolStrip";
+            this.toolStrip.Size = new System.Drawing.Size(1190, 25);
+            this.toolStrip.TabIndex = 17;
+            this.toolStrip.Text = "toolStrip1";
+            // 
+            // tsmiUser
+            // 
+            this.tsmiUser.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ibtnUser,
+            this.ibtnOrderInsertConfig});
+            this.tsmiUser.Image = global::WinCtp.Properties.Resources.sms_type6;
+            this.tsmiUser.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsmiUser.Name = "tsmiUser";
+            this.tsmiUser.Size = new System.Drawing.Size(62, 22);
+            this.tsmiUser.Text = "账户";
+            // 
+            // ibtnUser
+            // 
+            this.ibtnUser.Image = global::WinCtp.Properties.Resources.man0;
+            this.ibtnUser.Name = "ibtnUser";
+            this.ibtnUser.Size = new System.Drawing.Size(126, 22);
+            this.ibtnUser.Text = "账户配置";
+            this.ibtnUser.Click += new System.EventHandler(this.ibtnUser_Click);
+            // 
+            // ibtnOrderInsertConfig
+            // 
+            this.ibtnOrderInsertConfig.Image = global::WinCtp.Properties.Resources._6;
+            this.ibtnOrderInsertConfig.Name = "ibtnOrderInsertConfig";
+            this.ibtnOrderInsertConfig.Size = new System.Drawing.Size(126, 22);
+            this.ibtnOrderInsertConfig.Text = "下单配置";
+            this.ibtnOrderInsertConfig.Click += new System.EventHandler(this.ibtnOrderInsertConfig_Click);
+            // 
+            // ibtnBroker
+            // 
+            this.ibtnBroker.Image = global::WinCtp.Properties.Resources.flag;
+            this.ibtnBroker.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ibtnBroker.Name = "ibtnBroker";
+            this.ibtnBroker.Size = new System.Drawing.Size(79, 22);
+            this.ibtnBroker.Text = "期货公司";
+            this.ibtnBroker.Click += new System.EventHandler(this.ibtnBroker_Click);
+            // 
+            // tsmiListen
+            // 
+            this.tsmiListen.Image = global::WinCtp.Properties.Resources.clock;
+            this.tsmiListen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsmiListen.Name = "tsmiListen";
+            this.tsmiListen.Size = new System.Drawing.Size(79, 22);
+            this.tsmiListen.Text = "启动监听";
+            this.tsmiListen.ToolTipText = "启动监听";
+            this.tsmiListen.Click += new System.EventHandler(this.tsmiListen_Click);
+            // 
+            // timerQryTrade
+            // 
+            this.timerQryTrade.Interval = 10000;
+            this.timerQryTrade.Tick += new System.EventHandler(this.timerQryTrade_Tick);
+            // 
+            // timerFollowOrder
+            // 
+            this.timerFollowOrder.Interval = 3000;
+            this.timerFollowOrder.Tick += new System.EventHandler(this.timerFollowOrder_Tick);
+            // 
+            // investorIdDataGridViewTextBoxColumn
+            // 
+            this.investorIdDataGridViewTextBoxColumn.DataPropertyName = "InvestorId";
+            this.investorIdDataGridViewTextBoxColumn.HeaderText = "投资者";
+            this.investorIdDataGridViewTextBoxColumn.Name = "investorIdDataGridViewTextBoxColumn";
+            this.investorIdDataGridViewTextBoxColumn.ReadOnly = true;
+            this.investorIdDataGridViewTextBoxColumn.Width = 66;
+            // 
+            // tradeIdDataGridViewTextBoxColumn
+            // 
+            this.tradeIdDataGridViewTextBoxColumn.DataPropertyName = "TradeId";
+            this.tradeIdDataGridViewTextBoxColumn.HeaderText = "编号";
+            this.tradeIdDataGridViewTextBoxColumn.Name = "tradeIdDataGridViewTextBoxColumn";
+            this.tradeIdDataGridViewTextBoxColumn.ReadOnly = true;
+            this.tradeIdDataGridViewTextBoxColumn.Width = 54;
+            // 
+            // instrumentIdDataGridViewTextBoxColumn
+            // 
+            this.instrumentIdDataGridViewTextBoxColumn.DataPropertyName = "InstrumentId";
+            this.instrumentIdDataGridViewTextBoxColumn.HeaderText = "合约";
+            this.instrumentIdDataGridViewTextBoxColumn.Name = "instrumentIdDataGridViewTextBoxColumn";
+            this.instrumentIdDataGridViewTextBoxColumn.ReadOnly = true;
+            this.instrumentIdDataGridViewTextBoxColumn.Width = 54;
+            // 
+            // gcSubTradeDirection
+            // 
+            this.gcSubTradeDirection.DataPropertyName = "Direction";
+            this.gcSubTradeDirection.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.gcSubTradeDirection.HeaderText = "买卖";
+            this.gcSubTradeDirection.Name = "gcSubTradeDirection";
+            this.gcSubTradeDirection.ReadOnly = true;
+            this.gcSubTradeDirection.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.gcSubTradeDirection.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.gcSubTradeDirection.Width = 54;
+            // 
+            // gcSubTradeOffsetFlag
+            // 
+            this.gcSubTradeOffsetFlag.DataPropertyName = "OffsetFlag";
+            this.gcSubTradeOffsetFlag.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.gcSubTradeOffsetFlag.HeaderText = "开平";
+            this.gcSubTradeOffsetFlag.Name = "gcSubTradeOffsetFlag";
+            this.gcSubTradeOffsetFlag.ReadOnly = true;
+            this.gcSubTradeOffsetFlag.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.gcSubTradeOffsetFlag.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.gcSubTradeOffsetFlag.Width = 54;
+            // 
+            // priceDataGridViewTextBoxColumn
+            // 
+            this.priceDataGridViewTextBoxColumn.DataPropertyName = "Price";
+            this.priceDataGridViewTextBoxColumn.HeaderText = "成交价格";
+            this.priceDataGridViewTextBoxColumn.Name = "priceDataGridViewTextBoxColumn";
+            this.priceDataGridViewTextBoxColumn.ReadOnly = true;
+            this.priceDataGridViewTextBoxColumn.Width = 78;
+            // 
+            // volumeDataGridViewTextBoxColumn
+            // 
+            this.volumeDataGridViewTextBoxColumn.DataPropertyName = "Volume";
+            this.volumeDataGridViewTextBoxColumn.HeaderText = "成交手数";
+            this.volumeDataGridViewTextBoxColumn.Name = "volumeDataGridViewTextBoxColumn";
+            this.volumeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.volumeDataGridViewTextBoxColumn.Width = 78;
+            // 
+            // tradeTimeDataGridViewTextBoxColumn
+            // 
+            this.tradeTimeDataGridViewTextBoxColumn.DataPropertyName = "TradeTime";
+            this.tradeTimeDataGridViewTextBoxColumn.HeaderText = "成交时间";
+            this.tradeTimeDataGridViewTextBoxColumn.Name = "tradeTimeDataGridViewTextBoxColumn";
+            this.tradeTimeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.tradeTimeDataGridViewTextBoxColumn.Width = 78;
+            // 
+            // orderLocalIdDataGridViewTextBoxColumn
+            // 
+            this.orderLocalIdDataGridViewTextBoxColumn.DataPropertyName = "OrderLocalId";
+            this.orderLocalIdDataGridViewTextBoxColumn.HeaderText = "报单编号";
+            this.orderLocalIdDataGridViewTextBoxColumn.Name = "orderLocalIdDataGridViewTextBoxColumn";
+            this.orderLocalIdDataGridViewTextBoxColumn.ReadOnly = true;
+            this.orderLocalIdDataGridViewTextBoxColumn.Width = 78;
+            // 
+            // exchangeIdDataGridViewTextBoxColumn
+            // 
+            this.exchangeIdDataGridViewTextBoxColumn.DataPropertyName = "ExchangeId";
+            this.exchangeIdDataGridViewTextBoxColumn.HeaderText = "交易所";
+            this.exchangeIdDataGridViewTextBoxColumn.Name = "exchangeIdDataGridViewTextBoxColumn";
+            this.exchangeIdDataGridViewTextBoxColumn.ReadOnly = true;
+            this.exchangeIdDataGridViewTextBoxColumn.Width = 66;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1106, 630);
+            this.ClientSize = new System.Drawing.Size(1190, 731);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -1376,16 +1376,6 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn isLoginDataGridViewCheckBoxColumn;
         private DataGridViewEx dataGridViewEx1;
         private System.Windows.Forms.BindingSource dsSubTradeInfo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn investorIdDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tradeIdDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn instrumentIdDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn directionDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn offsetFlagDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn priceDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn volumeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tradeTimeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn orderLocalIdDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn exchangeIdDataGridViewTextBoxColumn;
         private System.Windows.Forms.Timer timerQryTrade;
         private System.Windows.Forms.TabPage tabPage1;
         private DataGridViewEx dataGridViewEx2;
@@ -1405,7 +1395,7 @@
         private System.Windows.Forms.ToolStripMenuItem ibtnOrderInsertConfig;
         private System.Windows.Forms.TabPage tpSubOrder;
         private System.Windows.Forms.ToolStripButton ibtnBroker;
-        private System.Windows.Forms.Timer timerInsertOrder;
+        private System.Windows.Forms.Timer timerFollowOrder;
         private System.Windows.Forms.TabPage tpMstOrder;
         private System.Windows.Forms.TabPage tabPage2;
         private DataGridViewEx gvSubOrder;
@@ -1425,14 +1415,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn updateTimeDataGridViewTextBoxColumn;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Timer timerReturnOrder;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ToolStripMenuItem tsmiSettlementInfoConfirm;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn isCheckedDataGridViewCheckBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn userIdDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn userNameDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn isLoginDataGridViewCheckBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn gcSubUserSettlementInfoConfirmTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn investorIdDataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn orderSysIdDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn instrumentIdDataGridViewTextBoxColumn2;
@@ -1446,6 +1430,21 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn insertTimeDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn updateTimeDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn gcSubOrderErrorMsg;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn isCheckedDataGridViewCheckBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn userIdDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn userNameDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn isLoginDataGridViewCheckBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn gcSubUserSettlementInfoConfirmTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn investorIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tradeIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn instrumentIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewComboBoxColumn gcSubTradeDirection;
+        private System.Windows.Forms.DataGridViewComboBoxColumn gcSubTradeOffsetFlag;
+        private System.Windows.Forms.DataGridViewTextBoxColumn priceDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn volumeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tradeTimeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn orderLocalIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn exchangeIdDataGridViewTextBoxColumn;
     }
 }
 

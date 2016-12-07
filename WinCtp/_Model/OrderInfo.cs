@@ -6,7 +6,13 @@ namespace WinCtp
     /// 报单信息。
     /// </summary>
     /// <remarks>
-    /// 
+    /// 交易序列号
+    /// FrontID + SessionID + OrderRef
+    /// BrokerID + BrokerOrderSeq
+    /// ExchangeID + TraderID + LocalOrderID
+    /// ExchangeID + OrderSysID
+    /// 报单的最终状态:
+    /// AllTraded\Canceled\NoTradeNotQueueing\PartTradedNotQueueing
     /// </remarks>
     public class OrderInfo : OrderBase
     {
@@ -92,11 +98,6 @@ namespace WinCtp
             LimitPrice = ctpTrade.Price;
             VolumeTotal = ctpTrade.Volume;
             CombOffsetFlag = ((char)ctpTrade.OffsetFlag).ToString();
-        }
-
-        public OrderInfo(CtpOrder ctpOrder)
-        {
-            
         }
 
         public OrderInfo(CtpInputOrder inputOrder)

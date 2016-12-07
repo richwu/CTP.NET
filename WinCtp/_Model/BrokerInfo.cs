@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
-using System.IO;
-using System.Windows.Forms;
-using GalaxyFutures.Sfit.Api;
 
 namespace WinCtp
 {
@@ -14,10 +9,6 @@ namespace WinCtp
     /// </summary>
     public class BrokerInfo : ILookupObject
     {
-        public CtpTraderApi TraderApi { get; private set; }
-
-        public BackgroundWorker Worker { get; private set; }
-
         /// <summary>
         /// 公司代码。
         /// </summary>
@@ -133,32 +124,5 @@ namespace WinCtp
         public string Display => Name;
 
         public int Sn => 0;
-
-        public CtpTraderApi InitApi()
-        {
-            var fp = Path.Combine(Application.StartupPath, $@"flow{Id}\");
-            if (!Directory.Exists(fp))
-                Directory.CreateDirectory(fp);
-            TraderApi = new CtpTraderApi(fp);
-            Worker = new BackgroundWorker
-            {
-                WorkerSupportsCancellation = true,
-                WorkerReportsProgress = true
-            };
-            Worker.DoWork += OnDoWork;
-            return TraderApi;
-        }
-
-        private void OnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
-        {
-            TraderApi.RegisterFront(TraderFrontAddress);
-            TraderApi.Init();
-            TraderApi.Join();
-        }
-
-        public void Start()
-        {
-            Worker.RunWorkerAsync();
-        }
     }
 }

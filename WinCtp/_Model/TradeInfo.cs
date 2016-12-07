@@ -28,10 +28,10 @@ namespace WinCtp
 
         public TradeInfo(CtpTrade ctp)
         {
+            ExchangeId = ctp.ExchangeID;
             OrderSysId = ctp.OrderSysID;
             InvestorId = ctp.InvestorID;
             InstrumentId = ctp.InvestorID;
-            ExchangeId = ctp.ExchangeID;
             TradeId = ctp.TradeID;
             Direction = ctp.Direction;
             Price = ctp.Price;

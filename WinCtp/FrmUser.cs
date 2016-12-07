@@ -111,5 +111,19 @@ namespace WinCtp
             toolStrip.SetStatus("Mst");
             tcMain.ShowPage(tpMst);
         }
+
+        private void ibtnDelete_Click(object sender, EventArgs e)
+        {
+            if (dsUser.Current == null)
+                return;
+            var user = (UserInfo) dsUser.Current;
+            if (!MsgBox.Ask($"您确定删除账户[{user.UserId}]?"))
+                return;
+            user.Delete();
+            dsUser.RemoveCurrent();
+            dsUser.ResetBindings(false);
+            toolStrip.SetStatus("Mst");
+            tcMain.ShowPage(tpMst);
+        }
     }
 }
