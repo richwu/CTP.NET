@@ -5,6 +5,7 @@
         private static readonly RequestId TradeQry;
         private static readonly RequestId OrderInsert;
         private static readonly RequestId OrderQry;
+        private static readonly RequestId CommonId;
 
         private const int Init = 100000;
 
@@ -13,6 +14,12 @@
             OrderInsert = new RequestId(1 * Init);
             OrderQry = new RequestId(2 * Init);
             TradeQry = new RequestId(3 * Init);
+            CommonId = new RequestId(9 * Init);
+        }
+
+        public static int NewId()
+        {
+            return CommonId.Next();
         }
 
         public static int OrderInsertId()

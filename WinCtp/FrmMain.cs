@@ -14,61 +14,45 @@ namespace WinCtp
     public partial class FrmMain : Form , IMainView
     {
         private readonly ILog _log;
-        private readonly MainViewImpl _impl;
-        private bool _listening;
         private readonly  ConcurrentQueue<CtpTrade> _tradeQueue;
 
         private readonly BackgroundWorker _workerQryTrade;
         private readonly BackgroundWorker _workerFollowOrder;
 
+        private readonly IDictionary<string, BindingSource> _dicds;
+
         #region 初始化
         public FrmMain()
         {
             InitializeComponent();
-
             _log = LogManager.GetLogger("CTP");
-            _impl = new MainViewImpl(this);
             _tradeQueue = new ConcurrentQueue<CtpTrade>();
-
+            _dicds = new ConcurrentDictionary<string, BindingSource>();
             _workerQryTrade = new BackgroundWorker();
-            _workerQryTrade.DoWork += OnDoWorkQryTrade;
             _workerFollowOrder = new BackgroundWorker();
-            _workerFollowOrder.DoWork += OnDoWorkFollowOrder;
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            _listening = false;
+            tcSubInstrument.TabPages.Clear();
+            tcMstInstrument.TabPages.Clear();
+            _workerQryTrade.DoWork += OnDoWorkQryTrade;
+            _workerFollowOrder.DoWork += OnDoWorkFollowOrder;
+
+            LoadBaseInfo();
+
             timerQryTrade.Enabled = false;
             timerQryTrade.Interval = 10*1000;
             timerFollowOrder.Enabled = true;
             timerFollowOrder.Interval = 5 * 1000;
 
-            LoadBaseInfo();
- 
             var brokers = BrokerInfo.GetAll();
-            var users = new UserInfoList(UserInfo.GetAll());
-            
+            var users = UserInfoList.Load();
             var mstUsers = users.GetMst();
             dsMstUser.DataSource = mstUsers;
             var subUsers = users.GetSub();
             dsSubUser.DataSource = subUsers;
-
-            tcSubInstrument.TabPages.Clear();
-            foreach (var u in subUsers)
-            {
-                u.LoadConfig();
-                var tp = new TabPage(u.UserId);
-                tcSubInstrument.TabPages.Add(tp);
-            }
-
-            tcMstInstrument.TabPages.Clear();
-            foreach (var u in mstUsers)
-            {
-                var tp = new TabPage(u.UserId);
-                tcMstInstrument.TabPages.Add(tp);
-            }
 
             var us = new List<CtpUserInfo>();
             us.AddRange(mstUsers);
@@ -105,8 +89,8 @@ namespace WinCtp
                 api.SubscribePrivateTopic(CtpResumeType.Quick);
                 api.SubscribePublicTopic(CtpResumeType.Quick);
 
-                UserApi.This[u.UserId] = ua;
                 ua.Start();
+                UserApi.This[u.UserId] = ua;
             }
         }
 
@@ -185,7 +169,7 @@ namespace WinCtp
                 var req = new CtpSettlementInfoConfirm();
                 req.BrokerID = u.BrokerId;
                 req.InvestorID = u.UserId;
-                var reqId = 0;
+                var reqId = RequestId.NewId();
                 var rsp = u.TraderApi().ReqSettlementInfoConfirm(req, reqId);
                 _log.DebugFormat("ReqSettlementInfoConfirm[{0}]:{1}\nrequest:{2}",
                     reqId,
@@ -348,31 +332,59 @@ namespace WinCtp
             for (var i = 0; i < dsMstUser.Count; i++)
             {
                 var u = (CtpUserInfo)dsMstUser[i];
-                if (u.ReqId == requestId)
-                {
-                    u.IsLogin = true;
-                    dsMstUser.ResetItem(i);
-                    return;
-                }
+                if (u.ReqId != requestId)
+                    continue;
+                u.IsLogin = true;
+                dsMstUser.ResetItem(i);
+                QryInvestorPosition(u);
+                return;
             }
             //子账户登录
             for (var i = 0; i < dsSubUser.Count; i++)
             {
                 var u = (CtpSubUser)dsSubUser[i];
-                if (u.ReqId == requestId)
+                if (u.ReqId != requestId)
+                    continue;
+                u.IsLogin = true;
+                if (response != null)
                 {
-                    u.IsLogin = true;
-                    if (response != null)
-                    {
-                        u.FrontId = response.FrontID;
-                        u.SessionId = response.SessionID;
-                        u.MaxOrderRef = Convert.ToInt32(response.MaxOrderRef);
-                    }
-                    dsSubUser.ResetItem(i);
-                    QrySettlementInfoConfirm(u);
-                    return;
+                    u.FrontId = response.FrontID;
+                    u.SessionId = response.SessionID;
+                    u.MaxOrderRef = Convert.ToInt32(response.MaxOrderRef);
                 }
+                dsSubUser.ResetItem(i);
+
+                if (!_dicds.ContainsKey(u.UserId))
+                    _dicds[u.UserId] = new BindingSource();
+                var ds = _dicds[u.UserId];
+                ds.Clear();
+                var tp = new TabPage(u.UserId);
+                var gv = CreatePosGridView();
+                gv.DataSource = ds;
+                tp.Controls.Add(gv);
+                tcSubInstrument.TabPages.Add(tp);
+
+                QrySettlementInfoConfirm(u);
+                QryInvestorPosition(u);
+                return;
             }
+        }
+
+        private static DataGridViewEx CreatePosGridView()
+        {
+            var gv = new DataGridViewEx();
+            gv.Columns.AddRange(
+                new DataGridViewTextBoxColumn
+                {
+                    HeaderText = "投资者",
+                    DataPropertyName = "InvestorId"
+                }, new DataGridViewTextBoxColumn
+                {
+                    HeaderText = "合约",
+                    DataPropertyName = "InstrumentId"
+                });
+            gv.Dock = DockStyle.Fill;
+            return gv;
         }
 
         private void tsmiSelectAllMstUser_Click(object sender, EventArgs e)
@@ -456,7 +468,7 @@ namespace WinCtp
                 req.BrokerID = user.BrokerId;
                 req.UserID = user.UserId;
                 req.Password = user.Password;
-                req.UserProductInfo = "LZH.CTP";
+                req.UserProductInfo = "JCTP";
                 req.ProtocolInfo = "X";
                 req.InterfaceProductInfo = "X";
                 var reqId = user.ReqId;
@@ -775,19 +787,18 @@ namespace WinCtp
 
         #region 持仓
 
-        private void QryInvestorPosition()
+        /// <summary>
+        /// 查询持仓。
+        /// </summary>
+        private void QryInvestorPosition(CtpUserInfo user)
         {
             var req = new CtpQryInvestorPosition();
-            foreach (CtpMstUser u in dsMstUser)
-            {
-                req.InvestorID = u.UserId;
-                u.TraderApi().ReqQryInvestorPosition(req, 0);
-            }
-            foreach (CtpSubUser u in dsSubUser)
-            {
-                req.InvestorID = u.UserId;
-                u.TraderApi().ReqQryInvestorPosition(req, 0);
-            }
+            req.BrokerID = user.BrokerId;
+            req.InvestorID = user.UserId;
+            var rsp = user.TraderApi().ReqQryInvestorPosition(req, 0);
+            _log.DebugFormat("ReqQryInvestorPosition[0]:{0}\n{1}",
+                Rsp.This[rsp],
+                JsonConvert.SerializeObject(req));
         }
 
         /// <summary>
@@ -801,7 +812,24 @@ namespace WinCtp
                 JsonConvert.SerializeObject(response));
             if (rspInfo == null || rspInfo.ErrorID != 0 || response == null)
                 return;
-            var info = new InvestorPositionInfo(response);
+            foreach (CtpUserInfo u in dsSubUser)
+            {
+                if(u.UserId != response.InvestorID)
+                    continue;
+                var ds = _dicds[response.InvestorID];
+                var info = new InvestorPositionInfo(response);
+                ds.Add(info);
+                return;
+            }
+            foreach (CtpUserInfo u in dsMstUser)
+            {
+                if (u.UserId != response.InvestorID)
+                    continue;
+                var ds = _dicds[response.InvestorID];
+                var info = new InvestorPositionInfo(response);
+                ds.Add(info);
+                return;
+            }
         }
 
         /// <summary>
@@ -813,6 +841,8 @@ namespace WinCtp
                 requestId,
                 JsonConvert.SerializeObject(rspInfo),
                 JsonConvert.SerializeObject(response));
+            if (rspInfo == null || rspInfo.ErrorID != 0 || response == null)
+                return;
         }
         #endregion
     }
