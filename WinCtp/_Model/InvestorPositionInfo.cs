@@ -7,7 +7,7 @@ namespace WinCtp
     /// </summary>
     public class InvestorPositionInfo
     {
-        public double CashIn { get; set; }
+        public string InvestorId { get; set; }
 
         public string InstrumentId { get; set; }
 
@@ -15,7 +15,7 @@ namespace WinCtp
 
         public InvestorPositionInfo(CtpInvestorPosition ctp)
         {
-            CashIn = ctp.CashIn;
+            InvestorId = ctp.InvestorID;
             InstrumentId = ctp.InstrumentID;
         }
     }

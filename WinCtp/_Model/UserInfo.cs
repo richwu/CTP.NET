@@ -143,8 +143,6 @@ namespace WinCtp
 
         public BrokerInfo Broker { get; set; }
 
-        public CtpTraderApi TraderApi => Broker.TraderApi;
-
         /// <summary>
         /// 账户ID。
         /// </summary>
@@ -179,7 +177,7 @@ namespace WinCtp
         {
             var r = MaxOrderRef;
             MaxOrderRef++;
-            return r.ToString();
+            return r.ToString("d12");
         }
         
         /// <summary>
@@ -187,17 +185,20 @@ namespace WinCtp
         /// </summary>
         public DateTime? SettlementInfoConfirmTime { get; set; }
 
-        private IDictionary<string, UserInserOrderConfig> _cfg;
+        public IDictionary<string, UserInserOrderConfig> Config { get; private set; }
 
-        private void LoadConfig()
+        /// <summary>
+        /// 加载跟单配置。
+        /// </summary>
+        public void LoadConfig()
         {
-            if (_cfg != null)
+            if (Config != null)
                 return;
-            _cfg = new Dictionary<string, UserInserOrderConfig>();
+            Config = new Dictionary<string, UserInserOrderConfig>();
             var cfgs = UserInserOrderConfig.Get(UserId);
             foreach (var c in cfgs)
             {
-                _cfg[c.MstUserId] = c;
+                Config[c.MstUserId] = c;
             }
         }
 
@@ -206,15 +207,18 @@ namespace WinCtp
         /// </summary>
         /// <param name="ctpTrade">主账户成交单。</param>
         /// <returns></returns>
-        public bool InsertOrder(CtpTrade ctpTrade)
+        public bool TryInsertOrder(CtpTrade ctpTrade,out int rsp)
         {
-            LoadConfig();
+            rsp = -1;
             UserInserOrderConfig cfg;
-            if (!_cfg.TryGetValue(ctpTrade.InvestorID, out cfg))
+            if (!Config.TryGetValue(ctpTrade.InvestorID, out cfg))
                 return false;
             if(!string.IsNullOrEmpty(cfg.Instrument) && ctpTrade.InstrumentID.StartsWith(cfg.Instrument))
                 return false;
             var req = new CtpInputOrder();
+            req.BrokerID = BrokerId;
+            req.InvestorID = UserId;
+            req.UserID = UserId;
             req.CombOffsetFlag = ((char)ctpTrade.OffsetFlag).ToString();
             if (ctpTrade.Direction == CtpDirectionType.Buy)
                 req.Direction = cfg.IsInverse ? CtpDirectionType.Sell : CtpDirectionType.Buy;
@@ -227,10 +231,47 @@ namespace WinCtp
             req.ContingentCondition = CtpContingentConditionType.Immediately;
             req.OrderPriceType = CtpOrderPriceTypeType.LimitPrice;
             req.VolumeCondition = CtpVolumeConditionType.AV;
-            var rsp = TraderApi.ReqOrderInsert(req, RequestId.OrderInsertId());
-            if(rsp != 0)
-                throw new ApplicationException(Rsp.This[rsp]);
-            return rsp == 0;
+            var reqId = RequestId.OrderInsertId();
+            rsp = this.TraderApi().ReqOrderInsert(req, reqId);
+            return true;
+        }
+    }
+
+    public static class CtpUserInfoEx
+    {
+        public static CtpTraderApi TraderApi(this CtpUserInfo user)
+        {
+            UserApi userApi;
+            return !UserApi.This.TryGetValue(user.UserId, out userApi) ? null : userApi.TraderApi;
+        }
+
+        public static CtpInputOrder FollowOrder(this CtpSubUser user,CtpTrade ctpTrade)
+        {
+            if(user.Config == null || user.Config.Count == 0)
+                return null;
+            UserInserOrderConfig cfg;
+            if (!user.Config.TryGetValue(ctpTrade.InvestorID, out cfg))
+                return null;
+            if (!string.IsNullOrEmpty(cfg.Instrument) && ctpTrade.InstrumentID.StartsWith(cfg.Instrument))
+                return null;
+            var req = new CtpInputOrder();
+            req.BrokerID = user.BrokerId;
+            req.InvestorID = user.UserId;
+            req.UserID = user.UserId;
+            req.CombOffsetFlag = ((char)ctpTrade.OffsetFlag).ToString();
+            if (ctpTrade.Direction == CtpDirectionType.Buy)
+                req.Direction = cfg.IsInverse ? CtpDirectionType.Sell : CtpDirectionType.Buy;
+            else
+                req.Direction = cfg.IsInverse ? CtpDirectionType.Buy : CtpDirectionType.Sell;
+            req.InstrumentID = ctpTrade.InstrumentID;
+            req.LimitPrice = ctpTrade.Price;
+            req.BusinessUnit = ctpTrade.BusinessUnit;
+            req.VolumeTotalOriginal = (int)Math.Ceiling(ctpTrade.Volume * cfg.Volume);
+            req.ContingentCondition = CtpContingentConditionType.Immediately;
+            req.OrderPriceType = CtpOrderPriceTypeType.LimitPrice;
+            req.VolumeCondition = CtpVolumeConditionType.AV;
+
+            return req;
         }
     }
 }

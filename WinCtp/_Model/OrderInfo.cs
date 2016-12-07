@@ -6,14 +6,24 @@ namespace WinCtp
     /// 报单信息。
     /// </summary>
     /// <remarks>
-    /// 
+    /// 交易序列号
+    /// FrontID + SessionID + OrderRef
+    /// BrokerID + BrokerOrderSeq
+    /// ExchangeID + TraderID + LocalOrderID
+    /// ExchangeID + OrderSysID
+    /// 报单的最终状态:
+    /// AllTraded\Canceled\NoTradeNotQueueing\PartTradedNotQueueing
     /// </remarks>
     public class OrderInfo : OrderBase
     {
         /// <summary>
         /// 请求ID。
         /// </summary>
-        public string RequestId { get; set; }
+        public int RequestId { get; set; }
+
+        public int FrontId { get; set; }
+
+        public int SessionId { get; set; }
 
         /// <summary>
         /// 报单引用。
@@ -68,7 +78,12 @@ namespace WinCtp
         /// <summary>
         /// 组合开平标识。
         /// </summary>
-        public byte CombOffsetFlag { get; set; }
+        public string CombOffsetFlag { get; set; }
+
+        /// <summary>
+        /// 异常消息。
+        /// </summary>
+        public string ErrorMsg { get; set; }
 
         public OrderInfo() { }
 
@@ -82,12 +97,22 @@ namespace WinCtp
             Direction = ctpTrade.Direction;
             LimitPrice = ctpTrade.Price;
             VolumeTotal = ctpTrade.Volume;
-            CombOffsetFlag = ctpTrade.OffsetFlag;
+            CombOffsetFlag = ((char)ctpTrade.OffsetFlag).ToString();
         }
 
-        public OrderInfo(CtpOrder ctpOrder)
+        public OrderInfo(CtpInputOrder inputOrder)
         {
-            
+            BrokerId = inputOrder.BrokerID;
+            InvestorId = inputOrder.InvestorID;
+            InstrumentId = inputOrder.InstrumentID;
+            Direction = inputOrder.Direction;
+            RequestId = inputOrder.RequestID;
+            OrderRef = inputOrder.OrderRef;
+            LimitPrice = inputOrder.LimitPrice;
+            StopPrice = inputOrder.StopPrice;
+            OrderStatus = CtpOrderStatusType.Unknown;
+            VolumeTotalOriginal = inputOrder.VolumeTotalOriginal;
+            CombOffsetFlag = inputOrder.CombOffsetFlag;
         }
     }
 }

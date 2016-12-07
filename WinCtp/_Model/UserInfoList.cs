@@ -4,6 +4,11 @@ namespace WinCtp
 {
     public class UserInfoList
     {
+        public static UserInfoList Load()
+        {
+            return new UserInfoList(UserInfo.GetAll());
+        }
+
         private readonly IList<UserInfo> _users;
 
         public UserInfoList(IList<UserInfo> users)
@@ -49,6 +54,7 @@ namespace WinCtp
                 obj.BrokerId = u.BrokerId;
                 obj.Password = u.Password;
                 obj.ReqId = id;
+                obj.LoadConfig();
                 arr.Add(obj);
                 id++;
             }
