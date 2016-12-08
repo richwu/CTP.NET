@@ -24,7 +24,7 @@ namespace WinCtp
             var id = 1000;
             foreach (var u in _users)
             {
-                if (!u.IsSub)
+                if (u.IsSub)
                     continue;
                 var obj = new CtpMstUser();
                 obj.UserId = u.UserId;
@@ -46,7 +46,7 @@ namespace WinCtp
             var id = 2000;
             foreach (var u in _users)
             {
-                if (u.IsSub)
+                if (!u.IsSub)
                     continue;
                 var obj = new CtpSubUser();
                 obj.UserId = u.UserId;

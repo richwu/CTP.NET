@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using GalaxyFutures.Sfit.Api;
 using log4net;
@@ -21,6 +22,8 @@ namespace WinCtp
 
         private readonly IDictionary<string, BindingSource> _dicds;
 
+        private readonly TaskScheduler _syncSch;
+
         #region 初始化
         public FrmMain()
         {
@@ -30,11 +33,13 @@ namespace WinCtp
             _dicds = new ConcurrentDictionary<string, BindingSource>();
             _workerQryTrade = new BackgroundWorker();
             _workerFollowOrder = new BackgroundWorker();
+            _syncSch = TaskScheduler.FromCurrentSynchronizationContext();
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+            
             tcSubInstrument.TabPages.Clear();
             tcMstInstrument.TabPages.Clear();
             _workerQryTrade.DoWork += OnDoWorkQryTrade;
@@ -200,7 +205,9 @@ namespace WinCtp
                requestId,
                JsonConvert.SerializeObject(response),
                JsonConvert.SerializeObject(rspInfo));
-            if (rspInfo == null || rspInfo.ErrorID != 0 || response == null)
+            if (rspInfo != null && rspInfo.ErrorID != 0)
+                return;
+            if (response == null)
                 return;
             for (var i = 0; i < dsSubUser.Count; i++)
             {
@@ -228,7 +235,9 @@ namespace WinCtp
                 requestId,
                 JsonConvert.SerializeObject(response), 
                 JsonConvert.SerializeObject(rspInfo));
-            if (rspInfo == null || rspInfo.ErrorID != 0 || response == null)
+            if (rspInfo != null && rspInfo.ErrorID != 0)
+                return;
+            if (response == null)
                 return;
             for (var i = 0; i < dsSubUser.Count; i++)
             {
@@ -353,16 +362,26 @@ namespace WinCtp
                     u.MaxOrderRef = Convert.ToInt32(response.MaxOrderRef);
                 }
                 dsSubUser.ResetItem(i);
-
+                
                 if (!_dicds.ContainsKey(u.UserId))
                     _dicds[u.UserId] = new BindingSource();
                 var ds = _dicds[u.UserId];
                 ds.Clear();
-                var tp = new TabPage(u.UserId);
-                var gv = CreatePosGridView();
-                gv.DataSource = ds;
-                tp.Controls.Add(gv);
-                tcSubInstrument.TabPages.Add(tp);
+
+                //得到一个同步上下文调度器
+                var t = new Task(() =>
+                {
+                    var tp = new TabPage(u.UserId);
+                    var gv = CreatePosGridView(u.UserId);
+                    gv.DataSource = ds;
+                    tp.Controls.Add(gv);
+                    tcSubInstrument.TabPages.Add(tp);
+                });
+
+                //在Task的ContinueWith方法中，指定这个同步上下文调度器，我们更新了form的Text属性
+                //去掉这个syncSch，你就会发现要出异常
+                t.ContinueWith(task => task, _syncSch);
+                t.Start();
 
                 QrySettlementInfoConfirm(u);
                 QryInvestorPosition(u);
@@ -370,18 +389,22 @@ namespace WinCtp
             }
         }
 
-        private static DataGridViewEx CreatePosGridView()
+        private static DataGridViewEx CreatePosGridView(string userId)
         {
             var gv = new DataGridViewEx();
             gv.Columns.AddRange(
                 new DataGridViewTextBoxColumn
                 {
+                    Name = $"gcInvestorId{userId}",
                     HeaderText = "投资者",
-                    DataPropertyName = "InvestorId"
+                    DataPropertyName = "InvestorId",
+                    ReadOnly = true
                 }, new DataGridViewTextBoxColumn
                 {
+                    Name = $"gcInstrumentId{userId}",
                     HeaderText = "合约",
-                    DataPropertyName = "InstrumentId"
+                    DataPropertyName = "InstrumentId",
+                    ReadOnly = true
                 });
             gv.Dock = DockStyle.Fill;
             return gv;

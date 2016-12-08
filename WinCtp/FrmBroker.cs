@@ -5,18 +5,6 @@ namespace WinCtp
 {
     public partial class FrmBroker : Form
     {
-        private BrokerInfo Current
-        {
-            get { return (BrokerInfo)dsBroker.Current; }
-            set
-            {
-                if (value == null)
-                    dsBroker.RemoveCurrent();
-                else dsBroker[dsBroker.Position] = value;
-                dsBroker.ResetCurrentItem();
-            }
-        }
-
         private BrokerInfo _orig;
 
         public FrmBroker()
@@ -27,31 +15,15 @@ namespace WinCtp
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            ToMst();
-            dsBroker.DataSource = BrokerInfo.GetAll();
-        }
-
-        private void ToMst()
-        {
             toolStrip.SetStatus("Mst");
             tcMain.ShowPage(tpMst);
-        }
-
-        private void ToDet()
-        {
-            toolStrip.SetStatus("Det");
-            tcMain.ShowPage(tpDet);
-        }
-
-        private void ToEdit()
-        {
-            toolStrip.SetStatus("Edit");
-            tcMain.ShowPage(tpDet);
+            dsBroker.DataSource = BrokerInfo.GetAll();
         }
 
         private void ibtnMst_Click(object sender, EventArgs e)
         {
-            ToMst();
+            toolStrip.SetStatus("Mst");
+            tcMain.ShowPage(tpMst);
         }
 
         private void ibtnNew_Click(object sender, EventArgs e)
@@ -60,25 +32,37 @@ namespace WinCtp
             var obj = new BrokerInfo();
             dsBroker.Position = dsBroker.Add(obj);
             dsBroker.ResetCurrentItem();
-            ToEdit();
+            toolStrip.SetStatus("Edit");
+            tcMain.ShowPage(tpDet);
             tpDet.SetEditable(true, "New");
         }
 
         private void ibtnEdit_Click(object sender, EventArgs e)
         {
-            if (dsBroker.Current == null)
+            var obj = (BrokerInfo) dsBroker.Current;
+            if (obj == null)
                 return;
-            ToEdit();
+            tcMain.ShowPage(tpDet);
+            toolStrip.SetStatus("Edit");
             tpDet.SetEditable(true, "Edit");
-            _orig = Current.Clone();
+            _orig = obj.Clone();
         }
 
         private void ibtnCancel_Click(object sender, EventArgs e)
         {
-            Current = _orig;
-            tpDet.SetEditable(false);
             if (_orig == null)
-                ToMst();
+            {
+                dsBroker.RemoveCurrent();
+                toolStrip.SetStatus("Mst");
+                tcMain.ShowPage(tpMst);
+            }
+            else
+            {
+                dsBroker[dsBroker.Position] = _orig;
+                dsBroker.ResetCurrentItem();
+                toolStrip.SetStatus("Det");
+            }
+            tpDet.SetEditable(false);
             _orig = null;
         }
 
@@ -86,20 +70,24 @@ namespace WinCtp
         {
             gvBroker.EndEdit();
             dsBroker.EndEdit();
-            var cur = Current;
+            var obj = (BrokerInfo)dsBroker.Current;
             if (_orig == null)
-                cur.Save();
-            else cur.Update();
+                obj.Save();
+            else obj.Update();
             tpDet.SetEditable(false);
+            toolStrip.SetStatus("Det");
         }
 
         private void ibtnDelete_Click(object sender, EventArgs e)
         {
-            if (dsBroker.Current == null)
+            var obj = (BrokerInfo)dsBroker.Current;
+            if (obj == null)
                 return;
-            Current.Delete();
-            Current = null;
-            ToMst();
+            obj.Delete();
+            dsBroker.RemoveCurrent();
+            dsBroker.ResetBindings(false);
+            toolStrip.SetStatus("Mst");
+            tcMain.ShowPage(tpMst);
         }
 
         private void ibtnClose_Click(object sender, EventArgs e)
@@ -111,7 +99,8 @@ namespace WinCtp
         {
             if (dsBroker.Current == null)
                 return;
-            ToDet();
+            toolStrip.SetStatus("Det");
+            tcMain.ShowPage(tpDet);
         }
     }
 }
