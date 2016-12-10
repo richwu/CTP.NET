@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GalaxyFutures.Sfit.Api;
@@ -362,9 +363,9 @@ namespace WinCtp
                     u.MaxOrderRef = Convert.ToInt32(response.MaxOrderRef);
                 }
                 dsSubUser.ResetItem(i);
-                
+
                 if (!_dicds.ContainsKey(u.UserId))
-                    _dicds[u.UserId] = new BindingSource();
+                    _dicds[u.UserId] = new BindingSource { DataSource = typeof(InvestorPositionInfo) };
                 var ds = _dicds[u.UserId];
                 ds.Clear();
 
@@ -372,6 +373,7 @@ namespace WinCtp
                 var t = new Task(() =>
                 {
                     var tp = new TabPage(u.UserId);
+                    tp.Name = $"tpp{u.UserId}";
                     var gv = CreatePosGridView(u.UserId);
                     gv.DataSource = ds;
                     tp.Controls.Add(gv);
@@ -392,19 +394,23 @@ namespace WinCtp
         private static DataGridViewEx CreatePosGridView(string userId)
         {
             var gv = new DataGridViewEx();
+            gv.Visible = true;
+            gv.Name = $"gvp{userId}";
             gv.Columns.AddRange(
                 new DataGridViewTextBoxColumn
                 {
                     Name = $"gcInvestorId{userId}",
                     HeaderText = "投资者",
                     DataPropertyName = "InvestorId",
-                    ReadOnly = true
+                    ReadOnly = true,
+                    Width = 78
                 }, new DataGridViewTextBoxColumn
                 {
                     Name = $"gcInstrumentId{userId}",
                     HeaderText = "合约",
                     DataPropertyName = "InstrumentId",
-                    ReadOnly = true
+                    ReadOnly = true,
+                    Width = 78
                 });
             gv.Dock = DockStyle.Fill;
             return gv;
@@ -678,17 +684,8 @@ namespace WinCtp
                 //该字段是一个长度为5 的字符数组，可以同时用来描述单腿合约和组合合约的报单属性。单腿合约只需要为
                 //数组的第1 个元素赋值，组合合约需要为数组的第1 & 2 个元素赋值。字符取值为枚举值，在头文件
                 //“ThostFtdcUserApiStruct.h”中可以查到。
-                var cof = new char[5];
-                cof[0] = (char) CtpOffsetFlagType.Open;
-                var chf = new char[5];
-                chf[0] = (char) CtpHedgeFlagType.Speculation;
-                //((char)Convert.ToByte(cmbOffsetFlag.SelectedValue)).ToString();
-                //req.CombOffsetFlag = new string(cof);
-                //req.CombHedgeFlag = new string(chf);
-
-                req.CombOffsetFlag = "0";
-                req.CombHedgeFlag = "1";
-
+                req.CombOffsetFlag = ((char)Convert.ToByte(cmbOffsetFlag.SelectedValue)).ToString();
+                req.CombHedgeFlag = ((char)CtpHedgeFlagType.Speculation).ToString();
                 req.OrderPriceType = CtpOrderPriceTypeType.LimitPrice;
                 req.Direction = Convert.ToByte(cmbDirection.SelectedValue);
                 req.VolumeTotalOriginal = (int)numVolume.Value;
@@ -769,7 +766,9 @@ namespace WinCtp
                 od.ExchangeId = response.ExchangeID;
                 od.OrderSysId = response.OrderSysID;
                 od.OrderStatus = response.OrderStatus;
+                od.ErrorMsg = response.StatusMsg;
                 dsSubOrder.ResetItem(i);
+                Thread.Sleep(500);
             }
         }
 
@@ -818,8 +817,10 @@ namespace WinCtp
             var req = new CtpQryInvestorPosition();
             req.BrokerID = user.BrokerId;
             req.InvestorID = user.UserId;
-            var rsp = user.TraderApi().ReqQryInvestorPosition(req, 0);
-            _log.DebugFormat("ReqQryInvestorPosition[0]:{0}\n{1}",
+            var reqId = RequestId.NewId();
+            var rsp = user.TraderApi().ReqQryInvestorPosition(req, reqId);
+            _log.DebugFormat("ReqQryInvestorPosition[{0}]:{1}\n{2}",
+                reqId,
                 Rsp.This[rsp],
                 JsonConvert.SerializeObject(req));
         }
