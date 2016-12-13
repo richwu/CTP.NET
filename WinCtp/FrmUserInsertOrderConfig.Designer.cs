@@ -36,11 +36,6 @@
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpMst = new System.Windows.Forms.TabPage();
             this.gvData = new WinCtp.DataGridViewEx();
-            this.subUserIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.instrumentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.mstUserIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.volumeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.isInverseDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dsData = new System.Windows.Forms.BindingSource(this.components);
             this.tpDet = new System.Windows.Forms.TabPage();
             this.volumeTextBox = new System.Windows.Forms.TextBox();
@@ -59,6 +54,12 @@
             this.ibtnDelete = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.ibtnClose = new System.Windows.Forms.ToolStripButton();
+            this.subUserIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.instrumentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mstUserIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gcPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.volumeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isInverseDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             instrumentLabel = new System.Windows.Forms.Label();
             mstUserIdLabel = new System.Windows.Forms.Label();
             subUserIdLabel = new System.Windows.Forms.Label();
@@ -141,6 +142,7 @@
             this.subUserIdDataGridViewTextBoxColumn,
             this.instrumentDataGridViewTextBoxColumn,
             this.mstUserIdDataGridViewTextBoxColumn,
+            this.gcPrice,
             this.volumeDataGridViewTextBoxColumn,
             this.isInverseDataGridViewCheckBoxColumn});
             this.gvData.DataSource = this.dsData;
@@ -152,46 +154,6 @@
             this.gvData.Size = new System.Drawing.Size(472, 325);
             this.gvData.TabIndex = 0;
             this.gvData.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellContentDoubleClick);
-            // 
-            // subUserIdDataGridViewTextBoxColumn
-            // 
-            this.subUserIdDataGridViewTextBoxColumn.DataPropertyName = "SubUserId";
-            this.subUserIdDataGridViewTextBoxColumn.HeaderText = "子账户";
-            this.subUserIdDataGridViewTextBoxColumn.Name = "subUserIdDataGridViewTextBoxColumn";
-            this.subUserIdDataGridViewTextBoxColumn.ReadOnly = true;
-            this.subUserIdDataGridViewTextBoxColumn.Width = 66;
-            // 
-            // instrumentDataGridViewTextBoxColumn
-            // 
-            this.instrumentDataGridViewTextBoxColumn.DataPropertyName = "Instrument";
-            this.instrumentDataGridViewTextBoxColumn.HeaderText = "品种";
-            this.instrumentDataGridViewTextBoxColumn.Name = "instrumentDataGridViewTextBoxColumn";
-            this.instrumentDataGridViewTextBoxColumn.ReadOnly = true;
-            this.instrumentDataGridViewTextBoxColumn.Width = 54;
-            // 
-            // mstUserIdDataGridViewTextBoxColumn
-            // 
-            this.mstUserIdDataGridViewTextBoxColumn.DataPropertyName = "MstUserId";
-            this.mstUserIdDataGridViewTextBoxColumn.HeaderText = "主账户";
-            this.mstUserIdDataGridViewTextBoxColumn.Name = "mstUserIdDataGridViewTextBoxColumn";
-            this.mstUserIdDataGridViewTextBoxColumn.ReadOnly = true;
-            this.mstUserIdDataGridViewTextBoxColumn.Width = 66;
-            // 
-            // volumeDataGridViewTextBoxColumn
-            // 
-            this.volumeDataGridViewTextBoxColumn.DataPropertyName = "Volume";
-            this.volumeDataGridViewTextBoxColumn.HeaderText = "手数倍率";
-            this.volumeDataGridViewTextBoxColumn.Name = "volumeDataGridViewTextBoxColumn";
-            this.volumeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.volumeDataGridViewTextBoxColumn.Width = 78;
-            // 
-            // isInverseDataGridViewCheckBoxColumn
-            // 
-            this.isInverseDataGridViewCheckBoxColumn.DataPropertyName = "IsInverse";
-            this.isInverseDataGridViewCheckBoxColumn.HeaderText = "是否反向";
-            this.isInverseDataGridViewCheckBoxColumn.Name = "isInverseDataGridViewCheckBoxColumn";
-            this.isInverseDataGridViewCheckBoxColumn.ReadOnly = true;
-            this.isInverseDataGridViewCheckBoxColumn.Width = 59;
             // 
             // dsData
             // 
@@ -293,7 +255,7 @@
             this.ibtnMst.Image = global::WinCtp.Properties.Resources._5;
             this.ibtnMst.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ibtnMst.Name = "ibtnMst";
-            this.ibtnMst.Size = new System.Drawing.Size(52, 22);
+            this.ibtnMst.Size = new System.Drawing.Size(53, 22);
             this.ibtnMst.Tag = "Det";
             this.ibtnMst.Text = "概要";
             this.ibtnMst.Click += new System.EventHandler(this.ibtnMst_Click);
@@ -308,7 +270,7 @@
             this.ibtnNew.Image = global::WinCtp.Properties.Resources._new;
             this.ibtnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ibtnNew.Name = "ibtnNew";
-            this.ibtnNew.Size = new System.Drawing.Size(52, 22);
+            this.ibtnNew.Size = new System.Drawing.Size(53, 22);
             this.ibtnNew.Tag = "Mst Det";
             this.ibtnNew.Text = "新建";
             this.ibtnNew.Click += new System.EventHandler(this.ibtnNew_Click);
@@ -318,7 +280,7 @@
             this.ibtnEdit.Image = global::WinCtp.Properties.Resources.edit;
             this.ibtnEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ibtnEdit.Name = "ibtnEdit";
-            this.ibtnEdit.Size = new System.Drawing.Size(52, 22);
+            this.ibtnEdit.Size = new System.Drawing.Size(53, 22);
             this.ibtnEdit.Tag = "Mst Det";
             this.ibtnEdit.Text = "编辑";
             this.ibtnEdit.Click += new System.EventHandler(this.ibtnEdit_Click);
@@ -328,7 +290,7 @@
             this.ibtnCancel.Image = global::WinCtp.Properties.Resources.undo;
             this.ibtnCancel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ibtnCancel.Name = "ibtnCancel";
-            this.ibtnCancel.Size = new System.Drawing.Size(52, 22);
+            this.ibtnCancel.Size = new System.Drawing.Size(53, 22);
             this.ibtnCancel.Tag = "Edit";
             this.ibtnCancel.Text = "取消";
             this.ibtnCancel.Click += new System.EventHandler(this.ibtnCancel_Click);
@@ -338,7 +300,7 @@
             this.ibtnSave.Image = global::WinCtp.Properties.Resources.save;
             this.ibtnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ibtnSave.Name = "ibtnSave";
-            this.ibtnSave.Size = new System.Drawing.Size(52, 22);
+            this.ibtnSave.Size = new System.Drawing.Size(53, 22);
             this.ibtnSave.Tag = "Edit";
             this.ibtnSave.Text = "保存";
             this.ibtnSave.Click += new System.EventHandler(this.ibtnSave_Click);
@@ -353,7 +315,7 @@
             this.ibtnDelete.Image = global::WinCtp.Properties.Resources.delete;
             this.ibtnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ibtnDelete.Name = "ibtnDelete";
-            this.ibtnDelete.Size = new System.Drawing.Size(52, 22);
+            this.ibtnDelete.Size = new System.Drawing.Size(53, 22);
             this.ibtnDelete.Tag = "Mst Det";
             this.ibtnDelete.Text = "删除";
             this.ibtnDelete.Click += new System.EventHandler(this.ibtnDelete_Click);
@@ -368,9 +330,57 @@
             this.ibtnClose.Image = global::WinCtp.Properties.Resources.close;
             this.ibtnClose.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ibtnClose.Name = "ibtnClose";
-            this.ibtnClose.Size = new System.Drawing.Size(52, 22);
+            this.ibtnClose.Size = new System.Drawing.Size(53, 22);
             this.ibtnClose.Text = "关闭";
             this.ibtnClose.Click += new System.EventHandler(this.ibtnClose_Click);
+            // 
+            // subUserIdDataGridViewTextBoxColumn
+            // 
+            this.subUserIdDataGridViewTextBoxColumn.DataPropertyName = "SubUserId";
+            this.subUserIdDataGridViewTextBoxColumn.HeaderText = "子账户";
+            this.subUserIdDataGridViewTextBoxColumn.Name = "subUserIdDataGridViewTextBoxColumn";
+            this.subUserIdDataGridViewTextBoxColumn.ReadOnly = true;
+            this.subUserIdDataGridViewTextBoxColumn.Width = 66;
+            // 
+            // instrumentDataGridViewTextBoxColumn
+            // 
+            this.instrumentDataGridViewTextBoxColumn.DataPropertyName = "Instrument";
+            this.instrumentDataGridViewTextBoxColumn.HeaderText = "品种";
+            this.instrumentDataGridViewTextBoxColumn.Name = "instrumentDataGridViewTextBoxColumn";
+            this.instrumentDataGridViewTextBoxColumn.ReadOnly = true;
+            this.instrumentDataGridViewTextBoxColumn.Width = 54;
+            // 
+            // mstUserIdDataGridViewTextBoxColumn
+            // 
+            this.mstUserIdDataGridViewTextBoxColumn.DataPropertyName = "MstUserId";
+            this.mstUserIdDataGridViewTextBoxColumn.HeaderText = "主账户";
+            this.mstUserIdDataGridViewTextBoxColumn.Name = "mstUserIdDataGridViewTextBoxColumn";
+            this.mstUserIdDataGridViewTextBoxColumn.ReadOnly = true;
+            this.mstUserIdDataGridViewTextBoxColumn.Width = 66;
+            // 
+            // gcPrice
+            // 
+            this.gcPrice.DataPropertyName = "Price";
+            this.gcPrice.HeaderText = "价格";
+            this.gcPrice.Name = "gcPrice";
+            this.gcPrice.ReadOnly = true;
+            this.gcPrice.Width = 54;
+            // 
+            // volumeDataGridViewTextBoxColumn
+            // 
+            this.volumeDataGridViewTextBoxColumn.DataPropertyName = "Volume";
+            this.volumeDataGridViewTextBoxColumn.HeaderText = "手数倍率";
+            this.volumeDataGridViewTextBoxColumn.Name = "volumeDataGridViewTextBoxColumn";
+            this.volumeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.volumeDataGridViewTextBoxColumn.Width = 78;
+            // 
+            // isInverseDataGridViewCheckBoxColumn
+            // 
+            this.isInverseDataGridViewCheckBoxColumn.DataPropertyName = "IsInverse";
+            this.isInverseDataGridViewCheckBoxColumn.HeaderText = "是否反向";
+            this.isInverseDataGridViewCheckBoxColumn.Name = "isInverseDataGridViewCheckBoxColumn";
+            this.isInverseDataGridViewCheckBoxColumn.ReadOnly = true;
+            this.isInverseDataGridViewCheckBoxColumn.Width = 59;
             // 
             // FrmUserInsertOrderConfig
             // 
@@ -412,16 +422,17 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn subUserIdDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn instrumentDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn mstUserIdDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn volumeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn isInverseDataGridViewCheckBoxColumn;
         private System.Windows.Forms.BindingSource dsData;
         private System.Windows.Forms.TextBox volumeTextBox;
         private System.Windows.Forms.TextBox subUserIdTextBox;
         private System.Windows.Forms.TextBox mstUserIdTextBox;
         private System.Windows.Forms.CheckBox isInverseCheckBox;
         private System.Windows.Forms.TextBox instrumentTextBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn subUserIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn instrumentDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mstUserIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn gcPrice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn volumeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn isInverseDataGridViewCheckBoxColumn;
     }
 }
