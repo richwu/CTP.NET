@@ -565,7 +565,9 @@ namespace WinCtp
                 qry.BrokerID = user.BrokerId;
                 qry.InvestorID = user.UserId;
                 qry.InstrumentID = "TA705";
-                qry.ExchangeID = "";
+                qry.ExchangeID = "CZCE";
+                qry.TradeTimeStart = DateTime.Now.AddDays(-1).ToString("yyyyMMdd");
+                qry.TradeTimeEnd = DateTime.Now.AddDays(1).ToString("yyyyMMdd");
                 var api = user.TraderApi();
                 var reqId = RequestId.TradeQryId();
                 var rsp = api.ReqQryTrade(qry, reqId);
