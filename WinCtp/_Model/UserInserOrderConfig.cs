@@ -74,6 +74,8 @@ namespace WinCtp
         /// <summary>
         /// 不跟单合约品种。
         /// </summary>
+        /// <remarks>按英文逗号分隔。</remarks>
+        /// <example>if,gb</example>
         public string Instrument { get; set; }
 
         /// <summary>
@@ -84,6 +86,7 @@ namespace WinCtp
         /// <summary>
         /// 价格。
         /// </summary>
+        /// <remarks>GT0限价，LE0市价</remarks>
         public double Price { get; set; }
 
         /// <summary>
