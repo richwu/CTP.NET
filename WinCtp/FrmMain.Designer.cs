@@ -123,6 +123,16 @@
             this.dsSubOrder = new System.Windows.Forms.BindingSource(this.components);
             this.tpSubTrade = new System.Windows.Forms.TabPage();
             this.dataGridViewEx1 = new WinCtp.DataGridViewEx();
+            this.investorIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tradeIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.instrumentIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gcSubTradeDirection = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.gcSubTradeOffsetFlag = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.priceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.volumeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tradeTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.orderLocalIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.exchangeIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dsSubTradeInfo = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tcSubInstrument = new System.Windows.Forms.TabControl();
@@ -135,16 +145,6 @@
             this.tsmiListen = new System.Windows.Forms.ToolStripButton();
             this.timerQryTrade = new System.Windows.Forms.Timer(this.components);
             this.timerFollowOrder = new System.Windows.Forms.Timer(this.components);
-            this.investorIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tradeIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.instrumentIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gcSubTradeDirection = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.gcSubTradeOffsetFlag = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.priceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.volumeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tradeTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.orderLocalIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.exchangeIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tpMstOrder.SuspendLayout();
@@ -685,33 +685,33 @@
             this.tsmiSubUserLogout,
             this.tsmiSettlementInfoConfirm});
             this.cmsSubUser.Name = "cmsMstUser";
-            this.cmsSubUser.Size = new System.Drawing.Size(127, 92);
+            this.cmsSubUser.Size = new System.Drawing.Size(125, 92);
             // 
             // tsmiSelectAllSubUser
             // 
             this.tsmiSelectAllSubUser.Name = "tsmiSelectAllSubUser";
-            this.tsmiSelectAllSubUser.Size = new System.Drawing.Size(126, 22);
+            this.tsmiSelectAllSubUser.Size = new System.Drawing.Size(124, 22);
             this.tsmiSelectAllSubUser.Text = "全选";
             this.tsmiSelectAllSubUser.Click += new System.EventHandler(this.tsmiSelectAllSubUser_Click);
             // 
             // tsmiSubUserLogin
             // 
             this.tsmiSubUserLogin.Name = "tsmiSubUserLogin";
-            this.tsmiSubUserLogin.Size = new System.Drawing.Size(126, 22);
+            this.tsmiSubUserLogin.Size = new System.Drawing.Size(124, 22);
             this.tsmiSubUserLogin.Text = "登录";
             this.tsmiSubUserLogin.Click += new System.EventHandler(this.tsmiSubUserLogin_Click);
             // 
             // tsmiSubUserLogout
             // 
             this.tsmiSubUserLogout.Name = "tsmiSubUserLogout";
-            this.tsmiSubUserLogout.Size = new System.Drawing.Size(126, 22);
+            this.tsmiSubUserLogout.Size = new System.Drawing.Size(124, 22);
             this.tsmiSubUserLogout.Text = "注销";
             this.tsmiSubUserLogout.Click += new System.EventHandler(this.tsmiSubUserLogout_Click);
             // 
             // tsmiSettlementInfoConfirm
             // 
             this.tsmiSettlementInfoConfirm.Name = "tsmiSettlementInfoConfirm";
-            this.tsmiSettlementInfoConfirm.Size = new System.Drawing.Size(126, 22);
+            this.tsmiSettlementInfoConfirm.Size = new System.Drawing.Size(124, 22);
             this.tsmiSettlementInfoConfirm.Text = "结算确认";
             this.tsmiSettlementInfoConfirm.Click += new System.EventHandler(this.tsmiSettlementInfoConfirm_Click);
             // 
@@ -790,6 +790,11 @@
             // 
             this.numPrice.DecimalPlaces = 2;
             this.numPrice.Location = new System.Drawing.Point(54, 112);
+            this.numPrice.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
             this.numPrice.Name = "numPrice";
             this.numPrice.Size = new System.Drawing.Size(99, 21);
             this.numPrice.TabIndex = 7;
@@ -1086,109 +1091,6 @@
             this.dataGridViewEx1.Size = new System.Drawing.Size(789, 241);
             this.dataGridViewEx1.TabIndex = 0;
             // 
-            // dsSubTradeInfo
-            // 
-            this.dsSubTradeInfo.DataSource = typeof(WinCtp.TradeInfo);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.tcSubInstrument);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(387, 273);
-            this.groupBox1.TabIndex = 2;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "持仓";
-            // 
-            // tcSubInstrument
-            // 
-            this.tcSubInstrument.Controls.Add(this.tabPage1);
-            this.tcSubInstrument.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcSubInstrument.Location = new System.Drawing.Point(3, 17);
-            this.tcSubInstrument.Name = "tcSubInstrument";
-            this.tcSubInstrument.SelectedIndex = 0;
-            this.tcSubInstrument.Size = new System.Drawing.Size(381, 253);
-            this.tcSubInstrument.TabIndex = 0;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(373, 227);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // toolStrip
-            // 
-            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiUser,
-            this.ibtnBroker,
-            this.tsmiListen});
-            this.toolStrip.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(1190, 25);
-            this.toolStrip.TabIndex = 17;
-            this.toolStrip.Text = "toolStrip1";
-            // 
-            // tsmiUser
-            // 
-            this.tsmiUser.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ibtnUser,
-            this.ibtnOrderInsertConfig});
-            this.tsmiUser.Image = global::WinCtp.Properties.Resources.sms_type6;
-            this.tsmiUser.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsmiUser.Name = "tsmiUser";
-            this.tsmiUser.Size = new System.Drawing.Size(62, 22);
-            this.tsmiUser.Text = "账户";
-            // 
-            // ibtnUser
-            // 
-            this.ibtnUser.Image = global::WinCtp.Properties.Resources.man0;
-            this.ibtnUser.Name = "ibtnUser";
-            this.ibtnUser.Size = new System.Drawing.Size(126, 22);
-            this.ibtnUser.Text = "账户配置";
-            this.ibtnUser.Click += new System.EventHandler(this.ibtnUser_Click);
-            // 
-            // ibtnOrderInsertConfig
-            // 
-            this.ibtnOrderInsertConfig.Image = global::WinCtp.Properties.Resources._6;
-            this.ibtnOrderInsertConfig.Name = "ibtnOrderInsertConfig";
-            this.ibtnOrderInsertConfig.Size = new System.Drawing.Size(126, 22);
-            this.ibtnOrderInsertConfig.Text = "下单配置";
-            this.ibtnOrderInsertConfig.Click += new System.EventHandler(this.ibtnOrderInsertConfig_Click);
-            // 
-            // ibtnBroker
-            // 
-            this.ibtnBroker.Image = global::WinCtp.Properties.Resources.flag;
-            this.ibtnBroker.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ibtnBroker.Name = "ibtnBroker";
-            this.ibtnBroker.Size = new System.Drawing.Size(79, 22);
-            this.ibtnBroker.Text = "期货公司";
-            this.ibtnBroker.Click += new System.EventHandler(this.ibtnBroker_Click);
-            // 
-            // tsmiListen
-            // 
-            this.tsmiListen.Image = global::WinCtp.Properties.Resources.clock;
-            this.tsmiListen.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsmiListen.Name = "tsmiListen";
-            this.tsmiListen.Size = new System.Drawing.Size(79, 22);
-            this.tsmiListen.Text = "启动监听";
-            this.tsmiListen.ToolTipText = "启动监听";
-            this.tsmiListen.Click += new System.EventHandler(this.tsmiListen_Click);
-            // 
-            // timerQryTrade
-            // 
-            this.timerQryTrade.Interval = 10000;
-            this.timerQryTrade.Tick += new System.EventHandler(this.timerQryTrade_Tick);
-            // 
-            // timerFollowOrder
-            // 
-            this.timerFollowOrder.Interval = 3000;
-            this.timerFollowOrder.Tick += new System.EventHandler(this.timerFollowOrder_Tick);
-            // 
             // investorIdDataGridViewTextBoxColumn
             // 
             this.investorIdDataGridViewTextBoxColumn.DataPropertyName = "InvestorId";
@@ -1274,6 +1176,109 @@
             this.exchangeIdDataGridViewTextBoxColumn.Name = "exchangeIdDataGridViewTextBoxColumn";
             this.exchangeIdDataGridViewTextBoxColumn.ReadOnly = true;
             this.exchangeIdDataGridViewTextBoxColumn.Width = 66;
+            // 
+            // dsSubTradeInfo
+            // 
+            this.dsSubTradeInfo.DataSource = typeof(WinCtp.TradeInfo);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.tcSubInstrument);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(387, 273);
+            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "持仓";
+            // 
+            // tcSubInstrument
+            // 
+            this.tcSubInstrument.Controls.Add(this.tabPage1);
+            this.tcSubInstrument.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcSubInstrument.Location = new System.Drawing.Point(3, 17);
+            this.tcSubInstrument.Name = "tcSubInstrument";
+            this.tcSubInstrument.SelectedIndex = 0;
+            this.tcSubInstrument.Size = new System.Drawing.Size(381, 253);
+            this.tcSubInstrument.TabIndex = 0;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(373, 227);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // toolStrip
+            // 
+            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiUser,
+            this.ibtnBroker,
+            this.tsmiListen});
+            this.toolStrip.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip.Name = "toolStrip";
+            this.toolStrip.Size = new System.Drawing.Size(1190, 25);
+            this.toolStrip.TabIndex = 17;
+            this.toolStrip.Text = "toolStrip1";
+            // 
+            // tsmiUser
+            // 
+            this.tsmiUser.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ibtnUser,
+            this.ibtnOrderInsertConfig});
+            this.tsmiUser.Image = global::WinCtp.Properties.Resources.sms_type6;
+            this.tsmiUser.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsmiUser.Name = "tsmiUser";
+            this.tsmiUser.Size = new System.Drawing.Size(61, 22);
+            this.tsmiUser.Text = "账户";
+            // 
+            // ibtnUser
+            // 
+            this.ibtnUser.Image = global::WinCtp.Properties.Resources.man0;
+            this.ibtnUser.Name = "ibtnUser";
+            this.ibtnUser.Size = new System.Drawing.Size(124, 22);
+            this.ibtnUser.Text = "账户配置";
+            this.ibtnUser.Click += new System.EventHandler(this.ibtnUser_Click);
+            // 
+            // ibtnOrderInsertConfig
+            // 
+            this.ibtnOrderInsertConfig.Image = global::WinCtp.Properties.Resources._6;
+            this.ibtnOrderInsertConfig.Name = "ibtnOrderInsertConfig";
+            this.ibtnOrderInsertConfig.Size = new System.Drawing.Size(124, 22);
+            this.ibtnOrderInsertConfig.Text = "下单配置";
+            this.ibtnOrderInsertConfig.Click += new System.EventHandler(this.ibtnOrderInsertConfig_Click);
+            // 
+            // ibtnBroker
+            // 
+            this.ibtnBroker.Image = global::WinCtp.Properties.Resources.flag;
+            this.ibtnBroker.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ibtnBroker.Name = "ibtnBroker";
+            this.ibtnBroker.Size = new System.Drawing.Size(76, 22);
+            this.ibtnBroker.Text = "期货公司";
+            this.ibtnBroker.Click += new System.EventHandler(this.ibtnBroker_Click);
+            // 
+            // tsmiListen
+            // 
+            this.tsmiListen.Image = global::WinCtp.Properties.Resources.clock;
+            this.tsmiListen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsmiListen.Name = "tsmiListen";
+            this.tsmiListen.Size = new System.Drawing.Size(76, 22);
+            this.tsmiListen.Text = "启动监听";
+            this.tsmiListen.ToolTipText = "启动监听";
+            this.tsmiListen.Click += new System.EventHandler(this.tsmiListen_Click);
+            // 
+            // timerQryTrade
+            // 
+            this.timerQryTrade.Interval = 10000;
+            this.timerQryTrade.Tick += new System.EventHandler(this.timerQryTrade_Tick);
+            // 
+            // timerFollowOrder
+            // 
+            this.timerFollowOrder.Interval = 3000;
+            this.timerFollowOrder.Tick += new System.EventHandler(this.timerFollowOrder_Tick);
             // 
             // FrmMain
             // 

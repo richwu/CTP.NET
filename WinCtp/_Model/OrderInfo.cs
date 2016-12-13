@@ -81,6 +81,11 @@ namespace WinCtp
         public string CombOffsetFlag { get; set; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public string CombHedgeFlag { get; set; }
+
+        /// <summary>
         /// 异常消息。
         /// </summary>
         public string ErrorMsg { get; set; }
