@@ -92,9 +92,9 @@ namespace WinCtp
                 api.OnRspSettlementInfoConfirm += OnRspSettlementInfoConfirm;
                 api.OnRspQrySettlementInfoConfirm += OnRspQrySettlementInfoConfirm;
 
-                api.SubscribePrivateTopic(CtpResumeType.Quick);
+                api.SubscribePrivateTopic(CtpResumeType.Restart);
                 api.SubscribePublicTopic(CtpResumeType.Quick);
-
+                
                 ua.Start();
                 UserApi.This[u.UserId] = ua;
             }
@@ -564,6 +564,8 @@ namespace WinCtp
                     continue;
                 qry.BrokerID = user.BrokerId;
                 qry.InvestorID = user.UserId;
+                qry.InstrumentID = "TA705";
+                qry.ExchangeID = "";
                 var api = user.TraderApi();
                 var reqId = RequestId.TradeQryId();
                 var rsp = api.ReqQryTrade(qry, reqId);
