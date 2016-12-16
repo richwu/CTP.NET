@@ -87,10 +87,12 @@ namespace WinCtp
                 api.OnRspQryInvestorPositionDetail += OnRspQryInvestorPositionDetail;
 
                 api.OnRspQryTrade += OnRspQryTrade;
+                api.OnRspQryOrder += OnRspQryOrder;
 
                 api.OnRspQrySettlementInfo += OnRspQrySettlementInfo;
                 api.OnRspSettlementInfoConfirm += OnRspSettlementInfoConfirm;
                 api.OnRspQrySettlementInfoConfirm += OnRspQrySettlementInfoConfirm;
+                api.OnRspQryInstrument += OnRspQryInstrument;
 
                 api.SubscribePrivateTopic(CtpResumeType.Restart);
                 api.SubscribePublicTopic(CtpResumeType.Quick);
@@ -193,8 +195,20 @@ namespace WinCtp
             var req = new CtpQrySettlementInfoConfirm();
             req.BrokerID = u.BrokerId;
             req.InvestorID = u.UserId;
-            var rsp = api.ReqQrySettlementInfoConfirm(req, 0);
-            _log.DebugFormat("ReqQrySettlementInfoConfirm:{0}\nrequest:{1}", Rsp.This[rsp], JsonConvert.SerializeObject(req));
+            var reqId = RequestId.NewId();
+            var rsp = api.ReqQrySettlementInfoConfirm(req, reqId);
+            _log.DebugFormat("ReqQrySettlementInfoConfirm[{0}]:{1}\nrequest:{2}", reqId,
+                Rsp.This[rsp], JsonConvert.SerializeObject(req));
+        }
+
+        private void QryInstrument(CtpUserInfo u)
+        {
+            var api = u.TraderApi();
+            var req = new CtpQryInstrument();
+            var reqId = RequestId.NewId();
+            var rsp = api.ReqQryInstrument(req, reqId);
+            _log.DebugFormat("ReqQryInstrument[{0}]:{1}\nrequest:{2}", reqId,
+                Rsp.This[rsp], JsonConvert.SerializeObject(req));
         }
 
         /// <summary>
@@ -298,6 +312,14 @@ namespace WinCtp
                 JsonConvert.SerializeObject(rspInfo));
         }
 
+        private void OnRspQryInstrument(object sender, CtpInstrument response, CtpRspInfo rspInfo, int requestId, bool isLast)
+        {
+            _log.DebugFormat("OnRspQryInstrument[{0}]\nresponse:{1}\nrspInfo:{2}",
+                requestId,
+                JsonConvert.SerializeObject(response),
+                JsonConvert.SerializeObject(rspInfo));
+        }
+
         #region 账户
 
         private void OnRspUserLogout(object sender, CtpUserLogout response, CtpRspInfo rspInfo, int requestId, bool isLast)
@@ -386,6 +408,7 @@ namespace WinCtp
                 //t.Start();
 
                 QrySettlementInfoConfirm(u);
+                QryInstrument(u);
                 //QryInvestorPosition(u);
                 return;
             }
@@ -564,16 +587,24 @@ namespace WinCtp
                     continue;
                 qry.BrokerID = user.BrokerId;
                 qry.InvestorID = user.UserId;
-                qry.InstrumentID = "TA705";
-                qry.ExchangeID = "CZCE";
-                qry.TradeTimeStart = DateTime.Now.AddDays(-1).ToString("yyyyMMdd");
-                qry.TradeTimeEnd = DateTime.Now.AddDays(1).ToString("yyyyMMdd");
+                //qry.InstrumentID = "TA705";
+                //qry.ExchangeID = "CZCE";
+                //qry.TradeTimeStart = DateTime.Now.AddDays(-1).ToString("yyyyMMdd");
+                //qry.TradeTimeEnd = DateTime.Now.AddDays(1).ToString("yyyyMMdd");
                 var api = user.TraderApi();
                 var reqId = RequestId.TradeQryId();
                 var rsp = api.ReqQryTrade(qry, reqId);
                 _log.DebugFormat("ReqQryTrade[{0}]:{1}\nrequest:{2}", 
                     reqId, Rsp.This[rsp],
                     JsonConvert.SerializeObject(qry));
+
+                var req = new CtpQryOrder();
+                req.BrokerID = user.BrokerId;
+                req.InvestorID = user.UserId;
+                rsp = api.ReqQryOrder(req, reqId);
+                _log.DebugFormat("ReqQryOrder[{0}]:{1}\nrequest:{2}",
+                    reqId, Rsp.This[rsp],
+                    JsonConvert.SerializeObject(req));
             }
         }
 
@@ -588,6 +619,14 @@ namespace WinCtp
                 JsonConvert.SerializeObject(rspInfo));
             if (rspInfo != null && rspInfo.ErrorID == 0 && response != null)
                 _tradeQueue.Enqueue(response);
+        }
+
+        private void OnRspQryOrder(object sender, CtpOrder response, CtpRspInfo rspInfo, int requestId, bool isLast)
+        {
+            _log.DebugFormat("OnRspQryOrder[{0}]\nresponse:{1}\nrspInfo:{2}",
+                requestId,
+                JsonConvert.SerializeObject(response),
+                JsonConvert.SerializeObject(rspInfo));
         }
         #endregion
 
