@@ -86,7 +86,7 @@ namespace WinCtp
         /// <summary>
         /// 价格。
         /// </summary>
-        /// <remarks>GT0限价，LE0市价</remarks>
+        /// <remarks>&gt;0限价，&lt;=0市价</remarks>
         public double Price { get; set; }
 
         /// <summary>
@@ -117,6 +117,7 @@ namespace WinCtp
                 ps["MstUserID"] = MstUserId;
                 ps["Instrument"] = Instrument;
                 ps["Volume"] = Volume;
+                ps["Price"] = Price;
                 ps["IsInverse"] = IsInverse;
                 sql.Insert("CfgUserInserOrder", ps);
                 con.Close();
@@ -133,6 +134,7 @@ namespace WinCtp
                 var ps = new Dictionary<string, object>();
                 ps["Instrument"] = Instrument;
                 ps["Volume"] = Volume;
+                ps["Price"] = Price;
                 ps["IsInverse"] = IsInverse;
                 sql.Update("CfgUserInserOrder", ps, new Dictionary<string, object>()
                 {

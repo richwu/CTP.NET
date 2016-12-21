@@ -33,9 +33,18 @@
             System.Windows.Forms.Label mstUserIdLabel;
             System.Windows.Forms.Label subUserIdLabel;
             System.Windows.Forms.Label volumeLabel;
+            System.Windows.Forms.Label priceLabel;
+            System.Windows.Forms.Label label1;
+            System.Windows.Forms.Label label2;
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpMst = new System.Windows.Forms.TabPage();
             this.gvData = new WinCtp.DataGridViewEx();
+            this.subUserIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.instrumentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mstUserIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gcPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.volumeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isInverseDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dsData = new System.Windows.Forms.BindingSource(this.components);
             this.tpDet = new System.Windows.Forms.TabPage();
             this.volumeTextBox = new System.Windows.Forms.TextBox();
@@ -54,16 +63,14 @@
             this.ibtnDelete = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.ibtnClose = new System.Windows.Forms.ToolStripButton();
-            this.subUserIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.instrumentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.mstUserIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gcPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.volumeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.isInverseDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.priceTextBox = new System.Windows.Forms.TextBox();
             instrumentLabel = new System.Windows.Forms.Label();
             mstUserIdLabel = new System.Windows.Forms.Label();
             subUserIdLabel = new System.Windows.Forms.Label();
             volumeLabel = new System.Windows.Forms.Label();
+            priceLabel = new System.Windows.Forms.Label();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
             this.tcMain.SuspendLayout();
             this.tpMst.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvData)).BeginInit();
@@ -102,7 +109,7 @@
             // volumeLabel
             // 
             volumeLabel.AutoSize = true;
-            volumeLabel.Location = new System.Drawing.Point(9, 114);
+            volumeLabel.Location = new System.Drawing.Point(202, 47);
             volumeLabel.Name = "volumeLabel";
             volumeLabel.Size = new System.Drawing.Size(59, 12);
             volumeLabel.TabIndex = 8;
@@ -155,6 +162,54 @@
             this.gvData.TabIndex = 0;
             this.gvData.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellContentDoubleClick);
             // 
+            // subUserIdDataGridViewTextBoxColumn
+            // 
+            this.subUserIdDataGridViewTextBoxColumn.DataPropertyName = "SubUserId";
+            this.subUserIdDataGridViewTextBoxColumn.HeaderText = "子账户";
+            this.subUserIdDataGridViewTextBoxColumn.Name = "subUserIdDataGridViewTextBoxColumn";
+            this.subUserIdDataGridViewTextBoxColumn.ReadOnly = true;
+            this.subUserIdDataGridViewTextBoxColumn.Width = 66;
+            // 
+            // instrumentDataGridViewTextBoxColumn
+            // 
+            this.instrumentDataGridViewTextBoxColumn.DataPropertyName = "Instrument";
+            this.instrumentDataGridViewTextBoxColumn.HeaderText = "品种";
+            this.instrumentDataGridViewTextBoxColumn.Name = "instrumentDataGridViewTextBoxColumn";
+            this.instrumentDataGridViewTextBoxColumn.ReadOnly = true;
+            this.instrumentDataGridViewTextBoxColumn.Width = 54;
+            // 
+            // mstUserIdDataGridViewTextBoxColumn
+            // 
+            this.mstUserIdDataGridViewTextBoxColumn.DataPropertyName = "MstUserId";
+            this.mstUserIdDataGridViewTextBoxColumn.HeaderText = "主账户";
+            this.mstUserIdDataGridViewTextBoxColumn.Name = "mstUserIdDataGridViewTextBoxColumn";
+            this.mstUserIdDataGridViewTextBoxColumn.ReadOnly = true;
+            this.mstUserIdDataGridViewTextBoxColumn.Width = 66;
+            // 
+            // gcPrice
+            // 
+            this.gcPrice.DataPropertyName = "Price";
+            this.gcPrice.HeaderText = "价格";
+            this.gcPrice.Name = "gcPrice";
+            this.gcPrice.ReadOnly = true;
+            this.gcPrice.Width = 54;
+            // 
+            // volumeDataGridViewTextBoxColumn
+            // 
+            this.volumeDataGridViewTextBoxColumn.DataPropertyName = "Volume";
+            this.volumeDataGridViewTextBoxColumn.HeaderText = "手数倍率";
+            this.volumeDataGridViewTextBoxColumn.Name = "volumeDataGridViewTextBoxColumn";
+            this.volumeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.volumeDataGridViewTextBoxColumn.Width = 78;
+            // 
+            // isInverseDataGridViewCheckBoxColumn
+            // 
+            this.isInverseDataGridViewCheckBoxColumn.DataPropertyName = "IsInverse";
+            this.isInverseDataGridViewCheckBoxColumn.HeaderText = "是否反向";
+            this.isInverseDataGridViewCheckBoxColumn.Name = "isInverseDataGridViewCheckBoxColumn";
+            this.isInverseDataGridViewCheckBoxColumn.ReadOnly = true;
+            this.isInverseDataGridViewCheckBoxColumn.Width = 59;
+            // 
             // dsData
             // 
             this.dsData.DataSource = typeof(WinCtp.UserInserOrderConfig);
@@ -162,6 +217,10 @@
             // tpDet
             // 
             this.tpDet.AutoScroll = true;
+            this.tpDet.Controls.Add(label2);
+            this.tpDet.Controls.Add(label1);
+            this.tpDet.Controls.Add(priceLabel);
+            this.tpDet.Controls.Add(this.priceTextBox);
             this.tpDet.Controls.Add(volumeLabel);
             this.tpDet.Controls.Add(this.volumeTextBox);
             this.tpDet.Controls.Add(subUserIdLabel);
@@ -182,7 +241,7 @@
             // volumeTextBox
             // 
             this.volumeTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.dsData, "Volume", true));
-            this.volumeTextBox.Location = new System.Drawing.Point(74, 111);
+            this.volumeTextBox.Location = new System.Drawing.Point(267, 44);
             this.volumeTextBox.Name = "volumeTextBox";
             this.volumeTextBox.ReadOnly = true;
             this.volumeTextBox.Size = new System.Drawing.Size(100, 21);
@@ -227,7 +286,7 @@
             this.instrumentTextBox.Location = new System.Drawing.Point(74, 75);
             this.instrumentTextBox.Name = "instrumentTextBox";
             this.instrumentTextBox.ReadOnly = true;
-            this.instrumentTextBox.Size = new System.Drawing.Size(100, 21);
+            this.instrumentTextBox.Size = new System.Drawing.Size(187, 21);
             this.instrumentTextBox.TabIndex = 1;
             this.instrumentTextBox.Tag = "New Edit";
             // 
@@ -334,53 +393,42 @@
             this.ibtnClose.Text = "关闭";
             this.ibtnClose.Click += new System.EventHandler(this.ibtnClose_Click);
             // 
-            // subUserIdDataGridViewTextBoxColumn
+            // priceLabel
             // 
-            this.subUserIdDataGridViewTextBoxColumn.DataPropertyName = "SubUserId";
-            this.subUserIdDataGridViewTextBoxColumn.HeaderText = "子账户";
-            this.subUserIdDataGridViewTextBoxColumn.Name = "subUserIdDataGridViewTextBoxColumn";
-            this.subUserIdDataGridViewTextBoxColumn.ReadOnly = true;
-            this.subUserIdDataGridViewTextBoxColumn.Width = 66;
+            priceLabel.AutoSize = true;
+            priceLabel.Location = new System.Drawing.Point(33, 111);
+            priceLabel.Name = "priceLabel";
+            priceLabel.Size = new System.Drawing.Size(35, 12);
+            priceLabel.TabIndex = 9;
+            priceLabel.Text = "价格:";
             // 
-            // instrumentDataGridViewTextBoxColumn
+            // priceTextBox
             // 
-            this.instrumentDataGridViewTextBoxColumn.DataPropertyName = "Instrument";
-            this.instrumentDataGridViewTextBoxColumn.HeaderText = "品种";
-            this.instrumentDataGridViewTextBoxColumn.Name = "instrumentDataGridViewTextBoxColumn";
-            this.instrumentDataGridViewTextBoxColumn.ReadOnly = true;
-            this.instrumentDataGridViewTextBoxColumn.Width = 54;
+            this.priceTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.dsData, "Price", true));
+            this.priceTextBox.Location = new System.Drawing.Point(74, 108);
+            this.priceTextBox.Name = "priceTextBox";
+            this.priceTextBox.ReadOnly = true;
+            this.priceTextBox.Size = new System.Drawing.Size(100, 21);
+            this.priceTextBox.TabIndex = 10;
+            this.priceTextBox.Tag = "New Edit";
             // 
-            // mstUserIdDataGridViewTextBoxColumn
+            // label1
             // 
-            this.mstUserIdDataGridViewTextBoxColumn.DataPropertyName = "MstUserId";
-            this.mstUserIdDataGridViewTextBoxColumn.HeaderText = "主账户";
-            this.mstUserIdDataGridViewTextBoxColumn.Name = "mstUserIdDataGridViewTextBoxColumn";
-            this.mstUserIdDataGridViewTextBoxColumn.ReadOnly = true;
-            this.mstUserIdDataGridViewTextBoxColumn.Width = 66;
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(180, 111);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(95, 12);
+            label1.TabIndex = 11;
+            label1.Text = ">0限价，<=0市价";
             // 
-            // gcPrice
+            // label2
             // 
-            this.gcPrice.DataPropertyName = "Price";
-            this.gcPrice.HeaderText = "价格";
-            this.gcPrice.Name = "gcPrice";
-            this.gcPrice.ReadOnly = true;
-            this.gcPrice.Width = 54;
-            // 
-            // volumeDataGridViewTextBoxColumn
-            // 
-            this.volumeDataGridViewTextBoxColumn.DataPropertyName = "Volume";
-            this.volumeDataGridViewTextBoxColumn.HeaderText = "手数倍率";
-            this.volumeDataGridViewTextBoxColumn.Name = "volumeDataGridViewTextBoxColumn";
-            this.volumeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.volumeDataGridViewTextBoxColumn.Width = 78;
-            // 
-            // isInverseDataGridViewCheckBoxColumn
-            // 
-            this.isInverseDataGridViewCheckBoxColumn.DataPropertyName = "IsInverse";
-            this.isInverseDataGridViewCheckBoxColumn.HeaderText = "是否反向";
-            this.isInverseDataGridViewCheckBoxColumn.Name = "isInverseDataGridViewCheckBoxColumn";
-            this.isInverseDataGridViewCheckBoxColumn.ReadOnly = true;
-            this.isInverseDataGridViewCheckBoxColumn.Width = 59;
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(267, 78);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(77, 12);
+            label2.TabIndex = 12;
+            label2.Text = "英文逗号分隔";
             // 
             // FrmUserInsertOrderConfig
             // 
@@ -434,5 +482,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn gcPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn volumeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn isInverseDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.TextBox priceTextBox;
     }
 }
