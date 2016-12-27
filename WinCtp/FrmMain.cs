@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using GalaxyFutures.Sfit.Api;
 using log4net;
@@ -16,14 +15,13 @@ namespace WinCtp
     public partial class FrmMain : Form , IMainView
     {
         private readonly ILog _log;
-        private readonly  ConcurrentQueue<CtpTrade> _tradeQueue;
+        private readonly ConcurrentQueue<CtpTrade> _tradeQueue;//成交单队列
+        private readonly ConcurrentQueue<InvestorPositionInfo> _positionQueue;//持仓队列
 
         private readonly BackgroundWorker _workerQryTrade;
         private readonly BackgroundWorker _workerFollowOrder;
 
         private readonly IDictionary<string, BindingSource> _dicds;
-
-        private readonly TaskScheduler _syncSch;
 
         #region 初始化
         public FrmMain()
@@ -31,10 +29,10 @@ namespace WinCtp
             InitializeComponent();
             _log = LogManager.GetLogger("CTP");
             _tradeQueue = new ConcurrentQueue<CtpTrade>();
+            _positionQueue = new ConcurrentQueue<InvestorPositionInfo>();
             _dicds = new ConcurrentDictionary<string, BindingSource>();
             _workerQryTrade = new BackgroundWorker();
             _workerFollowOrder = new BackgroundWorker();
-            _syncSch = TaskScheduler.FromCurrentSynchronizationContext();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -54,12 +52,40 @@ namespace WinCtp
             timerQryTrade.Interval = 10*1000;
             timerFollowOrder.Enabled = true;
             timerFollowOrder.Interval = 5 * 1000;
+            timerSyncData.Enabled = true;
+            timerSyncData.Interval = 5 * 1000;
 
             var brokers = BrokerInfo.GetAll();
             var users = UserInfoList.Load();
             var mstUsers = users.GetMst();
             dsMstUser.DataSource = mstUsers;
+            foreach (var u in mstUsers)
+            {
+                if (!_dicds.ContainsKey(u.UserId))
+                    _dicds[u.UserId] = new BindingSource { DataSource = typeof(InvestorPositionInfo) };
+                var ds = _dicds[u.UserId];
+                ds.Clear();
+                var tp = new TabPage(u.UserId);
+                tp.Name = $"tpp{u.UserId}";
+                var gv = CreatePosGridView(u.UserId);
+                gv.DataSource = ds;
+                tp.Controls.Add(gv);
+                tcMstInstrument.TabPages.Add(tp);
+            }
             var subUsers = users.GetSub();
+            foreach (var u in subUsers)
+            {
+                if (!_dicds.ContainsKey(u.UserId))
+                    _dicds[u.UserId] = new BindingSource { DataSource = typeof(InvestorPositionInfo) };
+                var ds = _dicds[u.UserId];
+                ds.Clear();
+                var tp = new TabPage(u.UserId);
+                tp.Name = $"tpp{u.UserId}";
+                var gv = CreatePosGridView(u.UserId);
+                gv.DataSource = ds;
+                tp.Controls.Add(gv);
+                tcSubInstrument.TabPages.Add(tp);
+            }
             dsSubUser.DataSource = subUsers;
 
             var us = new List<CtpUserInfo>();
@@ -378,34 +404,7 @@ namespace WinCtp
                     continue;
                 u.IsLogin = true;
                 dsMstUser.ResetItem(i);
-                try
-                {
-                    if (!_dicds.ContainsKey(u.UserId))
-                        _dicds[u.UserId] = new BindingSource { DataSource = typeof(InvestorPositionInfo) };
-                    var ds = _dicds[u.UserId];
-                    ds.Clear();
-                    //得到一个同步上下文调度器
-                    var t = new Task(() =>
-                    {
-                        var tp = new TabPage(u.UserId);
-                        tp.Name = $"tpp{u.UserId}";
-                        var gv = CreatePosGridView(u.UserId);
-                        gv.DataSource = ds;
-                        tp.Controls.Add(gv);
-                        tcMstInstrument.TabPages.Add(tp);
-                    });
-
-                    ////在Task的ContinueWith方法中，指定这个同步上下文调度器，我们更新了form的Text属性
-                    ////去掉这个syncSch，你就会发现要出异常
-                    t.ContinueWith(task => task, _syncSch);
-                    t.Start(_syncSch);
-                    QryInvestorPosition(u);
-                }
-                catch (Exception ex)
-                {
-                    _log.Error("主账户设置持仓失败", ex);
-                }
-                
+                QryInvestorPosition(u);
                 return;
             }
             //子账户登录
@@ -423,32 +422,7 @@ namespace WinCtp
                 }
                 dsSubUser.ResetItem(i);
 
-                try
-                {
-                    if (!_dicds.ContainsKey(u.UserId))
-                        _dicds[u.UserId] = new BindingSource { DataSource = typeof(InvestorPositionInfo) };
-                    var ds = _dicds[u.UserId];
-                    ds.Clear();
-
-                    var t = new Task(() =>
-                    {
-                        var tp = new TabPage(u.UserId);
-                        tp.Name = $"tpp{u.UserId}";
-                        var gv = CreatePosGridView(u.UserId);
-                        gv.DataSource = ds;
-                        tp.Controls.Add(gv);
-                        tcSubInstrument.TabPages.Add(tp);
-                    });
-
-                    t.ContinueWith(task => task, _syncSch);
-                    t.Start(_syncSch);
-                    QryInvestorPosition(u);
-                }
-                catch (Exception ex)
-                {
-                    _log.Error("子账户设置持仓失败", ex);
-                }
-
+                QryInvestorPosition(u);
                 QrySettlementInfoConfirm(u);
                 QryInstrument(u);
                 
@@ -924,24 +898,7 @@ namespace WinCtp
                 return;
             if (response == null)
                 return;
-            foreach (CtpUserInfo u in dsSubUser)
-            {
-                if(u.UserId != response.InvestorID)
-                    continue;
-                var ds = _dicds[response.InvestorID];
-                var info = new InvestorPositionInfo(response);
-                ds.Add(info);
-                return;
-            }
-            foreach (CtpUserInfo u in dsMstUser)
-            {
-                if (u.UserId != response.InvestorID)
-                    continue;
-                var ds = _dicds[response.InvestorID];
-                var info = new InvestorPositionInfo(response);
-                ds.Add(info);
-                return;
-            }
+            _positionQueue.Enqueue(new InvestorPositionInfo(response));
         }
 
         /// <summary>
@@ -957,5 +914,25 @@ namespace WinCtp
                 return;
         }
         #endregion
+
+        /// <summary>
+        /// 通用同步数据触发。
+        /// </summary>
+        private void timerSyncData_Tick(object sender, EventArgs e)
+        {
+            if (!_positionQueue.IsEmpty)
+            {
+                InvestorPositionInfo info;
+                while (_positionQueue.TryDequeue(out info))
+                {
+                    BindingSource ds;
+                    if (_dicds.TryGetValue(info.InvestorId, out ds))
+                    {
+                        ds.Add(info);
+                    }
+                }
+            }
+            //
+        }
     }
 }
