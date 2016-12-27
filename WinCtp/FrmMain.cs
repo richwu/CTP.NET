@@ -40,6 +40,8 @@ namespace WinCtp
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+
+            tpMstOrder.Parent = null;
             
             tcSubInstrument.TabPages.Clear();
             tcMstInstrument.TabPages.Clear();
@@ -113,6 +115,7 @@ namespace WinCtp
             cmbDirection.Bind(ludir);
             gcSubOrderDirection.Bind(ludir);
             gcSubTradeDirection.Bind(ludir);
+            gcMstTradeDirection.Bind(ludir);
             //开平标志
             var luof = new List<LookupObject>
             {
@@ -129,7 +132,6 @@ namespace WinCtp
                 new LookupObject(((char)CtpOffsetFlagType.Close).ToString(), "平")
             };
             gcSubOrderCombOffsetFlag.Bind(lucof);
-            gcMstTradeOffsetFlag.Bind(lucof);
             //报单状态
             var lustatus = new List<LookupObject>
             {
@@ -320,6 +322,8 @@ namespace WinCtp
                 requestId,
                 JsonConvert.SerializeObject(response),
                 JsonConvert.SerializeObject(rspInfo));
+            if(rspInfo != null && rspInfo.ErrorID != 0)
+                return;
         }
 
         #region 账户
@@ -360,7 +364,7 @@ namespace WinCtp
                 requestId,
                 JsonConvert.SerializeObject(response), 
                 JsonConvert.SerializeObject(rspInfo));
-            if (rspInfo == null || rspInfo.ErrorID != 0)
+            if (rspInfo != null && rspInfo.ErrorID != 0)
                 return;
             //主账户登录
             for (var i = 0; i < dsMstUser.Count; i++)
@@ -370,7 +374,34 @@ namespace WinCtp
                     continue;
                 u.IsLogin = true;
                 dsMstUser.ResetItem(i);
-                QryInvestorPosition(u);
+                try
+                {
+                    if (!_dicds.ContainsKey(u.UserId))
+                        _dicds[u.UserId] = new BindingSource { DataSource = typeof(InvestorPositionInfo) };
+                    var ds = _dicds[u.UserId];
+                    ds.Clear();
+                    //得到一个同步上下文调度器
+                    var t = new Task(() =>
+                    {
+                        var tp = new TabPage(u.UserId);
+                        tp.Name = $"tpp{u.UserId}";
+                        var gv = CreatePosGridView(u.UserId);
+                        gv.DataSource = ds;
+                        tp.Controls.Add(gv);
+                        tcMstInstrument.TabPages.Add(tp);
+                    });
+
+                    ////在Task的ContinueWith方法中，指定这个同步上下文调度器，我们更新了form的Text属性
+                    ////去掉这个syncSch，你就会发现要出异常
+                    t.ContinueWith(task => task, _syncSch);
+                    t.Start(_syncSch);
+                    QryInvestorPosition(u);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error("主账户设置持仓失败", ex);
+                }
+                
                 return;
             }
             //子账户登录
@@ -388,30 +419,35 @@ namespace WinCtp
                 }
                 dsSubUser.ResetItem(i);
 
-                if (!_dicds.ContainsKey(u.UserId))
-                    _dicds[u.UserId] = new BindingSource { DataSource = typeof(InvestorPositionInfo) };
-                var ds = _dicds[u.UserId];
-                ds.Clear();
+                try
+                {
+                    if (!_dicds.ContainsKey(u.UserId))
+                        _dicds[u.UserId] = new BindingSource { DataSource = typeof(InvestorPositionInfo) };
+                    var ds = _dicds[u.UserId];
+                    ds.Clear();
 
-                //得到一个同步上下文调度器
-                //var t = new Task(() =>
-                //{
-                //    var tp = new TabPage(u.UserId);
-                //    tp.Name = $"tpp{u.UserId}";
-                //    var gv = CreatePosGridView(u.UserId);
-                //    gv.DataSource = ds;
-                //    tp.Controls.Add(gv);
-                //    tcSubInstrument.TabPages.Add(tp);
-                //});
+                    var t = new Task(() =>
+                    {
+                        var tp = new TabPage(u.UserId);
+                        tp.Name = $"tpp{u.UserId}";
+                        var gv = CreatePosGridView(u.UserId);
+                        gv.DataSource = ds;
+                        tp.Controls.Add(gv);
+                        tcSubInstrument.TabPages.Add(tp);
+                    });
 
-                ////在Task的ContinueWith方法中，指定这个同步上下文调度器，我们更新了form的Text属性
-                ////去掉这个syncSch，你就会发现要出异常
-                //t.ContinueWith(task => task, _syncSch);
-                //t.Start();
+                    t.ContinueWith(task => task, _syncSch);
+                    t.Start(_syncSch);
+                    QryInvestorPosition(u);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error("子账户设置持仓失败", ex);
+                }
 
                 QrySettlementInfoConfirm(u);
                 QryInstrument(u);
-                //QryInvestorPosition(u);
+                
                 return;
             }
         }
@@ -419,6 +455,9 @@ namespace WinCtp
         private static DataGridViewEx CreatePosGridView(string userId)
         {
             var gv = new DataGridViewEx();
+            gv.AllowUserToAddRows = false;
+            gv.AllowUserToDeleteRows = false;
+            gv.ReadOnly = true;
             gv.Visible = true;
             gv.Name = $"gvp{userId}";
             gv.Columns.AddRange(
@@ -877,7 +916,9 @@ namespace WinCtp
                 requestId,
                 JsonConvert.SerializeObject(rspInfo), 
                 JsonConvert.SerializeObject(response));
-            if (rspInfo == null || rspInfo.ErrorID != 0 || response == null)
+            if (rspInfo != null && rspInfo.ErrorID != 0)
+                return;
+            if (response == null)
                 return;
             foreach (CtpUserInfo u in dsSubUser)
             {

@@ -40,6 +40,8 @@
             this.ibtnCancel = new System.Windows.Forms.ToolStripButton();
             this.ibtnSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ibtnDelete = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ibtnClose = new System.Windows.Forms.ToolStripButton();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpMst = new System.Windows.Forms.TabPage();
@@ -55,8 +57,6 @@
             this.userNameTextBox = new System.Windows.Forms.TextBox();
             this.userIdTextBox = new System.Windows.Forms.TextBox();
             this.isSubCheckBox = new System.Windows.Forms.CheckBox();
-            this.ibtnDelete = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             brokerIdLabel = new System.Windows.Forms.Label();
             userIdLabel = new System.Windows.Forms.Label();
             userNameLabel = new System.Windows.Forms.Label();
@@ -177,6 +177,20 @@
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // ibtnDelete
+            // 
+            this.ibtnDelete.Image = global::WinCtp.Properties.Resources.delete;
+            this.ibtnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ibtnDelete.Name = "ibtnDelete";
+            this.ibtnDelete.Size = new System.Drawing.Size(53, 22);
+            this.ibtnDelete.Text = "删除";
+            this.ibtnDelete.Click += new System.EventHandler(this.ibtnDelete_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // ibtnClose
             // 
@@ -342,20 +356,6 @@
             this.isSubCheckBox.Tag = "New Edit";
             this.isSubCheckBox.Text = "子账户";
             this.isSubCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // ibtnDelete
-            // 
-            this.ibtnDelete.Image = global::WinCtp.Properties.Resources.delete;
-            this.ibtnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ibtnDelete.Name = "ibtnDelete";
-            this.ibtnDelete.Size = new System.Drawing.Size(53, 22);
-            this.ibtnDelete.Text = "删除";
-            this.ibtnDelete.Click += new System.EventHandler(this.ibtnDelete_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // FrmUser
             // 
