@@ -121,6 +121,7 @@ namespace WinCtp
             };
             cmbOffsetFlag.Bind(luof);
             gcSubTradeOffsetFlag.Bind(luof);
+            gcMstTradeOffsetFlag.Bind(luof);
             //组合开平标志
             var lucof = new List<LookupObject>
             {
@@ -128,6 +129,7 @@ namespace WinCtp
                 new LookupObject(((char)CtpOffsetFlagType.Close).ToString(), "平")
             };
             gcSubOrderCombOffsetFlag.Bind(lucof);
+            gcMstTradeOffsetFlag.Bind(lucof);
             //报单状态
             var lustatus = new List<LookupObject>
             {
@@ -587,10 +589,6 @@ namespace WinCtp
                     continue;
                 qry.BrokerID = user.BrokerId;
                 qry.InvestorID = user.UserId;
-                //qry.InstrumentID = "TA705";
-                //qry.ExchangeID = "CZCE";
-                //qry.TradeTimeStart = DateTime.Now.AddDays(-1).ToString("yyyyMMdd");
-                //qry.TradeTimeEnd = DateTime.Now.AddDays(1).ToString("yyyyMMdd");
                 var api = user.TraderApi();
                 var reqId = RequestId.TradeQryId();
                 var rsp = api.ReqQryTrade(qry, reqId);
@@ -617,7 +615,9 @@ namespace WinCtp
                 requestId,
                 JsonConvert.SerializeObject(response), 
                 JsonConvert.SerializeObject(rspInfo));
-            if (rspInfo != null && rspInfo.ErrorID == 0 && response != null)
+            if (rspInfo != null && rspInfo.ErrorID != 0)
+                return;
+            if (response != null)
                 _tradeQueue.Enqueue(response);
         }
 

@@ -1,9 +1,15 @@
-﻿using GalaxyFutures.Sfit.Api;
-
+﻿
 namespace WinCtp
 {
+    /// <summary>
+    /// 期货单据。
+    /// </summary>
+    /// <remarks>报单、成交单。</remarks>
     public abstract class OrderBase
     {
+        /// <summary>
+        /// 经纪公司代码。
+        /// </summary>
         public string BrokerId { get; set; }
 
         /// <summary>
@@ -27,7 +33,7 @@ namespace WinCtp
         public string InstrumentId { get; set; }
 
         /// <summary>
-        /// 买卖。
+        /// 买卖方向。
         /// </summary>
         public byte Direction { get; set; }
 

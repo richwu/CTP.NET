@@ -31,7 +31,7 @@ namespace WinCtp
             ExchangeId = ctp.ExchangeID;
             OrderSysId = ctp.OrderSysID;
             InvestorId = ctp.InvestorID;
-            InstrumentId = ctp.InvestorID;
+            InstrumentId = ctp.InstrumentID;
             TradeId = ctp.TradeID;
             Direction = ctp.Direction;
             Price = ctp.Price;

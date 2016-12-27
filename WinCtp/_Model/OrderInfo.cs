@@ -81,7 +81,7 @@ namespace WinCtp
         public string CombOffsetFlag { get; set; }
 
         /// <summary>
-        /// 
+        /// 组合投机套保标识。
         /// </summary>
         public string CombHedgeFlag { get; set; }
 
