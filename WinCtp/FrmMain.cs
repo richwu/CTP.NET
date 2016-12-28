@@ -17,6 +17,7 @@ namespace WinCtp
         private readonly ILog _log;
         private readonly ConcurrentQueue<CtpTrade> _tradeQueue;//成交单队列
         private readonly ConcurrentQueue<InvestorPositionInfo> _positionQueue;//持仓队列
+        private readonly ConcurrentQueue<CtpInstrument> _instrumentQueue;//合约队列
 
         private readonly BackgroundWorker _workerQryTrade;
         private readonly BackgroundWorker _workerFollowOrder;
@@ -30,6 +31,7 @@ namespace WinCtp
             _log = LogManager.GetLogger("CTP");
             _tradeQueue = new ConcurrentQueue<CtpTrade>();
             _positionQueue = new ConcurrentQueue<InvestorPositionInfo>();
+            _instrumentQueue = new ConcurrentQueue<CtpInstrument>();
             _dicds = new ConcurrentDictionary<string, BindingSource>();
             _workerQryTrade = new BackgroundWorker();
             _workerFollowOrder = new BackgroundWorker();
@@ -40,7 +42,9 @@ namespace WinCtp
             base.OnLoad(e);
 
             tpMstOrder.Parent = null;
-            
+            cmbInstrumentId.Items.Clear();
+            cmbInstrumentId.Items.Add(string.Empty);
+
             tcSubInstrument.TabPages.Clear();
             tcMstInstrument.TabPages.Clear();
             _workerQryTrade.DoWork += OnDoWorkQryTrade;
@@ -235,6 +239,9 @@ namespace WinCtp
                 Rsp.This[rsp], JsonConvert.SerializeObject(req));
         }
 
+        /// <summary>
+        /// 查询合约。
+        /// </summary>
         private void QryInstrument(CtpUserInfo u)
         {
             var api = u.TraderApi();
@@ -354,6 +361,7 @@ namespace WinCtp
                 JsonConvert.SerializeObject(rspInfo));
             if(rspInfo != null && rspInfo.ErrorID != 0)
                 return;
+            _instrumentQueue.Enqueue(response);
         }
 
         #region 账户
@@ -408,6 +416,7 @@ namespace WinCtp
                 return;
             }
             //子账户登录
+            var b = false;
             for (var i = 0; i < dsSubUser.Count; i++)
             {
                 var u = (CtpSubUser)dsSubUser[i];
@@ -424,7 +433,11 @@ namespace WinCtp
 
                 QryInvestorPosition(u);
                 QrySettlementInfoConfirm(u);
-                QryInstrument(u);
+                if (!b)
+                {
+                    QryInstrument(u);
+                    b = true;
+                }
                 
                 return;
             }
@@ -484,7 +497,7 @@ namespace WinCtp
                 userLoginReq.BrokerID = user.BrokerId;
                 userLoginReq.UserID = user.UserId;
                 userLoginReq.Password = user.Password;
-                userLoginReq.UserProductInfo = "JCTP";
+                userLoginReq.UserProductInfo = "CTP.NET";
                 userLoginReq.ProtocolInfo = "X";
                 userLoginReq.InterfaceProductInfo = "X";
                 var rsp = api.ReqUserLogin(userLoginReq, user.ReqId);
@@ -539,7 +552,7 @@ namespace WinCtp
                 req.BrokerID = user.BrokerId;
                 req.UserID = user.UserId;
                 req.Password = user.Password;
-                req.UserProductInfo = "JCTP";
+                req.UserProductInfo = "CTP.NET";
                 req.ProtocolInfo = "X";
                 req.InterfaceProductInfo = "X";
                 var reqId = user.ReqId;
@@ -612,14 +625,6 @@ namespace WinCtp
                 _log.DebugFormat("ReqQryTrade[{0}]:{1}\nrequest:{2}", 
                     reqId, Rsp.This[rsp],
                     JsonConvert.SerializeObject(qry));
-
-                var req = new CtpQryOrder();
-                req.BrokerID = user.BrokerId;
-                req.InvestorID = user.UserId;
-                rsp = api.ReqQryOrder(req, reqId);
-                _log.DebugFormat("ReqQryOrder[{0}]:{1}\nrequest:{2}",
-                    reqId, Rsp.This[rsp],
-                    JsonConvert.SerializeObject(req));
             }
         }
 
@@ -695,7 +700,7 @@ namespace WinCtp
                     var reqId = RequestId.OrderInsertId();
                     req.RequestID = reqId;
                     var rsp = u.TraderApi().ReqOrderInsert(req, reqId);
-                    _log.DebugFormat("ReqOrderInsert[{0}]:{1}\n{2}", 
+                    _log.DebugFormat("ReqOrderInsert[{0}]跟单:{1}\n{2}", 
                         reqId, Rsp.This[rsp], 
                         JsonConvert.SerializeObject(req));
                     var t = new OrderInfo(req);
@@ -764,7 +769,7 @@ namespace WinCtp
                 var reqId = RequestId.OrderInsertId();
                 req.RequestID = reqId;
                 var rsp = u.TraderApi().ReqOrderInsert(req, reqId);
-                _log.DebugFormat("ReqOrderInsert[{0}]:{1}\nrequest:{2}",
+                _log.DebugFormat("ReqOrderInsert[{0}]下单:{1}\nrequest:{2}",
                     reqId, Rsp.This[rsp], JsonConvert.SerializeObject(req));
                 if (rsp == 0)
                 {
@@ -933,6 +938,14 @@ namespace WinCtp
                 }
             }
             //
+            if (!_instrumentQueue.IsEmpty)
+            {
+                CtpInstrument info;
+                while (_instrumentQueue.TryDequeue(out info))
+                {
+                    cmbInstrumentId.Items.Add(info.InstrumentID);
+                }
+            }
         }
     }
 }

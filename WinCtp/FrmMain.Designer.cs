@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -677,8 +677,8 @@
             // gcSubUserSettlementInfoConfirmTime
             // 
             this.gcSubUserSettlementInfoConfirmTime.DataPropertyName = "SettlementInfoConfirmTime";
-            dataGridViewCellStyle2.Format = "yy-M-d H:m";
-            this.gcSubUserSettlementInfoConfirmTime.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Format = "yy-M-d H:m";
+            this.gcSubUserSettlementInfoConfirmTime.DefaultCellStyle = dataGridViewCellStyle1;
             this.gcSubUserSettlementInfoConfirmTime.HeaderText = "结算确认";
             this.gcSubUserSettlementInfoConfirmTime.Name = "gcSubUserSettlementInfoConfirmTime";
             this.gcSubUserSettlementInfoConfirmTime.ReadOnly = true;
@@ -862,10 +862,6 @@
             // cmbInstrumentId
             // 
             this.cmbInstrumentId.FormattingEnabled = true;
-            this.cmbInstrumentId.Items.AddRange(new object[] {
-            "",
-            "rb1705",
-            "p1705"});
             this.cmbInstrumentId.Location = new System.Drawing.Point(54, 5);
             this.cmbInstrumentId.Name = "cmbInstrumentId";
             this.cmbInstrumentId.Size = new System.Drawing.Size(99, 20);
