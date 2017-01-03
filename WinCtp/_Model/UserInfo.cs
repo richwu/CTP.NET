@@ -225,12 +225,13 @@ namespace WinCtp
             req.InvestorID = UserId;
             req.UserID = UserId;
             req.CombOffsetFlag = ((char)ctpTrade.OffsetFlag).ToString();
+            req.CombHedgeFlag = ((char)ctpTrade.HedgeFlag).ToString();
             if (ctpTrade.Direction == CtpDirectionType.Buy)
                 req.Direction = cfg.IsInverse ? CtpDirectionType.Sell : CtpDirectionType.Buy;
             else
                 req.Direction = cfg.IsInverse ? CtpDirectionType.Buy : CtpDirectionType.Sell;
             req.InstrumentID = ctpTrade.InstrumentID;
-            req.BusinessUnit = ctpTrade.BusinessUnit;
+            //req.BusinessUnit = ctpTrade.BusinessUnit;
             req.VolumeTotalOriginal = (int)Math.Ceiling(ctpTrade.Volume * cfg.Volume);
             req.VolumeCondition = CtpVolumeConditionType.AV;
             req.ContingentCondition = CtpContingentConditionType.Immediately;
@@ -243,7 +244,12 @@ namespace WinCtp
             {
                 req.OrderPriceType = CtpOrderPriceTypeType.AnyPrice;
             }
-            
+            req.TimeCondition = CtpTimeConditionType.GFD;
+            req.GTDDate = "";
+            req.MinVolume = 1;
+            req.UserForceClose = 0;
+            req.IsAutoSuspend = 0;
+            req.ForceCloseReason = CtpForceCloseReasonType.NotForceClose;
             var reqId = RequestId.OrderInsertId();
             rsp = this.TraderApi().ReqOrderInsert(req, reqId);
             return true;
