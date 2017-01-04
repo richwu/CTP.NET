@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WinCtp")]
-[assembly: AssemblyDescription("LZH.CTP")]
+[assembly: AssemblyTitle("CTP.NET")]
+[assembly: AssemblyDescription("CTP.NET")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("LZH")]
-[assembly: AssemblyProduct("WinCtp")]
+[assembly: AssemblyProduct("CTP.NET")]
 [assembly: AssemblyCopyright("Copyright © LZH 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

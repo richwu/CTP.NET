@@ -244,12 +244,12 @@ namespace WinCtp
             if (cfg.Price <= 0) //市价
             {
                 req.OrderPriceType = CtpOrderPriceTypeType.AnyPrice;
-                req.LimitPrice = 0;
+                //req.LimitPrice = 0;
             }
             else
             {
                 req.OrderPriceType = CtpOrderPriceTypeType.LimitPrice;
-                req.LimitPrice = cfg.Price;
+                req.LimitPrice = ctpTrade.Price;
             }
 
             return req;
