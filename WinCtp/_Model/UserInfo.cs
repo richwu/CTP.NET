@@ -301,7 +301,7 @@ namespace WinCtp
             else
             {
                 req.OrderPriceType = CtpOrderPriceTypeType.LimitPrice;
-                req.LimitPrice = ctpTrade.Price;
+                req.LimitPrice = cfg.Price;
             }
 
             return req;

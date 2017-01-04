@@ -679,12 +679,7 @@ namespace WinCtp
                     continue;
                 //同步到主账户成交单列表
                 SyncToMstTrade(ctpTrade);
-                //
-                string fk = $"{ctpTrade.ExchangeID}_{ctpTrade.OrderSysID}";//跟单主键
-
-                var idx = dsSubOrder.Find("OrderSysId", ctpTrade.OrderSysID);
-                if (idx >= 0)
-                    continue;
+                //子账户跟单
                 foreach (CtpSubUser u in dsSubUser)
                 {
                     if(!u.IsLogin)
@@ -692,9 +687,9 @@ namespace WinCtp
                     var req = u.FollowOrder(ctpTrade);
                     if(req == null)
                         continue;
-                    var e = dsSubOrder.Cast<OrderBase>().Any(o => o.InvestorId == u.UserId && o.FollowKey == fk);
+                    var e = dsSubOrder.Cast<OrderBase>().Any(o => o.InvestorId == u.UserId && o.ExchangeId == ctpTrade.ExchangeID && o.OrderSysId == ctpTrade.OrderSysID);
                     if (!e)
-                        e = dsSubTradeInfo.Cast<OrderBase>().Any(o => o.InvestorId == u.UserId && o.FollowKey == fk);
+                        e = dsSubTradeInfo.Cast<OrderBase>().Any(o => o.InvestorId == u.UserId && o.ExchangeId == ctpTrade.ExchangeID && o.OrderSysId == ctpTrade.OrderSysID);
                     if (e)
                         continue;//该单已经跟过
                     var reqId = RequestId.OrderInsertId();
@@ -704,11 +699,10 @@ namespace WinCtp
                         reqId, Rsp.This[rsp], 
                         JsonConvert.SerializeObject(req));
                     var t = new OrderInfo(req);
-                    t.FollowKey = fk;
                     dsSubOrder.Add(t);
                 }
             } while (!b);
-            dsSubTradeInfo.ResetBindings(false);
+            dsSubOrder.ResetBindings(false);
         }
 
         private void SyncToMstTrade(CtpTrade trade)
