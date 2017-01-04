@@ -202,58 +202,6 @@ namespace WinCtp
                 Config[c.MstUserId] = c;
             }
         }
-
-        /// <summary>
-        /// 跟单。
-        /// </summary>
-        /// <param name="ctpTrade">主账户成交单。</param>
-        /// <returns></returns>
-        public bool TryInsertOrder(CtpTrade ctpTrade,out int rsp)
-        {
-            rsp = -1;
-            UserInserOrderConfig cfg;
-            if (!Config.TryGetValue(ctpTrade.InvestorID, out cfg))
-                return false;
-            if (!string.IsNullOrEmpty(cfg.Instrument) && ctpTrade.InstrumentID.StartsWith(cfg.Instrument))
-            {
-                var arr = cfg.Instrument.Split(',');
-                if (arr.Any(o => ctpTrade.InstrumentID.StartsWith(o)))
-                    return false;
-            }
-            var req = new CtpInputOrder();
-            req.BrokerID = BrokerId;
-            req.InvestorID = UserId;
-            req.UserID = UserId;
-            req.CombOffsetFlag = ((char)ctpTrade.OffsetFlag).ToString();
-            req.CombHedgeFlag = ((char)ctpTrade.HedgeFlag).ToString();
-            if (ctpTrade.Direction == CtpDirectionType.Buy)
-                req.Direction = cfg.IsInverse ? CtpDirectionType.Sell : CtpDirectionType.Buy;
-            else
-                req.Direction = cfg.IsInverse ? CtpDirectionType.Buy : CtpDirectionType.Sell;
-            req.InstrumentID = ctpTrade.InstrumentID;
-            //req.BusinessUnit = ctpTrade.BusinessUnit;
-            req.VolumeTotalOriginal = (int)Math.Ceiling(ctpTrade.Volume * cfg.Volume);
-            req.VolumeCondition = CtpVolumeConditionType.AV;
-            req.ContingentCondition = CtpContingentConditionType.Immediately;
-            if (cfg.Price > 0)
-            {
-                req.LimitPrice = ctpTrade.Price;
-                req.OrderPriceType = CtpOrderPriceTypeType.LimitPrice;
-            }
-            else
-            {
-                req.OrderPriceType = CtpOrderPriceTypeType.AnyPrice;
-            }
-            req.TimeCondition = CtpTimeConditionType.GFD;
-            req.GTDDate = "";
-            req.MinVolume = 1;
-            req.UserForceClose = 0;
-            req.IsAutoSuspend = 0;
-            req.ForceCloseReason = CtpForceCloseReasonType.NotForceClose;
-            var reqId = RequestId.OrderInsertId();
-            rsp = this.TraderApi().ReqOrderInsert(req, reqId);
-            return true;
-        }
     }
 
     public static class CtpUserInfoEx
