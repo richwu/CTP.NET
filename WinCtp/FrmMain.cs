@@ -432,9 +432,11 @@ namespace WinCtp
                 dsSubUser.ResetItem(i);
 
                 QryInvestorPosition(u);
+                Thread.Sleep(1000);
                 QrySettlementInfoConfirm(u);
                 if (!b)
                 {
+                    Thread.Sleep(1000);
                     QryInstrument(u);
                     b = true;
                 }

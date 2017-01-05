@@ -231,7 +231,9 @@ namespace WinCtp
             req.BrokerID = user.BrokerId;
             req.InvestorID = user.UserId;
             req.UserID = user.UserId;
+            req.OrderRef = user.GetOrderRef();
             req.CombOffsetFlag = ((char)ctpTrade.OffsetFlag).ToString();
+            req.CombHedgeFlag = ((char)ctpTrade.HedgeFlag).ToString();
             if (ctpTrade.Direction == CtpDirectionType.Buy)
                 req.Direction = cfg.IsInverse ? CtpDirectionType.Sell : CtpDirectionType.Buy;
             else
@@ -239,8 +241,6 @@ namespace WinCtp
             req.InstrumentID = ctpTrade.InstrumentID;
             req.BusinessUnit = ctpTrade.BusinessUnit;
             req.VolumeTotalOriginal = (int)Math.Ceiling(ctpTrade.Volume * cfg.Volume);
-            req.VolumeCondition = CtpVolumeConditionType.AV;
-            req.ContingentCondition = CtpContingentConditionType.Immediately;
             if (cfg.Price <= 0) //市价
             {
                 req.OrderPriceType = CtpOrderPriceTypeType.AnyPrice;
@@ -251,7 +251,12 @@ namespace WinCtp
                 req.OrderPriceType = CtpOrderPriceTypeType.LimitPrice;
                 req.LimitPrice = ctpTrade.Price;
             }
-
+            req.MinVolume = 1;
+            req.VolumeCondition = CtpVolumeConditionType.AV;
+            req.ContingentCondition = CtpContingentConditionType.Immediately;
+            req.ForceCloseReason = CtpForceCloseReasonType.NotForceClose;
+            req.TimeCondition = CtpTimeConditionType.GFD;
+            req.GTDDate = "";
             return req;
         }
     }
