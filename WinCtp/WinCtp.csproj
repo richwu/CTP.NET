@@ -146,11 +146,11 @@
     <Compile Include="_Model\OrderInfo.cs" />
     <Compile Include="RequestId.cs" />
     <Compile Include="_Model\TradeInfo.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="FrmSetting.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="FrmSetting.Designer.cs">
+      <DependentUpon>FrmSetting.cs</DependentUpon>
     </Compile>
     <Compile Include="_Model\UserInfoList.cs" />
     <Compile Include="_Model\UserInserOrderConfig.cs" />
@@ -184,8 +184,8 @@
     <Compile Include="_SQLite\SQLiteColumnList.cs" />
     <Compile Include="_SQLite\SQLiteHelper.cs" />
     <Compile Include="_SQLite\SQLiteTable.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="FrmSetting.resx">
+      <DependentUpon>FrmSetting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmBroker.resx">
       <DependentUpon>FrmBroker.cs</DependentUpon>

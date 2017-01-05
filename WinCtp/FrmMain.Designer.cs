@@ -146,6 +146,7 @@
             this.timerQryTrade = new System.Windows.Forms.Timer(this.components);
             this.timerFollowOrder = new System.Windows.Forms.Timer(this.components);
             this.timerSyncData = new System.Windows.Forms.Timer(this.components);
+            this.ibtnSetting = new System.Windows.Forms.ToolStripButton();
             this.panel1.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tpMstOrder.SuspendLayout();
@@ -1220,7 +1221,8 @@
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiUser,
             this.ibtnBroker,
-            this.tsmiListen});
+            this.tsmiListen,
+            this.ibtnSetting});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(1190, 25);
@@ -1288,6 +1290,15 @@
             this.timerSyncData.Enabled = true;
             this.timerSyncData.Interval = 1000;
             this.timerSyncData.Tick += new System.EventHandler(this.timerSyncData_Tick);
+            // 
+            // ibtnSetting
+            // 
+            this.ibtnSetting.Image = global::WinCtp.Properties.Resources._6;
+            this.ibtnSetting.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ibtnSetting.Name = "ibtnSetting";
+            this.ibtnSetting.Size = new System.Drawing.Size(53, 22);
+            this.ibtnSetting.Text = "设置";
+            this.ibtnSetting.Click += new System.EventHandler(this.ibtnSetting_Click);
             // 
             // FrmMain
             // 
@@ -1460,6 +1471,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn orderLocalIdDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn exchangeIdDataGridViewTextBoxColumn1;
         private System.Windows.Forms.Timer timerSyncData;
+        private System.Windows.Forms.ToolStripButton ibtnSetting;
     }
 }
 

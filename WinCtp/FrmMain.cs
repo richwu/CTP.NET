@@ -2,10 +2,10 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using GalaxyFutures.Sfit.Api;
 using log4net;
@@ -25,7 +25,7 @@ namespace WinCtp
 
         private readonly IDictionary<string, BindingSource> _dicds;
 
-        private readonly TaskScheduler _taskScheduler;
+        private bool _qryInstrumentDone;//标识合约是否已查询
 
         #region 初始化
         public FrmMain()
@@ -38,8 +38,7 @@ namespace WinCtp
             _dicds = new ConcurrentDictionary<string, BindingSource>();
             _workerQryTrade = new BackgroundWorker();
             _workerFollowOrder = new BackgroundWorker();
-
-            _taskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            _qryInstrumentDone = false;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -56,13 +55,21 @@ namespace WinCtp
             _workerFollowOrder.DoWork += OnDoWorkFollowOrder;
 
             LoadBaseInfo();
-
+            
+            var followIntervalStr = ConfigurationManager.AppSettings["follow.interval"];
+            var followInterval = 5000;
+            if (!string.IsNullOrWhiteSpace(followIntervalStr))
+            {
+                try { followInterval = Convert.ToInt32(followIntervalStr); }
+                catch { // ignored
+                }
+            }
             timerQryTrade.Enabled = false;
-            timerQryTrade.Interval = 2*1000;
+            timerQryTrade.Interval = followInterval;
             timerFollowOrder.Enabled = true;
-            timerFollowOrder.Interval = 1 * 1000;
+            timerFollowOrder.Interval = followInterval;
             timerSyncData.Enabled = true;
-            timerSyncData.Interval = 5 * 1000;
+            timerSyncData.Interval = 5000;
 
             var brokers = BrokerInfo.GetAll();
             var users = UserInfoList.Load();
@@ -421,7 +428,6 @@ namespace WinCtp
                 return;
             }
             //子账户登录
-            var b = false;
             for (var i = 0; i < dsSubUser.Count; i++)
             {
                 var u = (CtpSubUser)dsSubUser[i];
@@ -448,10 +454,10 @@ namespace WinCtp
                 //
                 new Thread(() => { Thread.Sleep(1100); QrySettlementInfoConfirm(u); }).Start();
                 new Thread(() => { Thread.Sleep(2200); QryInvestorPosition(u); }).Start();
-                if (!b)
+                if (!_qryInstrumentDone)
                 {
                     new Thread(() => { Thread.Sleep(3300); QryInstrument(u); }).Start();
-                    b = true;
+                    _qryInstrumentDone = true;
                 }
                 
                 return;
@@ -656,23 +662,20 @@ namespace WinCtp
                 return;
             if (response == null)
                 return;
-            var isBeMst = dsMstUser.Cast<CtpUserInfo>().FirstOrDefault(o => o.UserId == response.InvestorID) != null;
+            var isBeMst = dsMstUser.Cast<CtpUserInfo>().Any(o => o.UserId == response.InvestorID);
             if (isBeMst)
             {
                 _tradeQueue.Enqueue(response);//主账户成交单
             }
             else//子账户成交单
             {
-                var notExists =
-                    dsSubOrder.Cast<OrderInfo>()
-                        .FirstOrDefault(
-                            od => od.ExchangeId == response.ExchangeID && od.OrderSysId == response.OrderSysID) == null;
-                if (notExists)
+                var exists = dsSubOrder.Cast<OrderInfo>().Any(od => od.ExchangeId == response.ExchangeID && od.OrderSysId == response.OrderSysID);
+                if (!exists)
                 {
                     //添加到成交单列表
                     var ord = new TradeInfo(response);
                     dsSubTradeInfo.Add(ord);
-                    dsSubTradeInfo.ResetBindings(false);
+                    //dsSubTradeInfo.ResetBindings(false);
                 }
             }
         }
@@ -712,8 +715,10 @@ namespace WinCtp
                 if (!b || ctpTrade == null)
                     continue;
                 //同步到主账户成交单列表
-                SyncToMstTrade(ctpTrade);
-                //子账户跟单
+                var rs = SyncToMstTrade(ctpTrade);
+                if(!rs)
+                    continue;
+                //新的成交单，子账户跟单
                 foreach (CtpSubUser u in dsSubUser)
                 {
                     if(!u.IsLogin)
@@ -736,16 +741,17 @@ namespace WinCtp
                     dsSubOrder.Add(t);
                 }
             } while (!b);
-            dsSubOrder.ResetBindings(false);
+            //dsSubOrder.ResetBindings(false);
         }
 
-        private void SyncToMstTrade(CtpTrade trade)
+        private bool SyncToMstTrade(CtpTrade trade)
         {
             var e = dsMstTradeInfo.Cast<TradeInfo>().Any(o => o.ExchangeId == trade.ExchangeID && o.OrderSysId == trade.OrderSysID);
             if (e)
-                return;
+                return false;
             var t = new TradeInfo(trade);
             dsMstTradeInfo.Add(t);
+            return true;
         }
 
         /// <summary>
@@ -974,6 +980,11 @@ namespace WinCtp
                     cmbInstrumentId.Items.Add(info.InstrumentID);
                 }
             }
+        }
+
+        private void ibtnSetting_Click(object sender, EventArgs e)
+        {
+            new FrmSetting().ShowDialog(this);
         }
     }
 }
