@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using GalaxyFutures.Sfit.Api;
 using log4net;
@@ -24,6 +25,8 @@ namespace WinCtp
 
         private readonly IDictionary<string, BindingSource> _dicds;
 
+        private readonly TaskScheduler _taskScheduler;
+
         #region 初始化
         public FrmMain()
         {
@@ -35,6 +38,8 @@ namespace WinCtp
             _dicds = new ConcurrentDictionary<string, BindingSource>();
             _workerQryTrade = new BackgroundWorker();
             _workerFollowOrder = new BackgroundWorker();
+
+            _taskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -53,9 +58,9 @@ namespace WinCtp
             LoadBaseInfo();
 
             timerQryTrade.Enabled = false;
-            timerQryTrade.Interval = 10*1000;
+            timerQryTrade.Interval = 2*1000;
             timerFollowOrder.Enabled = true;
-            timerFollowOrder.Interval = 5 * 1000;
+            timerFollowOrder.Interval = 1 * 1000;
             timerSyncData.Enabled = true;
             timerSyncData.Interval = 5 * 1000;
 
@@ -430,14 +435,22 @@ namespace WinCtp
                     u.MaxOrderRef = Convert.ToInt32(response.MaxOrderRef);
                 }
                 dsSubUser.ResetItem(i);
-
-                QryInvestorPosition(u);
-                Thread.Sleep(1000);
-                QrySettlementInfoConfirm(u);
+                //查询成交单
+                var qry = new CtpQryTrade();
+                qry.BrokerID = u.BrokerId;
+                qry.InvestorID = u.UserId;
+                var api = u.TraderApi();
+                var reqId = RequestId.TradeQryId();
+                var rsp = api.ReqQryTrade(qry, reqId);
+                _log.DebugFormat("ReqQryTrade[{0}]:{1}\nrequest:{2}",
+                    reqId, Rsp.This[rsp],
+                    JsonConvert.SerializeObject(qry));
+                //
+                new Thread(() => { Thread.Sleep(1100); QrySettlementInfoConfirm(u); }).Start();
+                new Thread(() => { Thread.Sleep(2200); QryInvestorPosition(u); }).Start();
                 if (!b)
                 {
-                    Thread.Sleep(1000);
-                    QryInstrument(u);
+                    new Thread(() => { Thread.Sleep(3300); QryInstrument(u); }).Start();
                     b = true;
                 }
                 
@@ -641,8 +654,27 @@ namespace WinCtp
                 JsonConvert.SerializeObject(rspInfo));
             if (rspInfo != null && rspInfo.ErrorID != 0)
                 return;
-            if (response != null)
-                _tradeQueue.Enqueue(response);
+            if (response == null)
+                return;
+            var isBeMst = dsMstUser.Cast<CtpUserInfo>().FirstOrDefault(o => o.UserId == response.InvestorID) != null;
+            if (isBeMst)
+            {
+                _tradeQueue.Enqueue(response);//主账户成交单
+            }
+            else//子账户成交单
+            {
+                var notExists =
+                    dsSubOrder.Cast<OrderInfo>()
+                        .FirstOrDefault(
+                            od => od.ExchangeId == response.ExchangeID && od.OrderSysId == response.OrderSysID) == null;
+                if (notExists)
+                {
+                    //添加到成交单列表
+                    var ord = new TradeInfo(response);
+                    dsSubTradeInfo.Add(ord);
+                    dsSubTradeInfo.ResetBindings(false);
+                }
+            }
         }
 
         private void OnRspQryOrder(object sender, CtpOrder response, CtpRspInfo rspInfo, int requestId, bool isLast)

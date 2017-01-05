@@ -864,7 +864,7 @@
             this.cmbInstrumentId.FormattingEnabled = true;
             this.cmbInstrumentId.Location = new System.Drawing.Point(54, 5);
             this.cmbInstrumentId.Name = "cmbInstrumentId";
-            this.cmbInstrumentId.Size = new System.Drawing.Size(99, 20);
+            this.cmbInstrumentId.Size = new System.Drawing.Size(148, 20);
             this.cmbInstrumentId.TabIndex = 1;
             // 
             // label1
