@@ -536,8 +536,8 @@ namespace WinCtp
                 userLoginReq.UserID = user.UserId;
                 userLoginReq.Password = user.Password;
                 userLoginReq.UserProductInfo = "CTP.NET";
-                userLoginReq.ProtocolInfo = "X";
-                userLoginReq.InterfaceProductInfo = "X";
+                userLoginReq.ProtocolInfo = "CTP.NET";
+                userLoginReq.InterfaceProductInfo = "CTP.NET";
                 var rsp = api.ReqUserLogin(userLoginReq, user.ReqId);
                 _log.DebugFormat("ReqUserLogin:{0}", Rsp.This[rsp]);
             }
