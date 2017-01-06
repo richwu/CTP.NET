@@ -13,6 +13,14 @@ using Newtonsoft.Json;
 
 namespace WinCtp
 {
+    /// <summary>
+    /// CTP.NET
+    /// </summary>
+    /// <remarks>
+    /// CTP 仅对查询进行流量限制，对交易指令没有限制。如果有在途的查询，不允
+    /// 许发新的查询。1 秒钟最多允许发送 1 个查询。返回值“-2”表示“未处理请求超过许
+    /// 可数”，“-3”表示“每秒发送请求数超过许可数”。
+    /// </remarks>
     public partial class FrmMain : Form , IMainView
     {
         private readonly ILog _log;
@@ -424,7 +432,10 @@ namespace WinCtp
                     continue;
                 u.IsLogin = true;
                 dsMstUser.ResetItem(i);
-                QryInvestorPosition(u);
+                //查询成交单
+                QryTrade(u);
+                //查询持仓
+                new Thread(() => { Thread.Sleep(1100); QryInvestorPosition(u); }).Start();
                 return;
             }
             //子账户登录
@@ -442,17 +453,10 @@ namespace WinCtp
                 }
                 dsSubUser.ResetItem(i);
                 //查询成交单
-                var qry = new CtpQryTrade();
-                qry.BrokerID = u.BrokerId;
-                qry.InvestorID = u.UserId;
-                var api = u.TraderApi();
-                var reqId = RequestId.TradeQryId();
-                var rsp = api.ReqQryTrade(qry, reqId);
-                _log.DebugFormat("ReqQryTrade[{0}]:{1}\nrequest:{2}",
-                    reqId, Rsp.This[rsp],
-                    JsonConvert.SerializeObject(qry));
-                //
+                QryTrade(u);
+                //查询结算确认
                 new Thread(() => { Thread.Sleep(1100); QrySettlementInfoConfirm(u); }).Start();
+                //查询持仓
                 new Thread(() => { Thread.Sleep(2200); QryInvestorPosition(u); }).Start();
                 if (!_qryInstrumentDone)
                 {
@@ -462,6 +466,19 @@ namespace WinCtp
                 
                 return;
             }
+        }
+
+        private void QryTrade(CtpUserInfo user)
+        {
+            var qry = new CtpQryTrade();
+            qry.BrokerID = user.BrokerId;
+            qry.InvestorID = user.UserId;
+            var api = user.TraderApi();
+            var reqId = RequestId.TradeQryId();
+            var rsp = api.ReqQryTrade(qry, reqId);
+            _log.DebugFormat("ReqQryTrade[{0}]:{1}\nrequest:{2}",
+                reqId, Rsp.This[rsp],
+                JsonConvert.SerializeObject(qry));
         }
 
         private static DataGridViewEx CreatePosGridView(string userId)
@@ -662,14 +679,16 @@ namespace WinCtp
                 return;
             if (response == null)
                 return;
-            var isBeMst = dsMstUser.Cast<CtpUserInfo>().Any(o => o.UserId == response.InvestorID);
+            var isBeMst = dsMstUser.Cast<CtpUserInfo>().Any(o => Equals(o.UserId, response.InvestorID));
             if (isBeMst)
             {
                 _tradeQueue.Enqueue(response);//主账户成交单
             }
             else//子账户成交单
             {
-                var exists = dsSubOrder.Cast<OrderInfo>().Any(od => od.ExchangeId == response.ExchangeID && od.OrderSysId == response.OrderSysID);
+                var exists = dsSubOrder.Cast<OrderInfo>().Any(od =>
+                Equals(od.ExchangeId, response.ExchangeID) &&
+                Equals(od.OrderSysId, response.OrderSysID));
                 if (!exists)
                 {
                     //添加到成交单列表
@@ -726,9 +745,15 @@ namespace WinCtp
                     var req = u.FollowOrder(ctpTrade);
                     if(req == null)
                         continue;
-                    var e = dsSubOrder.Cast<OrderBase>().Any(o => o.InvestorId == u.UserId && o.ExchangeId == ctpTrade.ExchangeID && o.OrderSysId == ctpTrade.OrderSysID);
+                    var e = dsSubOrder.Cast<OrderBase>().Any(o =>
+                    Equals(o.InvestorId, u.UserId) &&
+                    Equals(o.ExchangeId, ctpTrade.ExchangeID) &&
+                    Equals(o.OrderSysId, ctpTrade.OrderSysID));
                     if (!e)
-                        e = dsSubTradeInfo.Cast<OrderBase>().Any(o => o.InvestorId == u.UserId && o.ExchangeId == ctpTrade.ExchangeID && o.OrderSysId == ctpTrade.OrderSysID);
+                        e = dsSubTradeInfo.Cast<OrderBase>().Any(o => 
+                        Equals(o.InvestorId, u.UserId) &&
+                        Equals(o.ExchangeId, ctpTrade.ExchangeID) &&
+                        Equals(o.OrderSysId, ctpTrade.OrderSysID));
                     if (e)
                         continue;//该单已经跟过
                     var reqId = RequestId.OrderInsertId();
@@ -744,9 +769,18 @@ namespace WinCtp
             //dsSubOrder.ResetBindings(false);
         }
 
+        private static bool Equals(string s1,string s2)
+        {
+            var ss1 = (s1 ?? string.Empty).Trim().ToLower();
+            var ss2 = (s2 ?? string.Empty).Trim().ToLower();
+            return ss1 == ss2;
+        }
+
         private bool SyncToMstTrade(CtpTrade trade)
         {
-            var e = dsMstTradeInfo.Cast<TradeInfo>().Any(o => o.ExchangeId == trade.ExchangeID && o.OrderSysId == trade.OrderSysID);
+            var e = dsMstTradeInfo.Cast<TradeInfo>().Any(o =>
+            Equals(o.ExchangeId, trade.ExchangeID) &&
+            Equals(o.OrderSysId, trade.OrderSysID));
             if (e)
                 return false;
             var t = new TradeInfo(trade);
@@ -829,8 +863,8 @@ namespace WinCtp
             for (var i = 0; i < dsSubOrder.Count; i++)
             {
                 var od = (OrderInfo)dsSubOrder[i];
-                if (od.ExchangeId != response.ExchangeID || 
-                    od.OrderSysId != response.OrderSysID)
+                if (Equals(od.ExchangeId, response.ExchangeID) ||
+                    Equals(od.OrderSysId, response.OrderSysID))
                     continue;
                 idx = i;
                 break;
@@ -850,7 +884,7 @@ namespace WinCtp
         /// <remarks>报单状态发生变化时。</remarks>
         private void OnRtnOrder(object sender, CtpOrder response)
         {
-            //收到委托回报时，使用 FrontID、SessionID 过滤出自己的委托回报。同时记下关联的ExchangeID、OrderSysID。
+            //收到委托回报时，使用 FrontID、SessionID、OrderRef过滤出自己的委托回报。同时记下关联的ExchangeID、OrderSysID。
             _log.InfoFormat("OnRtnOrder\nresponse:{0}", 
                 JsonConvert.SerializeObject(response));
             if (response == null)
@@ -858,9 +892,9 @@ namespace WinCtp
             for (var i = 0; i < dsSubOrder.Count; i++)
             {
                 var od = (OrderInfo)dsSubOrder[i];
-                if (od.FrontId != response.FrontID || 
-                    od.SessionId != response.SessionID ||
-                    od.OrderRef != response.OrderRef)
+                if (Equals(od.FrontId, response.FrontID) ||
+                    Equals(od.SessionId, response.SessionID) ||
+                    Equals(od.OrderRef, response.OrderRef))
                     continue;
                 od.ExchangeId = response.ExchangeID;
                 od.OrderSysId = response.OrderSysID;
@@ -884,10 +918,10 @@ namespace WinCtp
                 return;
             for (var i = 0; i < dsSubOrder.Count; i++)
             {
-                var od = (OrderInfo) dsSubOrder[i];
-                if (od.BrokerId == response.BrokerID && 
-                    od.InvestorId == response.InvestorID &&
-                    od.OrderRef == response.OrderRef)
+                var od = (OrderInfo)dsSubOrder[i];
+                if (Equals(od.BrokerId, response.BrokerID) &&
+                    Equals(od.InvestorId, response.InvestorID) &&
+                    Equals(od.OrderRef, response.OrderRef))
                 {
                     od.ErrorMsg = $"[{rspInfo.ErrorID}]{rspInfo.ErrorMsg}";
                     dsSubOrder.ResetItem(i);
