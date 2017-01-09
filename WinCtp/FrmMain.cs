@@ -35,11 +35,14 @@ namespace WinCtp
 
         private bool _qryInstrumentDone;//标识合约是否已查询
 
+        private readonly ConcurrentDictionary<string, bool> _loginUser;//[UserID,MstOrSub] true/Mst,false/Sub
+
         #region 初始化
         public FrmMain()
         {
             InitializeComponent();
             _log = LogManager.GetLogger("CTP");
+            _loginUser = new ConcurrentDictionary<string, bool>();
             _tradeQueue = new ConcurrentQueue<CtpTrade>();
             _positionQueue = new ConcurrentQueue<InvestorPositionInfo>();
             _instrumentQueue = new ConcurrentQueue<CtpInstrument>();
@@ -392,27 +395,34 @@ namespace WinCtp
                requestId,
                JsonConvert.SerializeObject(response),
                JsonConvert.SerializeObject(rspInfo));
-            if (rspInfo == null || rspInfo.ErrorID != 0)
+            if (rspInfo != null && rspInfo.ErrorID != 0)
                 return;
+            if (response == null)
+                return;
+            bool rs;
+            _loginUser.TryRemove(response.UserID, out rs);
             for (var i = 0; i < dsMstUser.Count; i++)
             {
                 var u = (CtpUserInfo)dsMstUser[i];
-                if (u.ReqId == requestId)
-                {
-                    u.IsLogin = false;
-                    dsMstUser.ResetItem(i);
-                    return;
-                }
+                if (!Equals(u.BrokerId, response.BrokerID) || 
+                    !Equals(u.UserId, response.UserID))
+                    continue;
+                u.IsLogin = false;
+                dsMstUser.ResetItem(i);
+                return;
             }
             for (var i = 0; i < dsSubUser.Count; i++)
             {
                 var u = (CtpSubUser)dsSubUser[i];
-                if (u.ReqId == requestId)
-                {
-                    u.IsLogin = false;
-                    dsSubUser.ResetItem(i);
-                    return;
-                }
+                if (!Equals(u.BrokerId, response.BrokerID) || 
+                    !Equals(u.UserId, response.UserID))
+                    continue;
+                u.IsLogin = false;
+                u.FrontId = 0;
+                u.SessionId = 0;
+                u.MaxOrderRef = 0;
+                dsSubUser.ResetItem(i);
+                return;
             }
         }
 
@@ -424,16 +434,20 @@ namespace WinCtp
                 JsonConvert.SerializeObject(rspInfo));
             if (rspInfo != null && rspInfo.ErrorID != 0)
                 return;
+            if(response == null)
+                return;
             //主账户登录
             for (var i = 0; i < dsMstUser.Count; i++)
             {
                 var u = (CtpUserInfo)dsMstUser[i];
-                if (u.ReqId != requestId)
+                if (!Equals(u.BrokerId,response.BrokerID) || 
+                    !Equals(u.UserId,response.UserID))
                     continue;
                 u.IsLogin = true;
                 dsMstUser.ResetItem(i);
                 //查询成交单
-                QryTrade(u);
+                //QryTrade(u);
+                _loginUser[response.UserID] = true;
                 //查询持仓
                 new Thread(() => { Thread.Sleep(1100); QryInvestorPosition(u); }).Start();
                 return;
@@ -442,18 +456,17 @@ namespace WinCtp
             for (var i = 0; i < dsSubUser.Count; i++)
             {
                 var u = (CtpSubUser)dsSubUser[i];
-                if (u.ReqId != requestId)
+                if (!Equals(u.BrokerId, response.BrokerID) ||
+                    !Equals(u.UserId, response.UserID))
                     continue;
                 u.IsLogin = true;
-                if (response != null)
-                {
-                    u.FrontId = response.FrontID;
-                    u.SessionId = response.SessionID;
-                    u.MaxOrderRef = Convert.ToInt32(response.MaxOrderRef);
-                }
+                u.FrontId = response.FrontID;
+                u.SessionId = response.SessionID;
+                u.MaxOrderRef = Convert.ToInt32(response.MaxOrderRef);
                 dsSubUser.ResetItem(i);
+                _loginUser[response.UserID] = false;
                 //查询成交单
-                QryTrade(u);
+                //QryTrade(u);
                 //查询结算确认
                 new Thread(() => { Thread.Sleep(1100); QrySettlementInfoConfirm(u); }).Start();
                 //查询持仓
@@ -628,12 +641,14 @@ namespace WinCtp
         {
             if (timerQryTrade.Enabled)
             {
-                timerQryTrade.Stop();
+                //timerQryTrade.Stop();
+                timerFollowOrder.Stop();
                 tsmiListen.Text = "启动监听";
             }
             else
             {
-                timerQryTrade.Start();
+                //timerQryTrade.Start();
+                timerFollowOrder.Start();
                 tsmiListen.Text = "停止监听";
             }
         }
@@ -726,17 +741,17 @@ namespace WinCtp
         /// </summary>
         private void OnDoWorkFollowOrder(object sender, DoWorkEventArgs args)
         {
-            bool b;
+            bool rs;
             do
             {
                 CtpTrade ctpTrade;
-                b = _tradeQueue.TryDequeue(out ctpTrade);
-                if (!b || ctpTrade == null)
+                rs = _tradeQueue.TryDequeue(out ctpTrade);
+                if (!rs || ctpTrade == null)
                     continue;
                 //同步到主账户成交单列表
-                var rs = SyncToMstTrade(ctpTrade);
-                if(!rs)
-                    continue;
+                //var rs = SyncToMstTrade(ctpTrade);
+                //if(!rs)
+                //    continue;
                 //新的成交单，子账户跟单
                 foreach (CtpSubUser u in dsSubUser)
                 {
@@ -745,17 +760,17 @@ namespace WinCtp
                     var req = u.FollowOrder(ctpTrade);
                     if(req == null)
                         continue;
-                    var e = dsSubOrder.Cast<OrderBase>().Any(o =>
-                    Equals(o.InvestorId, u.UserId) &&
-                    Equals(o.ExchangeId, ctpTrade.ExchangeID) &&
-                    Equals(o.OrderSysId, ctpTrade.OrderSysID));
-                    if (!e)
-                        e = dsSubTradeInfo.Cast<OrderBase>().Any(o => 
-                        Equals(o.InvestorId, u.UserId) &&
-                        Equals(o.ExchangeId, ctpTrade.ExchangeID) &&
-                        Equals(o.OrderSysId, ctpTrade.OrderSysID));
-                    if (e)
-                        continue;//该单已经跟过
+                    //var e = dsSubOrder.Cast<OrderBase>().Any(o =>
+                    //Equals(o.InvestorId, u.UserId) &&
+                    //Equals(o.ExchangeId, ctpTrade.ExchangeID) &&
+                    //Equals(o.OrderSysId, ctpTrade.OrderSysID));
+                    //if (!e)
+                    //    e = dsSubTradeInfo.Cast<OrderBase>().Any(o => 
+                    //    Equals(o.InvestorId, u.UserId) &&
+                    //    Equals(o.ExchangeId, ctpTrade.ExchangeID) &&
+                    //    Equals(o.OrderSysId, ctpTrade.OrderSysID));
+                    //if (e)
+                    //    continue;//该单已经跟过
                     var reqId = RequestId.OrderInsertId();
                     req.RequestID = reqId;
                     var rsp = u.TraderApi().ReqOrderInsert(req, reqId);
@@ -763,9 +778,11 @@ namespace WinCtp
                         reqId, Rsp.This[rsp], 
                         JsonConvert.SerializeObject(req));
                     var t = new OrderInfo(req);
+                    if (rsp != 0)
+                        t.ErrorMsg = $"[{rsp}]{Rsp.This[rsp]}";
                     dsSubOrder.Add(t);
                 }
-            } while (!b);
+            } while (!rs);
             //dsSubOrder.ResetBindings(false);
         }
 
@@ -859,23 +876,37 @@ namespace WinCtp
                 JsonConvert.SerializeObject(response));
             if (response == null)
                 return;
-            var idx = -1;
-            for (var i = 0; i < dsSubOrder.Count; i++)
+            bool isMst;
+            var rs = _loginUser.TryGetValue(response.InvestorID, out isMst);
+            if (!rs)//未知账户的回报
+                return;
+            if (isMst)
             {
-                var od = (OrderInfo)dsSubOrder[i];
-                if (Equals(od.ExchangeId, response.ExchangeID) ||
-                    Equals(od.OrderSysId, response.OrderSysID))
-                    continue;
-                idx = i;
-                break;
+                if(timerFollowOrder.Enabled)
+                    _tradeQueue.Enqueue(response);
+                var ord = new TradeInfo(response);
+                dsMstTradeInfo.Add(ord);
             }
-            //从委托单列表移除
-            if(idx >= 0)
-                dsSubOrder.RemoveAt(idx);
-            //添加到成交单列表
-            var ord = new TradeInfo(response);
-            dsSubTradeInfo.Add(ord);
-            dsSubTradeInfo.ResetBindings(false);
+            else
+            {
+                var idx = -1;
+                for (var i = 0; i < dsSubOrder.Count; i++)
+                {
+                    var od = (OrderInfo)dsSubOrder[i];
+                    if (Equals(od.ExchangeId, response.ExchangeID) ||
+                        Equals(od.OrderSysId, response.OrderSysID))
+                        continue;
+                    idx = i;
+                    break;
+                }
+                //从委托单列表移除
+                if (idx >= 0)
+                    dsSubOrder.RemoveAt(idx);
+                //添加到成交单列表
+                var ord = new TradeInfo(response);
+                dsSubTradeInfo.Add(ord);
+                //dsSubTradeInfo.ResetBindings(false);
+            }
         }
 
         /// <summary>
@@ -888,6 +919,10 @@ namespace WinCtp
             _log.InfoFormat("OnRtnOrder\nresponse:{0}", 
                 JsonConvert.SerializeObject(response));
             if (response == null)
+                return;
+            bool isMst;
+            var rs = _loginUser.TryGetValue(response.InvestorID, out isMst);
+            if (!rs || isMst)//未知账户的回报或者是主账户的回报
                 return;
             for (var i = 0; i < dsSubOrder.Count; i++)
             {
@@ -919,13 +954,12 @@ namespace WinCtp
             for (var i = 0; i < dsSubOrder.Count; i++)
             {
                 var od = (OrderInfo)dsSubOrder[i];
-                if (Equals(od.BrokerId, response.BrokerID) &&
-                    Equals(od.InvestorId, response.InvestorID) &&
-                    Equals(od.OrderRef, response.OrderRef))
-                {
-                    od.ErrorMsg = $"[{rspInfo.ErrorID}]{rspInfo.ErrorMsg}";
-                    dsSubOrder.ResetItem(i);
-                }
+                if (!Equals(od.BrokerId, response.BrokerID) || 
+                    !Equals(od.InvestorId, response.InvestorID) ||
+                    !Equals(od.OrderRef, response.OrderRef))
+                    continue;
+                od.ErrorMsg = $"[{rspInfo.ErrorID}]{rspInfo.ErrorMsg}";
+                dsSubOrder.ResetItem(i);
             }
         }
 
@@ -937,6 +971,18 @@ namespace WinCtp
             _log.ErrorFormat("OnErrRtnOrderInsert\nrspInfo:{0}\nresponse:{1}", 
                 JsonConvert.SerializeObject(rspInfo), 
                 JsonConvert.SerializeObject(response));
+            if (response == null || rspInfo == null)
+                return;
+            for (var i = 0; i < dsSubOrder.Count; i++)
+            {
+                var od = (OrderInfo)dsSubOrder[i];
+                if (!Equals(od.BrokerId, response.BrokerID) ||
+                    !Equals(od.InvestorId, response.InvestorID) ||
+                    !Equals(od.OrderRef, response.OrderRef))
+                    continue;
+                od.ErrorMsg = $"[{rspInfo.ErrorID}]{rspInfo.ErrorMsg}";
+                dsSubOrder.ResetItem(i);
+            }
         }
         #endregion
 
