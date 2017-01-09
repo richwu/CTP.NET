@@ -27,15 +27,22 @@ namespace WinCtp
             if (ex == null)
                 return;
             var log = LogManager.GetLogger("CTP");
-            log.Error("current domain unhandled exception.", ex);
-            //MsgBox.Error(ex.Message);
+            while (ex != null)
+            {
+                log.Error("unhandled exception.", ex);
+                ex = ex.InnerException;
+            }
         }
 
         private static void ApplicationOnThreadException(object sender, ThreadExceptionEventArgs e)
         {
             var log = LogManager.GetLogger("CTP");
-            log.Error("application thread exception.", e.Exception);
-            //MsgBox.Error(e.Exception.Message);
+            var ex = e.Exception;
+            while (ex != null)
+            {
+                log.Error("unhandled exception.", ex);
+                ex = ex.InnerException;
+            }
         }
     }
 }

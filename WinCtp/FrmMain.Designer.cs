@@ -143,9 +143,6 @@
             this.ibtnOrderInsertConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.ibtnBroker = new System.Windows.Forms.ToolStripButton();
             this.tsmiListen = new System.Windows.Forms.ToolStripButton();
-            this.timerQryTrade = new System.Windows.Forms.Timer(this.components);
-            this.timerFollowOrder = new System.Windows.Forms.Timer(this.components);
-            this.timerSyncData = new System.Windows.Forms.Timer(this.components);
             this.ibtnSetting = new System.Windows.Forms.ToolStripButton();
             this.panel1.SuspendLayout();
             this.tabControl2.SuspendLayout();
@@ -1275,22 +1272,6 @@
             this.tsmiListen.ToolTipText = "启动监听";
             this.tsmiListen.Click += new System.EventHandler(this.tsmiListen_Click);
             // 
-            // timerQryTrade
-            // 
-            this.timerQryTrade.Interval = 10000;
-            this.timerQryTrade.Tick += new System.EventHandler(this.timerQryTrade_Tick);
-            // 
-            // timerFollowOrder
-            // 
-            this.timerFollowOrder.Interval = 3000;
-            this.timerFollowOrder.Tick += new System.EventHandler(this.timerFollowOrder_Tick);
-            // 
-            // timerSyncData
-            // 
-            this.timerSyncData.Enabled = true;
-            this.timerSyncData.Interval = 1000;
-            this.timerSyncData.Tick += new System.EventHandler(this.timerSyncData_Tick);
-            // 
             // ibtnSetting
             // 
             this.ibtnSetting.Image = global::WinCtp.Properties.Resources._6;
@@ -1401,7 +1382,6 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn isLoginDataGridViewCheckBoxColumn;
         private DataGridViewEx dataGridViewEx1;
         private System.Windows.Forms.BindingSource dsSubTradeInfo;
-        private System.Windows.Forms.Timer timerQryTrade;
         private System.Windows.Forms.TabPage tabPage1;
         private DataGridViewEx dataGridViewEx2;
         private System.Windows.Forms.BindingSource dsMstTradeInfo;
@@ -1410,7 +1390,6 @@
         private System.Windows.Forms.ToolStripMenuItem ibtnOrderInsertConfig;
         private System.Windows.Forms.TabPage tpSubOrder;
         private System.Windows.Forms.ToolStripButton ibtnBroker;
-        private System.Windows.Forms.Timer timerFollowOrder;
         private System.Windows.Forms.TabPage tpMstOrder;
         private System.Windows.Forms.TabPage tabPage2;
         private DataGridViewEx gvSubOrder;
@@ -1470,7 +1449,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn tradeTimeDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn orderLocalIdDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn exchangeIdDataGridViewTextBoxColumn1;
-        private System.Windows.Forms.Timer timerSyncData;
         private System.Windows.Forms.ToolStripButton ibtnSetting;
     }
 }

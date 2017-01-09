@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using Amib.Threading;
 using GalaxyFutures.Sfit.Api;
 using log4net;
 using Newtonsoft.Json;
 
 namespace WinCtp
 {
+    internal delegate void SimpleDelegate();
+
     /// <summary>
     /// CTP.NET
     /// </summary>
@@ -24,16 +26,14 @@ namespace WinCtp
     public partial class FrmMain : Form , IMainView
     {
         private readonly ILog _log;
-        private readonly ConcurrentQueue<CtpTrade> _tradeQueue;//成交单队列
-        private readonly ConcurrentQueue<InvestorPositionInfo> _positionQueue;//持仓队列
-        private readonly ConcurrentQueue<CtpInstrument> _instrumentQueue;//合约队列
+        private bool _listening;
 
-        private readonly BackgroundWorker _workerQryTrade;
-        private readonly BackgroundWorker _workerFollowOrder;
+        private readonly ConcurrentQueue<CtpInvestorPosition> _positionQueue;//持仓队列
 
         private readonly IDictionary<string, BindingSource> _dicds;
 
         private bool _qryInstrumentDone;//标识合约是否已查询
+        private readonly SmartThreadPool _treadPool;
 
         private readonly ConcurrentDictionary<string, bool> _loginUser;//[UserID,MstOrSub] true/Mst,false/Sub
 
@@ -41,15 +41,36 @@ namespace WinCtp
         public FrmMain()
         {
             InitializeComponent();
+            
             _log = LogManager.GetLogger("CTP");
+
             _loginUser = new ConcurrentDictionary<string, bool>();
-            _tradeQueue = new ConcurrentQueue<CtpTrade>();
-            _positionQueue = new ConcurrentQueue<InvestorPositionInfo>();
-            _instrumentQueue = new ConcurrentQueue<CtpInstrument>();
+            _positionQueue = new ConcurrentQueue<CtpInvestorPosition>();
             _dicds = new ConcurrentDictionary<string, BindingSource>();
-            _workerQryTrade = new BackgroundWorker();
-            _workerFollowOrder = new BackgroundWorker();
             _qryInstrumentDone = false;
+            _listening = false;
+            //
+            var stp = new STPStartInfo();//线程详细配置参数
+            stp.CallToPostExecute = CallToPostExecute.Always;//工作项执行完成后是否调用回调方法
+            stp.DisposeOfStateObjects = true;//当工作项执行完成后,是否释放工作项的参数,如果释放,参数对象必须实现IDisposable接口
+            //当线程池中没有工作项时,闲置的线程等待时间,超过这个时间后,会释放掉这个闲置的线程,默认为60秒
+            stp.IdleTimeout = 30;//30s
+                                  //最大线程数,默认为25,
+                                  //注意,由于windows的机制,所以一般最大线程最大设置成25,
+                                  //如果设置成0的话,那么线程池将停止运行
+            stp.MaxWorkerThreads = 10;//15 thread
+                                      //只在STP执行Action<...>与Func<...>两种任务时有效
+                                      //在执行工作项的过程中,是否把参数传递到WorkItem中去,用做IWorkItemResult接口取State时使用,
+                                      //如果设置为false那么IWorkItemResult.State是取不到值的
+                                      //如果设置为true可以取到传入参数的数组
+            stp.FillStateWithArgs = true;
+            //最小线程数,默认为0,当没有工作项时,线程池最多剩余的线程数
+            stp.MinWorkerThreads = 5;//5 thread
+                                     //当工作项执行完毕后,默认的回调方法
+            stp.PostExecuteWorkItemCallback = delegate (IWorkItemResult wir) { _log.Debug(wir.Result); };
+            //是否需要等待start方法后再执行工作项,?默认为true,当true状态时,STP必须执行Start方法,才会为线程分配工作项
+            stp.StartSuspended = false;
+            _treadPool = new SmartThreadPool(stp);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -62,25 +83,8 @@ namespace WinCtp
 
             tcSubInstrument.TabPages.Clear();
             tcMstInstrument.TabPages.Clear();
-            _workerQryTrade.DoWork += OnDoWorkQryTrade;
-            _workerFollowOrder.DoWork += OnDoWorkFollowOrder;
 
             LoadBaseInfo();
-            
-            var followIntervalStr = ConfigurationManager.AppSettings["follow.interval"];
-            var followInterval = 5000;
-            if (!string.IsNullOrWhiteSpace(followIntervalStr))
-            {
-                try { followInterval = Convert.ToInt32(followIntervalStr); }
-                catch { // ignored
-                }
-            }
-            timerQryTrade.Enabled = false;
-            timerQryTrade.Interval = followInterval;
-            timerFollowOrder.Enabled = true;
-            timerFollowOrder.Interval = followInterval;
-            timerSyncData.Enabled = true;
-            timerSyncData.Interval = 5000;
 
             var brokers = BrokerInfo.GetAll();
             var users = UserInfoList.Load();
@@ -140,9 +144,6 @@ namespace WinCtp
 
                 api.OnRspQryInvestorPosition += OnRspQryInvestorPosition;
                 api.OnRspQryInvestorPositionDetail += OnRspQryInvestorPositionDetail;
-
-                api.OnRspQryTrade += OnRspQryTrade;
-                api.OnRspQryOrder += OnRspQryOrder;
 
                 api.OnRspQrySettlementInfo += OnRspQrySettlementInfo;
                 api.OnRspSettlementInfoConfirm += OnRspSettlementInfoConfirm;
@@ -221,6 +222,11 @@ namespace WinCtp
         private void ibtnBroker_Click(object sender, EventArgs e)
         {
             new FrmBroker().ShowDialog(this);
+        }
+
+        private void ibtnSetting_Click(object sender, EventArgs e)
+        {
+            new FrmSetting().ShowDialog(this);
         }
         #endregion
 
@@ -361,12 +367,12 @@ namespace WinCtp
 
         private void OnFrontDisconnected(object sender, int response)
         {
-            _log.DebugFormat("OnFrontDisconnected:response[{0}]", response);
+            _log.InfoFormat("OnFrontDisconnected\nresponse:{0}", response);
         }
 
         private void OnFrontConnected(object sender)
         {
-            _log.Debug("OnFrontConnected");
+            _log.InfoFormat("OnFrontConnected");
         }
 
         private void OnRspError(object sender, CtpRspInfo rspInfo, int requestId, bool isLast)
@@ -384,7 +390,11 @@ namespace WinCtp
                 JsonConvert.SerializeObject(rspInfo));
             if(rspInfo != null && rspInfo.ErrorID != 0)
                 return;
-            _instrumentQueue.Enqueue(response);
+            if(response == null)
+                return;
+            if (InvokeRequired)
+                Invoke(new SimpleDelegate(() => { cmbInstrumentId.Items.Add(response.InstrumentID); }));
+            else cmbInstrumentId.Items.Add(response.InstrumentID);
         }
 
         #region 账户
@@ -445,11 +455,9 @@ namespace WinCtp
                     continue;
                 u.IsLogin = true;
                 dsMstUser.ResetItem(i);
-                //查询成交单
-                //QryTrade(u);
                 _loginUser[response.UserID] = true;
                 //查询持仓
-                new Thread(() => { Thread.Sleep(1100); QryInvestorPosition(u); }).Start();
+                QryInvestorPosition(u);
                 return;
             }
             //子账户登录
@@ -465,33 +473,18 @@ namespace WinCtp
                 u.MaxOrderRef = Convert.ToInt32(response.MaxOrderRef);
                 dsSubUser.ResetItem(i);
                 _loginUser[response.UserID] = false;
-                //查询成交单
-                //QryTrade(u);
                 //查询结算确认
-                new Thread(() => { Thread.Sleep(1100); QrySettlementInfoConfirm(u); }).Start();
+                QrySettlementInfoConfirm(u);
                 //查询持仓
-                new Thread(() => { Thread.Sleep(2200); QryInvestorPosition(u); }).Start();
+                _treadPool.QueueWorkItem(() => { Thread.Sleep(1100); QryInvestorPosition(u); });
                 if (!_qryInstrumentDone)
                 {
-                    new Thread(() => { Thread.Sleep(3300); QryInstrument(u); }).Start();
+                    _treadPool.QueueWorkItem(() => { Thread.Sleep(2200); QryInstrument(u); });
                     _qryInstrumentDone = true;
                 }
-                
+
                 return;
             }
-        }
-
-        private void QryTrade(CtpUserInfo user)
-        {
-            var qry = new CtpQryTrade();
-            qry.BrokerID = user.BrokerId;
-            qry.InvestorID = user.UserId;
-            var api = user.TraderApi();
-            var reqId = RequestId.TradeQryId();
-            var rsp = api.ReqQryTrade(qry, reqId);
-            _log.DebugFormat("ReqQryTrade[{0}]:{1}\nrequest:{2}",
-                reqId, Rsp.This[rsp],
-                JsonConvert.SerializeObject(qry));
         }
 
         private static DataGridViewEx CreatePosGridView(string userId)
@@ -520,6 +513,15 @@ namespace WinCtp
                 });
             gv.Dock = DockStyle.Fill;
             return gv;
+        }
+
+        private DataTable CreateDataTable(string userId)
+        {
+            var table = new DataTable(userId);
+            table.Columns.Add("InvestorId", typeof (string));
+            table.Columns.Add("InstrumentId", typeof(string));
+            table.AcceptChanges();
+            return table;
         }
 
         private void tsmiSelectAllMstUser_Click(object sender, EventArgs e)
@@ -604,8 +606,8 @@ namespace WinCtp
                 req.UserID = user.UserId;
                 req.Password = user.Password;
                 req.UserProductInfo = "CTP.NET";
-                req.ProtocolInfo = "X";
-                req.InterfaceProductInfo = "X";
+                req.ProtocolInfo = "CTP.NET";
+                req.InterfaceProductInfo = "CTP.NET";
                 var reqId = user.ReqId;
                 var rsp = api.ReqUserLogin(req, reqId);
                 _log.InfoFormat("ReqUserLogin[{0}]:{1}\nrequest:{2}",
@@ -639,151 +641,45 @@ namespace WinCtp
 
         private void tsmiListen_Click(object sender, EventArgs e)
         {
-            if (timerQryTrade.Enabled)
+            if (_listening)
             {
-                //timerQryTrade.Stop();
-                timerFollowOrder.Stop();
+                _listening = false;
                 tsmiListen.Text = "启动监听";
             }
             else
             {
-                //timerQryTrade.Start();
-                timerFollowOrder.Start();
+                _listening = true;
                 tsmiListen.Text = "停止监听";
             }
         }
 
-        #region 查询主账户成交单
-        /// <summary>
-        /// 触发查询主账户成交单。
-        /// </summary>
-        private void timerQryTrade_Tick(object sender, EventArgs e)
-        {
-            if (!_workerQryTrade.IsBusy)
-                _workerQryTrade.RunWorkerAsync();
-        }
-        
-        private void OnDoWorkQryTrade(object sender, DoWorkEventArgs doWorkEventArgs)
-        {
-            var qry = new CtpQryTrade();
-            foreach (CtpMstUser user in dsMstUser)
-            {
-                if (!user.IsChecked || !user.IsLogin)
-                    continue;
-                qry.BrokerID = user.BrokerId;
-                qry.InvestorID = user.UserId;
-                var api = user.TraderApi();
-                var reqId = RequestId.TradeQryId();
-                var rsp = api.ReqQryTrade(qry, reqId);
-                _log.DebugFormat("ReqQryTrade[{0}]:{1}\nrequest:{2}", 
-                    reqId, Rsp.This[rsp],
-                    JsonConvert.SerializeObject(qry));
-            }
-        }
-
-        /// <summary>
-        /// 查询成交单回报。
-        /// </summary>
-        private void OnRspQryTrade(object sender, CtpTrade response, CtpRspInfo rspInfo, int requestId, bool isLast)
-        {
-            _log.DebugFormat("OnRspQryTrade[{0}]\nresponse:{1}\nrspInfo:{2}",
-                requestId,
-                JsonConvert.SerializeObject(response), 
-                JsonConvert.SerializeObject(rspInfo));
-            if (rspInfo != null && rspInfo.ErrorID != 0)
-                return;
-            if (response == null)
-                return;
-            var isBeMst = dsMstUser.Cast<CtpUserInfo>().Any(o => Equals(o.UserId, response.InvestorID));
-            if (isBeMst)
-            {
-                _tradeQueue.Enqueue(response);//主账户成交单
-            }
-            else//子账户成交单
-            {
-                var exists = dsSubOrder.Cast<OrderInfo>().Any(od =>
-                Equals(od.ExchangeId, response.ExchangeID) &&
-                Equals(od.OrderSysId, response.OrderSysID));
-                if (!exists)
-                {
-                    //添加到成交单列表
-                    var ord = new TradeInfo(response);
-                    dsSubTradeInfo.Add(ord);
-                    //dsSubTradeInfo.ResetBindings(false);
-                }
-            }
-        }
-
-        private void OnRspQryOrder(object sender, CtpOrder response, CtpRspInfo rspInfo, int requestId, bool isLast)
-        {
-            _log.DebugFormat("OnRspQryOrder[{0}]\nresponse:{1}\nrspInfo:{2}",
-                requestId,
-                JsonConvert.SerializeObject(response),
-                JsonConvert.SerializeObject(rspInfo));
-        }
-        #endregion
-
         #region 子账户跟单
-        /// <summary>
-        /// 触发子账户跟单。
-        /// </summary>
-        /// <remarks>从主账号成交单队列获取跟单数据。</remarks>
-        private void timerFollowOrder_Tick(object sender, EventArgs e)
-        {
-            if (_tradeQueue.Count == 0)
-                return;
-            if (!_workerFollowOrder.IsBusy)
-                _workerFollowOrder.RunWorkerAsync();
-        }
 
         /// <summary>
         /// 处理子账户跟单。
         /// </summary>
-        private void OnDoWorkFollowOrder(object sender, DoWorkEventArgs args)
+        private void FollowOrder(CtpTrade ctpTrade)
         {
-            bool rs;
-            do
+            //新的成交单，子账户跟单
+            foreach (CtpSubUser u in dsSubUser)
             {
-                CtpTrade ctpTrade;
-                rs = _tradeQueue.TryDequeue(out ctpTrade);
-                if (!rs || ctpTrade == null)
+                if (!u.IsLogin)
                     continue;
-                //同步到主账户成交单列表
-                //var rs = SyncToMstTrade(ctpTrade);
-                //if(!rs)
-                //    continue;
-                //新的成交单，子账户跟单
-                foreach (CtpSubUser u in dsSubUser)
-                {
-                    if(!u.IsLogin)
-                        continue;
-                    var req = u.FollowOrder(ctpTrade);
-                    if(req == null)
-                        continue;
-                    //var e = dsSubOrder.Cast<OrderBase>().Any(o =>
-                    //Equals(o.InvestorId, u.UserId) &&
-                    //Equals(o.ExchangeId, ctpTrade.ExchangeID) &&
-                    //Equals(o.OrderSysId, ctpTrade.OrderSysID));
-                    //if (!e)
-                    //    e = dsSubTradeInfo.Cast<OrderBase>().Any(o => 
-                    //    Equals(o.InvestorId, u.UserId) &&
-                    //    Equals(o.ExchangeId, ctpTrade.ExchangeID) &&
-                    //    Equals(o.OrderSysId, ctpTrade.OrderSysID));
-                    //if (e)
-                    //    continue;//该单已经跟过
-                    var reqId = RequestId.OrderInsertId();
-                    req.RequestID = reqId;
-                    var rsp = u.TraderApi().ReqOrderInsert(req, reqId);
-                    _log.DebugFormat("ReqOrderInsert[{0}]跟单:{1}\n{2}", 
-                        reqId, Rsp.This[rsp], 
-                        JsonConvert.SerializeObject(req));
-                    var t = new OrderInfo(req);
-                    if (rsp != 0)
-                        t.ErrorMsg = $"[{rsp}]{Rsp.This[rsp]}";
-                    dsSubOrder.Add(t);
-                }
-            } while (!rs);
-            //dsSubOrder.ResetBindings(false);
+                var req = u.FollowOrder(ctpTrade);
+                if (req == null)
+                    continue;
+                var reqId = RequestId.OrderInsertId();
+                req.RequestID = reqId;
+                var rsp = u.TraderApi().ReqOrderInsert(req, reqId);
+                _log.DebugFormat("ReqOrderInsert[{0}]跟单:{1}\n{2}",
+                    reqId, Rsp.This[rsp],
+                    JsonConvert.SerializeObject(req));
+                var t = new OrderInfo(req);
+                if (rsp != 0)
+                    t.ErrorMsg = $"[{rsp}]{Rsp.This[rsp]}";
+                
+                dsSubOrder.Add(t);
+            }
         }
 
         private static bool Equals(string s1,string s2)
@@ -791,18 +687,6 @@ namespace WinCtp
             var ss1 = (s1 ?? string.Empty).Trim().ToLower();
             var ss2 = (s2 ?? string.Empty).Trim().ToLower();
             return ss1 == ss2;
-        }
-
-        private bool SyncToMstTrade(CtpTrade trade)
-        {
-            var e = dsMstTradeInfo.Cast<TradeInfo>().Any(o =>
-            Equals(o.ExchangeId, trade.ExchangeID) &&
-            Equals(o.OrderSysId, trade.OrderSysID));
-            if (e)
-                return false;
-            var t = new TradeInfo(trade);
-            dsMstTradeInfo.Add(t);
-            return true;
         }
 
         /// <summary>
@@ -882,8 +766,8 @@ namespace WinCtp
                 return;
             if (isMst)
             {
-                if(timerFollowOrder.Enabled)
-                    _tradeQueue.Enqueue(response);
+                if(_listening)
+                    FollowOrder(response);
                 var ord = new TradeInfo(response);
                 dsMstTradeInfo.Add(ord);
             }
@@ -916,7 +800,7 @@ namespace WinCtp
         private void OnRtnOrder(object sender, CtpOrder response)
         {
             //收到委托回报时，使用 FrontID、SessionID、OrderRef过滤出自己的委托回报。同时记下关联的ExchangeID、OrderSysID。
-            _log.InfoFormat("OnRtnOrder\nresponse:{0}", 
+            _log.DebugFormat("OnRtnOrder\nresponse:{0}",
                 JsonConvert.SerializeObject(response));
             if (response == null)
                 return;
@@ -951,6 +835,12 @@ namespace WinCtp
                 JsonConvert.SerializeObject(rspInfo));
             if (response == null || rspInfo == null)
                 return;
+            bool isMst;
+            var rs = _loginUser.TryGetValue(response.InvestorID, out isMst);
+            if (!rs)//未知账户的回报
+                return;
+            if(isMst)
+                return;
             for (var i = 0; i < dsSubOrder.Count; i++)
             {
                 var od = (OrderInfo)dsSubOrder[i];
@@ -972,6 +862,12 @@ namespace WinCtp
                 JsonConvert.SerializeObject(rspInfo), 
                 JsonConvert.SerializeObject(response));
             if (response == null || rspInfo == null)
+                return;
+            bool isMst;
+            var rs = _loginUser.TryGetValue(response.InvestorID, out isMst);
+            if (!rs)//未知账户的回报
+                return;
+            if (isMst)
                 return;
             for (var i = 0; i < dsSubOrder.Count; i++)
             {
@@ -1009,15 +905,36 @@ namespace WinCtp
         /// </summary>
         private void OnRspQryInvestorPosition(object sender, CtpInvestorPosition response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
-            _log.DebugFormat("OnRspQryInvestorPosition[{0}]\nrspInfo:{1}\nresponse:{2}",
+            _log.DebugFormat("OnRspQryInvestorPosition\nrequestId:{0}\nrspInfo:{1}\nresponse:{2}\nisLast:{3}",
                 requestId,
                 JsonConvert.SerializeObject(rspInfo), 
-                JsonConvert.SerializeObject(response));
+                JsonConvert.SerializeObject(response), 
+                isLast);
             if (rspInfo != null && rspInfo.ErrorID != 0)
                 return;
             if (response == null)
                 return;
-            _positionQueue.Enqueue(new InvestorPositionInfo(response));
+            
+            _positionQueue.Enqueue(response);
+            if (!isLast)
+                return;
+            if (InvokeRequired)
+                Invoke(new SimpleDelegate(DoRspQryInvestorPosition));
+            else DoRspQryInvestorPosition();
+        }
+        
+        private void DoRspQryInvestorPosition()
+        {
+            CtpInvestorPosition info;
+            var rs = _positionQueue.TryDequeue(out info);
+            while (rs)
+            {
+                BindingSource ds;
+                if (!_dicds.TryGetValue(info.InvestorID, out ds))
+                    return;
+                ds.Add(new InvestorPositionInfo(info));
+                rs = _positionQueue.TryDequeue(out info);
+            }
         }
 
         /// <summary>
@@ -1033,38 +950,5 @@ namespace WinCtp
                 return;
         }
         #endregion
-
-        /// <summary>
-        /// 通用同步数据触发。
-        /// </summary>
-        private void timerSyncData_Tick(object sender, EventArgs e)
-        {
-            if (!_positionQueue.IsEmpty)
-            {
-                InvestorPositionInfo info;
-                while (_positionQueue.TryDequeue(out info))
-                {
-                    BindingSource ds;
-                    if (_dicds.TryGetValue(info.InvestorId, out ds))
-                    {
-                        ds.Add(info);
-                    }
-                }
-            }
-            //
-            if (!_instrumentQueue.IsEmpty)
-            {
-                CtpInstrument info;
-                while (_instrumentQueue.TryDequeue(out info))
-                {
-                    cmbInstrumentId.Items.Add(info.InstrumentID);
-                }
-            }
-        }
-
-        private void ibtnSetting_Click(object sender, EventArgs e)
-        {
-            new FrmSetting().ShowDialog(this);
-        }
     }
 }
