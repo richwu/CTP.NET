@@ -137,8 +137,8 @@ namespace WinCtp
                 api.OnRspUserLogout += OnRspUserLogout;
                 api.OnRspError += OnRspError;
 
-                api.OnRtnOrder += OnRtnOrder;
                 api.OnRtnTrade += OnRtnTrade;
+                api.OnRtnOrder += OnRtnOrder;
                 api.OnRspOrderInsert += OnRspOrderInsert;
                 api.OnErrRtnOrderInsert += OnErrRtnOrderInsert;
 
@@ -513,15 +513,6 @@ namespace WinCtp
                 });
             gv.Dock = DockStyle.Fill;
             return gv;
-        }
-
-        private DataTable CreateDataTable(string userId)
-        {
-            var table = new DataTable(userId);
-            table.Columns.Add("InvestorId", typeof (string));
-            table.Columns.Add("InstrumentId", typeof(string));
-            table.AcceptChanges();
-            return table;
         }
 
         private void tsmiSelectAllMstUser_Click(object sender, EventArgs e)
