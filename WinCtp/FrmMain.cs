@@ -28,6 +28,7 @@ namespace WinCtp
         private bool _listening;
 
         private readonly object _subOrderSyncRoot = new object();//子账户委托单互斥锁
+        private readonly object _subTradeSyncRoot = new object();//子账户成交单互斥锁
 
         private readonly ConcurrentQueue<CtpInvestorPosition> _positionQueue;//持仓队列
 
@@ -180,8 +181,13 @@ namespace WinCtp
             //开平标志
             var luof = new List<LookupObject>
             {
-                new LookupObject(CtpOffsetFlagType.Open, "开"),
-                new LookupObject(CtpOffsetFlagType.Close, "平")
+                new LookupObject(CtpOffsetFlagType.Open, "开仓"),//0
+                new LookupObject(CtpOffsetFlagType.Close, "平仓"),//1
+                new LookupObject(CtpOffsetFlagType.ForceClose, "强平"),//2
+                new LookupObject(CtpOffsetFlagType.CloseToday, "平今"),//3
+                new LookupObject(CtpOffsetFlagType.CloseYesterday, "平昨"),//4
+                new LookupObject(CtpOffsetFlagType.ForceOff, "强减"),//5
+                new LookupObject(CtpOffsetFlagType.LocalForceClose, "本地强平")//6
             };
             cmbOffsetFlag.Bind(luof);
             gcSubTradeOffsetFlag.Bind(luof);
@@ -189,8 +195,13 @@ namespace WinCtp
             //组合开平标志
             var lucof = new List<LookupObject>
             {
-                new LookupObject(((char)CtpOffsetFlagType.Open).ToString(), "开"),
-                new LookupObject(((char)CtpOffsetFlagType.Close).ToString(), "平")
+                new LookupObject(((char)CtpOffsetFlagType.Open).ToString(), "开仓"),
+                new LookupObject(((char)CtpOffsetFlagType.Close).ToString(), "平仓"),
+                new LookupObject(((char)CtpOffsetFlagType.ForceClose).ToString(), "强平"),
+                new LookupObject(((char)CtpOffsetFlagType.CloseToday).ToString(), "平今"),
+                new LookupObject(((char)CtpOffsetFlagType.CloseYesterday).ToString(), "平昨"),
+                new LookupObject(((char)CtpOffsetFlagType.ForceOff).ToString(), "强减"),
+                new LookupObject(((char)CtpOffsetFlagType.LocalForceClose).ToString(), "本地强平")
             };
             gcSubOrderCombOffsetFlag.Bind(lucof);
             //报单状态
@@ -791,8 +802,10 @@ namespace WinCtp
                 }
                 //添加到成交单列表
                 var ord = new TradeInfo(response);
-                dsSubTradeInfo.Add(ord);
-                //dsSubTradeInfo.ResetBindings(false);
+                lock (_subTradeSyncRoot)
+                {
+                    dsSubTradeInfo.Add(ord);
+                }
             }
         }
 
@@ -1032,8 +1045,6 @@ namespace WinCtp
                 requestId,
                 JsonConvert.SerializeObject(rspInfo),
                 JsonConvert.SerializeObject(response));
-            if (rspInfo == null || rspInfo.ErrorID != 0 || response == null)
-                return;
         }
         #endregion
 
@@ -1079,8 +1090,8 @@ namespace WinCtp
                 if (rsp != 0)
                     od.ErrorMsg = $"[{rsp}]{Rsp.This[rsp]}";
                 dsSubOrder.ResetCurrentItem();
-                MsgBox.Info("撤单已提交");
             }
+            MsgBox.Info("撤单已提交");
         }
     }
 }

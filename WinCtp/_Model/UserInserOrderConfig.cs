@@ -19,7 +19,7 @@ namespace WinCtp
                 con.Open();
                 var cmd = con.CreateCommand();
                 var sql = new SQLiteHelper(cmd);
-                table = sql.Select("select SubUserID,MstUserID,Instrument,Volume,IsInverse from CfgUserInserOrder");
+                table = sql.Select("select SubUserID,MstUserID,Instrument,Volume,Price,IsInverse from CfgUserInserOrder");
                 con.Close();
             }
             foreach (DataRow r in table.Rows)
@@ -28,7 +28,8 @@ namespace WinCtp
                 a.SubUserId = r["SubUserID"].ToString();
                 a.MstUserId = r["MstUserID"].ToString();
                 a.Instrument = r["Instrument"].ToString();
-                a.Volume = Convert.ToInt32(r["Volume"]);
+                a.Volume = Convert.ToDouble(r["Volume"]);
+                a.Price = Convert.ToDouble(r["Price"]);
                 a.IsInverse = Convert.ToBoolean(r["IsInverse"]);
                 arr.Add(a);
             }
@@ -44,7 +45,7 @@ namespace WinCtp
                 con.Open();
                 var cmd = con.CreateCommand();
                 var sql = new SQLiteHelper(cmd);
-                table = sql.Select("select SubUserID,MstUserID,Instrument,Volume,IsInverse from CfgUserInserOrder where SubUserID=@p_SubUserID",
+                table = sql.Select("select SubUserID,MstUserID,Instrument,Volume,Price,IsInverse from CfgUserInserOrder where SubUserID=@p_SubUserID",
                     new Dictionary<string, object> { { "@p_SubUserID", subUserId }});
                 con.Close();
             }
@@ -54,7 +55,8 @@ namespace WinCtp
                 a.SubUserId = r["SubUserID"].ToString();
                 a.MstUserId = r["MstUserID"].ToString();
                 a.Instrument = r["Instrument"].ToString();
-                a.Volume = Convert.ToInt32(r["Volume"]);
+                a.Volume = Convert.ToDouble(r["Volume"]);
+                a.Price = Convert.ToDouble(r["Price"]);
                 a.IsInverse = Convert.ToBoolean(r["IsInverse"]);
                 arr.Add(a);
             }
