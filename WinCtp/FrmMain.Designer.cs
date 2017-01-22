@@ -144,6 +144,8 @@
             this.ibtnBroker = new System.Windows.Forms.ToolStripButton();
             this.tsmiListen = new System.Windows.Forms.ToolStripButton();
             this.ibtnSetting = new System.Windows.Forms.ToolStripButton();
+            this.cmsSubOrder = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiCancelOrder = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tpMstOrder.SuspendLayout();
@@ -177,6 +179,7 @@
             this.groupBox1.SuspendLayout();
             this.tcSubInstrument.SuspendLayout();
             this.toolStrip.SuspendLayout();
+            this.cmsSubOrder.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip
@@ -927,6 +930,7 @@
             this.insertTimeDataGridViewTextBoxColumn1,
             this.updateTimeDataGridViewTextBoxColumn1,
             this.gcSubOrderErrorMsg});
+            this.gvSubOrder.ContextMenuStrip = this.cmsSubOrder;
             this.gvSubOrder.DataSource = this.dsSubOrder;
             this.gvSubOrder.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gvSubOrder.Location = new System.Drawing.Point(0, 0);
@@ -1281,6 +1285,20 @@
             this.ibtnSetting.Text = "设置";
             this.ibtnSetting.Click += new System.EventHandler(this.ibtnSetting_Click);
             // 
+            // cmsSubOrder
+            // 
+            this.cmsSubOrder.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiCancelOrder});
+            this.cmsSubOrder.Name = "cmsSubOrder";
+            this.cmsSubOrder.Size = new System.Drawing.Size(153, 48);
+            // 
+            // tsmiCancelOrder
+            // 
+            this.tsmiCancelOrder.Name = "tsmiCancelOrder";
+            this.tsmiCancelOrder.Size = new System.Drawing.Size(152, 22);
+            this.tsmiCancelOrder.Text = "撤单";
+            this.tsmiCancelOrder.Click += new System.EventHandler(this.tsmiCancelOrder_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1331,6 +1349,7 @@
             this.tcSubInstrument.ResumeLayout(false);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
+            this.cmsSubOrder.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1450,6 +1469,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn orderLocalIdDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn exchangeIdDataGridViewTextBoxColumn1;
         private System.Windows.Forms.ToolStripButton ibtnSetting;
+        private System.Windows.Forms.ContextMenuStrip cmsSubOrder;
+        private System.Windows.Forms.ToolStripMenuItem tsmiCancelOrder;
     }
 }
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -27,6 +26,8 @@ namespace WinCtp
     {
         private readonly ILog _log;
         private bool _listening;
+
+        private readonly object _subOrderSyncRoot = new object();//子账户委托单互斥锁
 
         private readonly ConcurrentQueue<CtpInvestorPosition> _positionQueue;//持仓队列
 
@@ -141,6 +142,8 @@ namespace WinCtp
                 api.OnRtnOrder += OnRtnOrder;
                 api.OnRspOrderInsert += OnRspOrderInsert;
                 api.OnErrRtnOrderInsert += OnErrRtnOrderInsert;
+                api.OnRspOrderAction += OnRspOrderAction;
+                api.OnErrRtnOrderAction += OnErrRtnOrderAction;
 
                 api.OnRspQryInvestorPosition += OnRspQryInvestorPosition;
                 api.OnRspQryInvestorPositionDetail += OnRspQryInvestorPositionDetail;
@@ -666,10 +669,14 @@ namespace WinCtp
                     reqId, Rsp.This[rsp],
                     JsonConvert.SerializeObject(req));
                 var t = new OrderInfo(req);
+                t.FrontId = u.FrontId;
+                t.SessionId = u.SessionId;
                 if (rsp != 0)
                     t.ErrorMsg = $"[{rsp}]{Rsp.This[rsp]}";
-                
-                dsSubOrder.Add(t);
+                lock (_subOrderSyncRoot)
+                {
+                    dsSubOrder.Add(t);
+                }
             }
         }
 
@@ -731,11 +738,13 @@ namespace WinCtp
                 var rsp = u.TraderApi().ReqOrderInsert(req, reqId);
                 _log.DebugFormat("ReqOrderInsert[{0}]下单:{1}\nrequest:{2}",
                     reqId, Rsp.This[rsp], JsonConvert.SerializeObject(req));
-                if (rsp == 0)
+                var od = new OrderInfo(req);
+                od.FrontId = u.FrontId;
+                od.SessionId = u.SessionId;
+                if (rsp != 0)
+                    od.ErrorMsg = $"[{rsp}]{Rsp.This[rsp]}";
+                lock (_subOrderSyncRoot)
                 {
-                    var od = new OrderInfo(req);
-                    od.FrontId = u.FrontId;
-                    od.SessionId = u.SessionId;
                     dsSubOrder.Insert(0, od);
                 }
             }
@@ -764,19 +773,22 @@ namespace WinCtp
             }
             else
             {
-                var idx = -1;
-                for (var i = 0; i < dsSubOrder.Count; i++)
+                lock (_subOrderSyncRoot)
                 {
-                    var od = (OrderInfo)dsSubOrder[i];
-                    if (Equals(od.ExchangeId, response.ExchangeID) ||
-                        Equals(od.OrderSysId, response.OrderSysID))
-                        continue;
-                    idx = i;
-                    break;
+                    var idx = -1;
+                    for (var i = 0; i < dsSubOrder.Count; i++)
+                    {
+                        var od = (OrderInfo) dsSubOrder[i];
+                        if (Equals(od.ExchangeId, response.ExchangeID) ||
+                            Equals(od.OrderSysId, response.OrderSysID))
+                            continue;
+                        idx = i;
+                        break;
+                    }
+                    //从委托单列表移除
+                    if (idx >= 0)
+                        dsSubOrder.RemoveAt(idx);
                 }
-                //从委托单列表移除
-                if (idx >= 0)
-                    dsSubOrder.RemoveAt(idx);
                 //添加到成交单列表
                 var ord = new TradeInfo(response);
                 dsSubTradeInfo.Add(ord);
@@ -785,9 +797,13 @@ namespace WinCtp
         }
 
         /// <summary>
-        /// 报单回报。
+        /// 报单回报（报单状态发生变化时）。
         /// </summary>
-        /// <remarks>报单状态发生变化时。</remarks>
+        /// <remarks>
+        /// 1、交易所收到报单后，通过校验。
+        /// 2、Thost接受了撤单指令；
+        /// 3、交易所收到撤单后，通过校验，执行了撤单操作。
+        /// </remarks>
         private void OnRtnOrder(object sender, CtpOrder response)
         {
             //收到委托回报时，使用 FrontID、SessionID、OrderRef过滤出自己的委托回报。同时记下关联的ExchangeID、OrderSysID。
@@ -799,24 +815,29 @@ namespace WinCtp
             var rs = _loginUser.TryGetValue(response.InvestorID, out isMst);
             if (!rs || isMst)//未知账户的回报或者是主账户的回报
                 return;
-            for (var i = 0; i < dsSubOrder.Count; i++)
+            lock (_subOrderSyncRoot)
             {
-                var od = (OrderInfo)dsSubOrder[i];
-                if (Equals(od.FrontId, response.FrontID) ||
-                    Equals(od.SessionId, response.SessionID) ||
-                    Equals(od.OrderRef, response.OrderRef))
-                    continue;
-                od.ExchangeId = response.ExchangeID;
-                od.OrderSysId = response.OrderSysID;
-                od.OrderStatus = response.OrderStatus;
-                od.ErrorMsg = response.StatusMsg;
-                dsSubOrder.ResetItem(i);
-                Thread.Sleep(500);
+                for (var i = 0; i < dsSubOrder.Count; i++)
+                {
+                    var od = (OrderInfo)dsSubOrder[i];
+                    if (Equals(od.FrontId, response.FrontID) ||
+                        Equals(od.SessionId, response.SessionID) ||
+                        Equals(od.OrderRef, response.OrderRef))
+                        continue;
+                    od.ExchangeId = response.ExchangeID;
+                    od.OrderSysId = response.OrderSysID;
+                    od.OrderStatus = response.OrderStatus;
+                    od.ErrorMsg = response.StatusMsg;
+                    dsSubOrder.ResetItem(i);
+                    break;
+                    //Thread.Sleep(100);
+                }
             }
         }
 
         /// <summary>
-        /// 没有通过参数校验，拒绝接受报单指令。用户收到此消息，其中包含了错误编码和错误消息。
+        /// Thost收到报单指令，如果没有通过参数校验，拒绝接受报单指令。用户就会收到OnRspOrderInsert消息，其中包含了错误编码和错误消息。
+        /// 如果Thost接受了报单指令，用户不会收到OnRspOrderInser，而会收到OnRtnOrder，用来更新委托状态。
         /// </summary>
         private void OnRspOrderInsert(object sender, CtpInputOrder response, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
@@ -832,20 +853,24 @@ namespace WinCtp
                 return;
             if(isMst)
                 return;
-            for (var i = 0; i < dsSubOrder.Count; i++)
+            lock (_subOrderSyncRoot)
             {
-                var od = (OrderInfo)dsSubOrder[i];
-                if (!Equals(od.BrokerId, response.BrokerID) || 
-                    !Equals(od.InvestorId, response.InvestorID) ||
-                    !Equals(od.OrderRef, response.OrderRef))
-                    continue;
-                od.ErrorMsg = $"[{rspInfo.ErrorID}]{rspInfo.ErrorMsg}";
-                dsSubOrder.ResetItem(i);
+                for (var i = 0; i < dsSubOrder.Count; i++)
+                {
+                    var od = (OrderInfo) dsSubOrder[i];
+                    if (!Equals(od.BrokerId, response.BrokerID) ||
+                        !Equals(od.InvestorId, response.InvestorID) ||
+                        !Equals(od.OrderRef, response.OrderRef))
+                        continue;
+                    od.ErrorMsg = $"[{rspInfo.ErrorID}]{rspInfo.ErrorMsg}";
+                    dsSubOrder.ResetItem(i);
+                    break;
+                }
             }
         }
 
         /// <summary>
-        /// 报单录入错误回报。
+        /// 如果交易所认为报单错误，用户就会收到OnErrRtnOrder。
         /// </summary>
         private void OnErrRtnOrderInsert(object sender, CtpInputOrder response, CtpRspInfo rspInfo)
         {
@@ -860,15 +885,85 @@ namespace WinCtp
                 return;
             if (isMst)
                 return;
-            for (var i = 0; i < dsSubOrder.Count; i++)
+            lock (_subOrderSyncRoot)
             {
-                var od = (OrderInfo)dsSubOrder[i];
-                if (!Equals(od.BrokerId, response.BrokerID) ||
-                    !Equals(od.InvestorId, response.InvestorID) ||
-                    !Equals(od.OrderRef, response.OrderRef))
-                    continue;
-                od.ErrorMsg = $"[{rspInfo.ErrorID}]{rspInfo.ErrorMsg}";
-                dsSubOrder.ResetItem(i);
+                for (var i = 0; i < dsSubOrder.Count; i++)
+                {
+                    var od = (OrderInfo) dsSubOrder[i];
+                    if (!Equals(od.BrokerId, response.BrokerID) ||
+                        !Equals(od.InvestorId, response.InvestorID) ||
+                        !Equals(od.OrderRef, response.OrderRef))
+                        continue;
+                    od.ErrorMsg = $"[{rspInfo.ErrorID}]{rspInfo.ErrorMsg}";
+                    dsSubOrder.ResetItem(i);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Thost收到撤单指令，如果没有通过参数校验，拒绝接受撤单指令。用户就会收到OnRspOrderAction消息，其中包含了错误编码和错误消息。
+        /// 如果Thost接受了撤单指令，用户不会收到OnRspOrderAction，而会收到OnRtnOrder，用来更新委托状态。
+        /// </summary>
+        private void OnRspOrderAction(object sender, CtpInputOrderAction response, CtpRspInfo rspInfo, int requestId, bool isLast)
+        {
+            _log.DebugFormat("OnRspOrderAction[{0}]\nresponse:{1}\nrspInfo:{2}",
+                requestId,
+                JsonConvert.SerializeObject(response),
+                JsonConvert.SerializeObject(rspInfo));
+            if (response == null || rspInfo == null)
+                return;
+            bool isMst;
+            var rs = _loginUser.TryGetValue(response.InvestorID, out isMst);
+            if (!rs)//未知账户的回报
+                return;
+            if (isMst)
+                return;
+            lock (_subOrderSyncRoot)
+            {
+                for (var i = 0; i < dsSubOrder.Count; i++)
+                {
+                    var od = (OrderInfo) dsSubOrder[i];
+                    if (!Equals(od.FrontId, response.FrontID) ||
+                        !Equals(od.SessionId, response.SessionID) ||
+                        !Equals(od.OrderRef, response.OrderRef))
+                        continue;
+                    od.ErrorMsg = $"[{rspInfo.ErrorID}]{rspInfo.ErrorMsg}";
+                    dsSubOrder.ResetItem(i);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 如果交易所认为报单错误，用户就会收到OnErrRtnOrderAction
+        /// </summary>
+        private void OnErrRtnOrderAction(object sender, CtpOrderAction response, CtpRspInfo rspInfo)
+        {
+            _log.DebugFormat("OnErrRtnOrderAction\nresponse:{0}\nrspInfo:{1}",
+                JsonConvert.SerializeObject(response),
+                JsonConvert.SerializeObject(rspInfo));
+            if (response == null || rspInfo == null)
+                return;
+            bool isMst;
+            var rs = _loginUser.TryGetValue(response.InvestorID, out isMst);
+            if (!rs)//未知账户的回报
+                return;
+            if (isMst)
+                return;
+            lock (_subOrderSyncRoot)
+            {
+                for (var i = 0; i < dsSubOrder.Count; i++)
+                {
+                    var od = (OrderInfo) dsSubOrder[i];
+                    if (!Equals(od.FrontId, response.FrontID) ||
+                        !Equals(od.SessionId, response.SessionID) ||
+                        !Equals(od.OrderRef, response.OrderRef))
+                        continue;
+                    od.ErrorMsg = $"[{rspInfo.ErrorID}]{rspInfo.ErrorMsg}";
+                    dsSubOrder.ResetItem(i);
+                    break;
+                }
             }
         }
         #endregion
@@ -941,5 +1036,51 @@ namespace WinCtp
                 return;
         }
         #endregion
+
+        private void tsmiCancelOrder_Click(object sender, EventArgs e)
+        {
+            lock (_subOrderSyncRoot)
+            {
+                if (dsSubOrder.Current == null)
+                    return;
+                //不可撤单状态：AllTraded\Canceled\NoTradeNotQueueing\PartTradedNotQueueing
+                var od = (OrderInfo)dsSubOrder.Current;
+                if (od.OrderStatus == CtpOrderStatusType.AllTraded ||
+                    od.OrderStatus == CtpOrderStatusType.Canceled ||
+                    od.OrderStatus == CtpOrderStatusType.NoTradeNotQueueing ||
+                    od.OrderStatus == CtpOrderStatusType.PartTradedNotQueueing)
+                {
+                    MsgBox.Info("当前状态不可撤单");
+                    return;
+                }
+                CtpSubUser user = null;
+                foreach (CtpSubUser u in dsSubUser)
+                {
+                    if (u.UserId != od.InvestorId)
+                        continue;
+                    user = u;
+                    break;
+                }
+                if (user == null || !user.IsLogin)
+                {
+                    MsgBox.Info($"用户[{od.InvestorId}]未登录");
+                    return;
+                }
+                var req = new CtpInputOrderAction();
+                req.FrontID = od.FrontId;
+                req.SessionID = od.SessionId;
+                req.OrderRef = od.OrderRef;
+                req.ActionFlag = CtpActionFlagType.Delete;
+                req.BrokerID = od.BrokerId;
+                req.InvestorID = od.InvestorId;
+                var api = user.TraderApi();
+                var reqId = RequestId.NewId();
+                var rsp = api.ReqOrderAction(req, reqId);
+                if (rsp != 0)
+                    od.ErrorMsg = $"[{rsp}]{Rsp.This[rsp]}";
+                dsSubOrder.ResetCurrentItem();
+                MsgBox.Info("撤单已提交");
+            }
+        }
     }
 }
