@@ -38,6 +38,7 @@ namespace WinCtp
         private readonly SmartThreadPool _treadPool;
 
         private readonly ConcurrentDictionary<string, bool> _loginUser;//[UserID,MstOrSub] true/Mst,false/Sub
+        private readonly MainViewImpl _impl;
 
         #region 初始化
         public FrmMain()
@@ -45,6 +46,8 @@ namespace WinCtp
             InitializeComponent();
             
             _log = LogManager.GetLogger("CTP");
+
+            _impl = new MainViewImpl(this);
 
             _loginUser = new ConcurrentDictionary<string, bool>();
             _positionQueue = new ConcurrentQueue<CtpInvestorPosition>();
@@ -100,7 +103,7 @@ namespace WinCtp
                 ds.Clear();
                 var tp = new TabPage(u.UserId);
                 tp.Name = $"tpp{u.UserId}";
-                var gv = CreatePosGridView(u.UserId);
+                var gv = _impl.CreatePositionView(u.UserId);
                 gv.DataSource = ds;
                 tp.Controls.Add(gv);
                 tcMstInstrument.TabPages.Add(tp);
@@ -114,7 +117,7 @@ namespace WinCtp
                 ds.Clear();
                 var tp = new TabPage(u.UserId);
                 tp.Name = $"tpp{u.UserId}";
-                var gv = CreatePosGridView(u.UserId);
+                var gv = _impl.CreatePositionView(u.UserId);
                 gv.DataSource = ds;
                 tp.Controls.Add(gv);
                 tcSubInstrument.TabPages.Add(tp);
@@ -499,34 +502,6 @@ namespace WinCtp
 
                 return;
             }
-        }
-
-        private static DataGridViewEx CreatePosGridView(string userId)
-        {
-            var gv = new DataGridViewEx();
-            gv.AllowUserToAddRows = false;
-            gv.AllowUserToDeleteRows = false;
-            gv.ReadOnly = true;
-            gv.Visible = true;
-            gv.Name = $"gvp{userId}";
-            gv.Columns.AddRange(
-                new DataGridViewTextBoxColumn
-                {
-                    Name = $"gcInvestorId{userId}",
-                    HeaderText = "投资者",
-                    DataPropertyName = "InvestorId",
-                    ReadOnly = true,
-                    Width = 78
-                }, new DataGridViewTextBoxColumn
-                {
-                    Name = $"gcInstrumentId{userId}",
-                    HeaderText = "合约",
-                    DataPropertyName = "InstrumentId",
-                    ReadOnly = true,
-                    Width = 78
-                });
-            gv.Dock = DockStyle.Fill;
-            return gv;
         }
 
         private void tsmiSelectAllMstUser_Click(object sender, EventArgs e)
