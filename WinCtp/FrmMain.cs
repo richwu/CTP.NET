@@ -1021,6 +1021,62 @@ namespace WinCtp
                 JsonConvert.SerializeObject(rspInfo),
                 JsonConvert.SerializeObject(response));
         }
+
+        /// <summary>
+        /// 刷新子账户持仓。
+        /// </summary>
+        private void tsmiRePosiSub_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                tsmiRePosiSub.Enabled = false;
+                for (var i = 0; i < dsSubUser.Count; i++)
+                {
+                    var u = (CtpUserInfo)dsSubUser[i];
+                    if (!u.IsChecked || !u.IsLogin)
+                        continue;
+                    BindingSource ds;
+                    if (!_dicds.TryGetValue(u.UserId, out ds))
+                        return;
+                    ds.Clear();
+                    ds.ResetBindings(false);
+                    QryInvestorPosition(u);
+                }
+                Thread.Sleep(1000);
+            }
+            finally
+            {
+                tsmiRePosiSub.Enabled = true;
+            }
+        }
+
+        /// <summary>
+        /// 刷新主账户持仓。
+        /// </summary>
+        private void tsmiRePosiMst_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                tsmiRePosiMst.Enabled = false;
+                for (var i = 0; i < dsMstUser.Count; i++)
+                {
+                    var u = (CtpUserInfo)dsMstUser[i];
+                    if (!u.IsChecked || !u.IsLogin)
+                        continue;
+                    BindingSource ds;
+                    if (!_dicds.TryGetValue(u.UserId, out ds))
+                        return;
+                    ds.Clear();
+                    ds.ResetBindings(false);
+                    QryInvestorPosition(u);
+                }
+                Thread.Sleep(1000);
+            }
+            finally
+            {
+                tsmiRePosiMst.Enabled = true;
+            }
+        }
         #endregion
 
         private void tsmiCancelOrder_Click(object sender, EventArgs e)
@@ -1067,6 +1123,12 @@ namespace WinCtp
                 dsSubOrder.ResetCurrentItem();
             }
             MsgBox.Info("撤单已提交");
+        }
+
+        private void ibtnClose_Click(object sender, EventArgs e)
+        {
+            if(MsgBox.Ask("您确定关闭程序？"))
+                Close();
         }
     }
 }

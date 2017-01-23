@@ -120,6 +120,8 @@
             this.insertTimeDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.updateTimeDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gcSubOrderErrorMsg = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmsSubOrder = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiCancelOrder = new System.Windows.Forms.ToolStripMenuItem();
             this.dsSubOrder = new System.Windows.Forms.BindingSource(this.components);
             this.tpSubTrade = new System.Windows.Forms.TabPage();
             this.dataGridViewEx1 = new WinCtp.DataGridViewEx();
@@ -144,8 +146,9 @@
             this.ibtnBroker = new System.Windows.Forms.ToolStripButton();
             this.tsmiListen = new System.Windows.Forms.ToolStripButton();
             this.ibtnSetting = new System.Windows.Forms.ToolStripButton();
-            this.cmsSubOrder = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmiCancelOrder = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiRePosiMst = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiRePosiSub = new System.Windows.Forms.ToolStripMenuItem();
+            this.ibtnClose = new System.Windows.Forms.ToolStripButton();
             this.panel1.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tpMstOrder.SuspendLayout();
@@ -172,6 +175,7 @@
             this.tabControl4.SuspendLayout();
             this.tpSubOrder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvSubOrder)).BeginInit();
+            this.cmsSubOrder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dsSubOrder)).BeginInit();
             this.tpSubTrade.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEx1)).BeginInit();
@@ -179,7 +183,6 @@
             this.groupBox1.SuspendLayout();
             this.tcSubInstrument.SuspendLayout();
             this.toolStrip.SuspendLayout();
-            this.cmsSubOrder.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip
@@ -572,28 +575,31 @@
             this.cmsMstUser.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiSelectAllMstUser,
             this.tsmiMstUserLogin,
-            this.tsmiMstUserLogout});
+            this.tsmiMstUserLogout,
+            this.tsmiRePosiMst});
             this.cmsMstUser.Name = "cmsMstUser";
-            this.cmsMstUser.Size = new System.Drawing.Size(101, 70);
+            this.cmsMstUser.Size = new System.Drawing.Size(127, 92);
             // 
             // tsmiSelectAllMstUser
             // 
+            this.tsmiSelectAllMstUser.Image = global::WinCtp.Properties.Resources.right;
             this.tsmiSelectAllMstUser.Name = "tsmiSelectAllMstUser";
-            this.tsmiSelectAllMstUser.Size = new System.Drawing.Size(100, 22);
+            this.tsmiSelectAllMstUser.Size = new System.Drawing.Size(126, 22);
             this.tsmiSelectAllMstUser.Text = "全选";
             this.tsmiSelectAllMstUser.Click += new System.EventHandler(this.tsmiSelectAllMstUser_Click);
             // 
             // tsmiMstUserLogin
             // 
+            this.tsmiMstUserLogin.Image = global::WinCtp.Properties.Resources.man0;
             this.tsmiMstUserLogin.Name = "tsmiMstUserLogin";
-            this.tsmiMstUserLogin.Size = new System.Drawing.Size(100, 22);
+            this.tsmiMstUserLogin.Size = new System.Drawing.Size(126, 22);
             this.tsmiMstUserLogin.Text = "登录";
             this.tsmiMstUserLogin.Click += new System.EventHandler(this.tsmiMstUserLogin_Click);
             // 
             // tsmiMstUserLogout
             // 
             this.tsmiMstUserLogout.Name = "tsmiMstUserLogout";
-            this.tsmiMstUserLogout.Size = new System.Drawing.Size(100, 22);
+            this.tsmiMstUserLogout.Size = new System.Drawing.Size(126, 22);
             this.tsmiMstUserLogout.Text = "注销";
             this.tsmiMstUserLogout.Click += new System.EventHandler(this.tsmiMstUserLogout_Click);
             // 
@@ -691,12 +697,14 @@
             this.tsmiSelectAllSubUser,
             this.tsmiSubUserLogin,
             this.tsmiSubUserLogout,
-            this.tsmiSettlementInfoConfirm});
+            this.tsmiSettlementInfoConfirm,
+            this.tsmiRePosiSub});
             this.cmsSubUser.Name = "cmsMstUser";
-            this.cmsSubUser.Size = new System.Drawing.Size(127, 92);
+            this.cmsSubUser.Size = new System.Drawing.Size(127, 114);
             // 
             // tsmiSelectAllSubUser
             // 
+            this.tsmiSelectAllSubUser.Image = global::WinCtp.Properties.Resources.right;
             this.tsmiSelectAllSubUser.Name = "tsmiSelectAllSubUser";
             this.tsmiSelectAllSubUser.Size = new System.Drawing.Size(126, 22);
             this.tsmiSelectAllSubUser.Text = "全选";
@@ -704,6 +712,7 @@
             // 
             // tsmiSubUserLogin
             // 
+            this.tsmiSubUserLogin.Image = global::WinCtp.Properties.Resources.man0;
             this.tsmiSubUserLogin.Name = "tsmiSubUserLogin";
             this.tsmiSubUserLogin.Size = new System.Drawing.Size(126, 22);
             this.tsmiSubUserLogin.Text = "登录";
@@ -718,6 +727,7 @@
             // 
             // tsmiSettlementInfoConfirm
             // 
+            this.tsmiSettlementInfoConfirm.Image = global::WinCtp.Properties.Resources.sms_type6;
             this.tsmiSettlementInfoConfirm.Name = "tsmiSettlementInfoConfirm";
             this.tsmiSettlementInfoConfirm.Size = new System.Drawing.Size(126, 22);
             this.tsmiSettlementInfoConfirm.Text = "结算确认";
@@ -1053,6 +1063,21 @@
             this.gcSubOrderErrorMsg.ReadOnly = true;
             this.gcSubOrderErrorMsg.Width = 78;
             // 
+            // cmsSubOrder
+            // 
+            this.cmsSubOrder.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiCancelOrder});
+            this.cmsSubOrder.Name = "cmsSubOrder";
+            this.cmsSubOrder.Size = new System.Drawing.Size(101, 26);
+            // 
+            // tsmiCancelOrder
+            // 
+            this.tsmiCancelOrder.Image = global::WinCtp.Properties.Resources.wrong;
+            this.tsmiCancelOrder.Name = "tsmiCancelOrder";
+            this.tsmiCancelOrder.Size = new System.Drawing.Size(100, 22);
+            this.tsmiCancelOrder.Text = "撤单";
+            this.tsmiCancelOrder.Click += new System.EventHandler(this.tsmiCancelOrder_Click);
+            // 
             // dsSubOrder
             // 
             this.dsSubOrder.DataSource = typeof(WinCtp.OrderInfo);
@@ -1223,7 +1248,8 @@
             this.tsmiUser,
             this.ibtnBroker,
             this.tsmiListen,
-            this.ibtnSetting});
+            this.ibtnSetting,
+            this.ibtnClose});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(1190, 25);
@@ -1285,19 +1311,30 @@
             this.ibtnSetting.Text = "设置";
             this.ibtnSetting.Click += new System.EventHandler(this.ibtnSetting_Click);
             // 
-            // cmsSubOrder
+            // tsmiRePosiMst
             // 
-            this.cmsSubOrder.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiCancelOrder});
-            this.cmsSubOrder.Name = "cmsSubOrder";
-            this.cmsSubOrder.Size = new System.Drawing.Size(153, 48);
+            this.tsmiRePosiMst.Image = global::WinCtp.Properties.Resources.refresh;
+            this.tsmiRePosiMst.Name = "tsmiRePosiMst";
+            this.tsmiRePosiMst.Size = new System.Drawing.Size(126, 22);
+            this.tsmiRePosiMst.Text = "刷新持仓";
+            this.tsmiRePosiMst.Click += new System.EventHandler(this.tsmiRePosiMst_Click);
             // 
-            // tsmiCancelOrder
+            // tsmiRePosiSub
             // 
-            this.tsmiCancelOrder.Name = "tsmiCancelOrder";
-            this.tsmiCancelOrder.Size = new System.Drawing.Size(152, 22);
-            this.tsmiCancelOrder.Text = "撤单";
-            this.tsmiCancelOrder.Click += new System.EventHandler(this.tsmiCancelOrder_Click);
+            this.tsmiRePosiSub.Image = global::WinCtp.Properties.Resources.refresh;
+            this.tsmiRePosiSub.Name = "tsmiRePosiSub";
+            this.tsmiRePosiSub.Size = new System.Drawing.Size(126, 22);
+            this.tsmiRePosiSub.Text = "刷新持仓";
+            this.tsmiRePosiSub.Click += new System.EventHandler(this.tsmiRePosiSub_Click);
+            // 
+            // ibtnClose
+            // 
+            this.ibtnClose.Image = global::WinCtp.Properties.Resources.close;
+            this.ibtnClose.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ibtnClose.Name = "ibtnClose";
+            this.ibtnClose.Size = new System.Drawing.Size(53, 22);
+            this.ibtnClose.Text = "关闭";
+            this.ibtnClose.Click += new System.EventHandler(this.ibtnClose_Click);
             // 
             // FrmMain
             // 
@@ -1341,6 +1378,7 @@
             this.tabControl4.ResumeLayout(false);
             this.tpSubOrder.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gvSubOrder)).EndInit();
+            this.cmsSubOrder.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dsSubOrder)).EndInit();
             this.tpSubTrade.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEx1)).EndInit();
@@ -1349,7 +1387,6 @@
             this.tcSubInstrument.ResumeLayout(false);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
-            this.cmsSubOrder.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1410,7 +1447,6 @@
         private System.Windows.Forms.TabPage tpSubOrder;
         private System.Windows.Forms.ToolStripButton ibtnBroker;
         private System.Windows.Forms.TabPage tpMstOrder;
-        private System.Windows.Forms.TabPage tabPage2;
         private DataGridViewEx gvSubOrder;
         private System.Windows.Forms.BindingSource dsSubOrder;
         private DataGridViewEx gvMstOrder;
@@ -1471,6 +1507,10 @@
         private System.Windows.Forms.ToolStripButton ibtnSetting;
         private System.Windows.Forms.ContextMenuStrip cmsSubOrder;
         private System.Windows.Forms.ToolStripMenuItem tsmiCancelOrder;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.ToolStripMenuItem tsmiRePosiMst;
+        private System.Windows.Forms.ToolStripMenuItem tsmiRePosiSub;
+        private System.Windows.Forms.ToolStripButton ibtnClose;
     }
 }
 
