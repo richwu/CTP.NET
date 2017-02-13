@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -40,12 +42,28 @@ namespace WinCtp
         private readonly ConcurrentDictionary<string, bool> _loginUser;//[UserID,MstOrSub] true/Mst,false/Sub
         private readonly MainViewImpl _impl;
 
+        private readonly CtpMdApi _mdApi;
+        private readonly BackgroundWorker _mdWorker;
+
         #region 初始化
         public FrmMain()
         {
             InitializeComponent();
             
             _log = LogManager.GetLogger("CTP");
+
+            var fp = Path.Combine(Application.StartupPath, @"flow\md\");
+            if (!Directory.Exists(fp))
+                Directory.CreateDirectory(fp);
+            _mdApi = new CtpMdApi(fp);
+            _mdApi.OnFrontConnected += OnFrontConnected;
+            _mdApi.OnFrontDisconnected += OnFrontDisconnected;
+            _mdApi.OnRspUserLogin += OnRspUserLogin;
+            _mdApi.OnRspUserLogout += OnRspUserLogout;
+            _mdApi.OnRspError += OnRspError;
+            _mdApi.OnRtnDepthMarketData += MdApiOnRtnDepthMarketData;
+            _mdWorker = new BackgroundWorker();
+            _mdWorker.DoWork += MdWorkerOnDoWork;
 
             _impl = new MainViewImpl(this);
 
@@ -76,6 +94,18 @@ namespace WinCtp
             //是否需要等待start方法后再执行工作项,?默认为true,当true状态时,STP必须执行Start方法,才会为线程分配工作项
             stp.StartSuspended = false;
             _treadPool = new SmartThreadPool(stp);
+        }
+
+        private void MdWorkerOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
+        {
+            _mdApi.RegisterFront("");
+            _mdApi.Init();
+            _mdApi.Join();
+        }
+
+        private void MdApiOnRtnDepthMarketData(object sender, CtpDepthMarketData response)
+        {
+            _log.DebugFormat("{0}.OnRtnDepthMarketData\nresponse:{1}", sender, JsonConvert.SerializeObject(response));
         }
 
         protected override void OnLoad(EventArgs e)
@@ -167,6 +197,7 @@ namespace WinCtp
                 ua.Start();
                 UserApi.This[u.UserId] = ua;
             }
+            _mdWorker.RunWorkerAsync();
         }
 
         private void LoadBaseInfo()
@@ -384,17 +415,18 @@ namespace WinCtp
 
         private void OnFrontDisconnected(object sender, int response)
         {
-            _log.InfoFormat("OnFrontDisconnected\nresponse:{0}", response);
+            _log.InfoFormat("{0}.OnFrontDisconnected\nresponse:{1}", sender,response);
         }
 
         private void OnFrontConnected(object sender)
         {
-            _log.InfoFormat("OnFrontConnected");
+            _log.InfoFormat("{0}.OnFrontConnected", sender);
         }
 
         private void OnRspError(object sender, CtpRspInfo rspInfo, int requestId, bool isLast)
         {
-            _log.DebugFormat("OnRspError[{0}]\nrspInfo:{1}",
+            _log.DebugFormat("{0}.OnRspError[{1}]\nrspInfo:{2}",
+                sender,
                 requestId,
                 JsonConvert.SerializeObject(rspInfo));
         }
