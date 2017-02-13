@@ -1,0 +1,134 @@
+2016-12-21 09:20:51,743 [5] DEBUG CTP 
+OnFrontConnected
+2016-12-21 09:21:04,013 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-21 09:21:09,083 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-21 09:21:12,323 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-21 09:21:15,023 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-21 09:21:17,313 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-21 09:22:10,595 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-21 09:22:14,445 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-21 09:42:05,745 [5] DEBUG CTP 
+OnFrontConnected
+2016-12-21 09:42:09,425 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-21 09:42:15,437 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-21 10:12:20,166 [5] DEBUG CTP 
+OnFrontConnected
+2016-12-21 10:12:22,506 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-21 10:12:25,436 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-21 10:12:30,006 [1] DEBUG CTP 
+ReqUserLogin:发送成功
+2016-12-21 10:12:30,006 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-21 10:12:30,136 [5] DEBUG CTP 
+OnRspUserLogin[1000]
+response:{"TradingDay":"20161221","LoginTime":"10:10:44","BrokerID":"1025","UserID":"208588","SystemName":"TradingHosting","FrontID":1,"SessionID":-459672052,"MaxOrderRef":"1","SHFETime":"10:10:43","DCETime":"10:10:44","CZCETime":"10:10:45","FFEXTime":"10:10:43","INETime":"--:--:--"}
+rspInfo:{"ErrorID":0,"ErrorMsg":"正确"}
+2016-12-21 10:12:30,136 [5] DEBUG CTP 
+ReqQryInvestorPosition[900001]:发送成功
+{"BrokerID":"1025","InvestorID":"208588","InstrumentID":null}
+2016-12-21 10:12:30,296 [5] INFO  CTP 
+OnRtnOrder
+response:{"BrokerID":"1025","InvestorID":"208588","InstrumentID":"ag1706","OrderRef":"2","UserID":"208588","OrderPriceType":50,"Direction":49,"CombOffsetFlag":"0","CombHedgeFlag":"1","LimitPrice":3964.0,"VolumeTotalOriginal":2,"TimeCondition":51,"GTDDate":"","VolumeCondition":49,"MinVolume":1,"ContingentCondition":49,"StopPrice":0.0,"ForceCloseReason":48,"IsAutoSuspend":0,"BusinessUnit":"0022c2c","RequestID":0,"OrderLocalID":"          92","ExchangeID":"SHFE","ParticipantID":"0022","ClientID":"01726246","ExchangeInstID":"ag1706","TraderID":"0022c2c","InstallID":1,"OrderSubmitStatus":48,"NotifySequence":0,"TradingDay":"20161221","SettlementID":1,"OrderSysID":"","OrderSource":48,"OrderStatus":97,"OrderType":48,"VolumeTraded":0,"VolumeTotal":2,"InsertDate":"20161220","InsertTime":"21:02:32","ActiveTime":"","SuspendTime":"","UpdateTime":"","CancelTime":"","ActiveTraderID":"","ClearingPartID":"","SequenceNo":0,"FrontID":1,"SessionID":644746162,"UserProductInfo":"TBUTL66668","StatusMsg":"报单已提交","UserForceClose":0,"ActiveUserID":"","BrokerOrderSeq":339,"RelativeOrderSysID":"","ZCETotalTradedVolume":0,"IsSwapOrder":0}
+2016-12-21 10:12:30,296 [5] INFO  CTP 
+OnRtnOrder
+response:{"BrokerID":"1025","InvestorID":"208588","InstrumentID":"ag1706","OrderRef":"2","UserID":"208588","OrderPriceType":50,"Direction":49,"CombOffsetFlag":"0","CombHedgeFlag":"1","LimitPrice":3964.0,"VolumeTotalOriginal":2,"TimeCondition":51,"GTDDate":"","VolumeCondition":49,"MinVolume":1,"ContingentCondition":49,"StopPrice":0.0,"ForceCloseReason":48,"IsAutoSuspend":0,"BusinessUnit":"0022c2c","RequestID":0,"OrderLocalID":"          92","ExchangeID":"SHFE","ParticipantID":"0022","ClientID":"01726246","ExchangeInstID":"ag1706","TraderID":"0022c2c","InstallID":1,"OrderSubmitStatus":51,"NotifySequence":1,"TradingDay":"20161221","SettlementID":1,"OrderSysID":"      117725","OrderSource":0,"OrderStatus":51,"OrderType":0,"VolumeTraded":0,"VolumeTotal":2,"InsertDate":"20161220","InsertTime":"21:02:32","ActiveTime":"","SuspendTime":"","UpdateTime":"","CancelTime":"","ActiveTraderID":"0022c2c","ClearingPartID":"","SequenceNo":184,"FrontID":1,"SessionID":644746162,"UserProductInfo":"TBUTL66668","StatusMsg":"未成交","UserForceClose":0,"ActiveUserID":"","BrokerOrderSeq":339,"RelativeOrderSysID":"","ZCETotalTradedVolume":0,"IsSwapOrder":0}
+2016-12-21 10:12:30,296 [5] INFO  CTP 
+OnRtnOrder
+response:{"BrokerID":"1025","InvestorID":"208588","InstrumentID":"ag1706","OrderRef":"2","UserID":"208588","OrderPriceType":50,"Direction":49,"CombOffsetFlag":"0","CombHedgeFlag":"1","LimitPrice":3964.0,"VolumeTotalOriginal":2,"TimeCondition":51,"GTDDate":"","VolumeCondition":49,"MinVolume":1,"ContingentCondition":49,"StopPrice":0.0,"ForceCloseReason":48,"IsAutoSuspend":0,"BusinessUnit":"0022c2c","RequestID":0,"OrderLocalID":"          92","ExchangeID":"SHFE","ParticipantID":"0022","ClientID":"01726246","ExchangeInstID":"ag1706","TraderID":"0022c2c","InstallID":1,"OrderSubmitStatus":51,"NotifySequence":1,"TradingDay":"20161221","SettlementID":1,"OrderSysID":"      117725","OrderSource":0,"OrderStatus":51,"OrderType":0,"VolumeTraded":0,"VolumeTotal":2,"InsertDate":"20161220","InsertTime":"21:02:32","ActiveTime":"","SuspendTime":"","UpdateTime":"","CancelTime":"","ActiveTraderID":"0022c2c","ClearingPartID":"","SequenceNo":192,"FrontID":1,"SessionID":644746162,"UserProductInfo":"TBUTL66668","StatusMsg":"未成交","UserForceClose":0,"ActiveUserID":"","BrokerOrderSeq":339,"RelativeOrderSysID":"","ZCETotalTradedVolume":0,"IsSwapOrder":0}
+2016-12-21 10:12:30,296 [5] INFO  CTP 
+OnRtnOrder
+response:{"BrokerID":"1025","InvestorID":"208588","InstrumentID":"ag1706","OrderRef":"2","UserID":"208588","OrderPriceType":50,"Direction":49,"CombOffsetFlag":"0","CombHedgeFlag":"1","LimitPrice":3964.0,"VolumeTotalOriginal":2,"TimeCondition":51,"GTDDate":"","VolumeCondition":49,"MinVolume":1,"ContingentCondition":49,"StopPrice":0.0,"ForceCloseReason":48,"IsAutoSuspend":0,"BusinessUnit":"0022c2c","RequestID":0,"OrderLocalID":"          92","ExchangeID":"SHFE","ParticipantID":"0022","ClientID":"01726246","ExchangeInstID":"ag1706","TraderID":"0022c2c","InstallID":1,"OrderSubmitStatus":51,"NotifySequence":1,"TradingDay":"20161221","SettlementID":1,"OrderSysID":"      117725","OrderSource":0,"OrderStatus":48,"OrderType":0,"VolumeTraded":2,"VolumeTotal":0,"InsertDate":"20161220","InsertTime":"21:02:32","ActiveTime":"","SuspendTime":"","UpdateTime":"","CancelTime":"","ActiveTraderID":"0022c2c","ClearingPartID":"","SequenceNo":192,"FrontID":1,"SessionID":644746162,"UserProductInfo":"TBUTL66668","StatusMsg":"全部成交","UserForceClose":0,"ActiveUserID":"","BrokerOrderSeq":339,"RelativeOrderSysID":"","ZCETotalTradedVolume":0,"IsSwapOrder":0}
+2016-12-21 10:12:30,306 [5] DEBUG CTP 
+OnRtnTrade
+response:{"BrokerID":"1025","InvestorID":"208588","InstrumentID":"ag1706","OrderRef":"2","UserID":"208588","ExchangeID":"SHFE","TradeID":"       37289","Direction":49,"OrderSysID":"      117725","ParticipantID":"0022","ClientID":"01726246","TradingRole":0,"ExchangeInstID":"ag1706","OffsetFlag":48,"HedgeFlag":49,"Price":3964.0,"Volume":2,"TradeDate":"20161220","TradeTime":"21:02:37","TradeType":0,"PriceSource":0,"TraderID":"0022c2c","OrderLocalID":"          92","ClearingPartID":"0022","BusinessUnit":"","SequenceNo":193,"TradingDay":"20161221","SettlementID":1,"BrokerOrderSeq":339,"TradeSource":48}
+2016-12-21 10:12:30,316 [5] DEBUG CTP 
+OnRspQryInvestorPosition[900001]
+rspInfo:null
+response:{"InstrumentID":"cs1705","BrokerID":"1025","InvestorID":"208588","PosiDirection":51,"HedgeFlag":49,"PositionDate":49,"YdPosition":2,"Position":2,"LongFrozen":0,"ShortFrozen":0,"LongFrozenAmount":0.0,"ShortFrozenAmount":0.0,"OpenVolume":0,"CloseVolume":0,"OpenAmount":0.0,"CloseAmount":0.0,"PositionCost":36420.0,"PreMargin":0.0,"UseMargin":2549.3999999999996,"FrozenMargin":0.0,"FrozenCash":0.0,"FrozenCommission":0.0,"CashIn":0.0,"Commission":0.0,"CloseProfit":0.0,"PositionProfit":240.0,"PreSettlementPrice":1821.0,"SettlementPrice":1809.0,"TradingDay":"20161221","SettlementID":1,"OpenCost":36420.0,"ExchangeMargin":2549.3999999999996,"CombPosition":0,"CombLongFrozen":0,"CombShortFrozen":0,"CloseProfitByDate":0.0,"CloseProfitByTrade":0.0,"TodayPosition":0,"MarginRateByMoney":0.0,"MarginRateByVolume":0.0,"StrikeFrozen":0,"StrikeFrozenAmount":0.0,"AbandonFrozen":0,"OptionValue":1.8085162821405019E-308}
+2016-12-21 10:12:30,316 [5] DEBUG CTP 
+OnRspQryInvestorPosition[900001]
+rspInfo:null
+response:{"InstrumentID":"ag1706","BrokerID":"1025","InvestorID":"208588","PosiDirection":51,"HedgeFlag":49,"PositionDate":49,"YdPosition":0,"Position":2,"LongFrozen":0,"ShortFrozen":0,"LongFrozenAmount":0.0,"ShortFrozenAmount":0.0,"OpenVolume":2,"CloseVolume":0,"OpenAmount":118920.0,"CloseAmount":0.0,"PositionCost":118920.0,"PreMargin":0.0,"UseMargin":9513.6,"FrozenMargin":0.0,"FrozenCash":0.0,"FrozenCommission":0.0,"CashIn":0.0,"Commission":8.716836,"CloseProfit":0.0,"PositionProfit":-2400.0000000000291,"PreSettlementPrice":4074.0,"SettlementPrice":4044.0000000000009,"TradingDay":"20161221","SettlementID":1,"OpenCost":118920.0,"ExchangeMargin":9513.6,"CombPosition":0,"CombLongFrozen":0,"CombShortFrozen":0,"CloseProfitByDate":0.0,"CloseProfitByTrade":0.0,"TodayPosition":2,"MarginRateByMoney":0.08,"MarginRateByVolume":0.0,"StrikeFrozen":0,"StrikeFrozenAmount":0.0,"AbandonFrozen":0,"OptionValue":1.8085163569361909E-308}
+2016-12-21 10:12:30,316 [5] DEBUG CTP 
+OnRspQryInvestorPosition[900001]
+rspInfo:null
+response:{"InstrumentID":"jm1705","BrokerID":"1025","InvestorID":"208588","PosiDirection":51,"HedgeFlag":49,"PositionDate":49,"YdPosition":1,"Position":1,"LongFrozen":0,"ShortFrozen":0,"LongFrozenAmount":0.0,"ShortFrozenAmount":0.0,"OpenVolume":0,"CloseVolume":0,"OpenAmount":0.0,"CloseAmount":0.0,"PositionCost":78690.0,"PreMargin":0.0,"UseMargin":11803.5,"FrozenMargin":0.0,"FrozenCash":0.0,"FrozenCommission":0.0,"CashIn":0.0,"Commission":0.0,"CloseProfit":0.0,"PositionProfit":-570.0,"PreSettlementPrice":1311.5,"SettlementPrice":1321.0,"TradingDay":"20161221","SettlementID":1,"OpenCost":77580.0,"ExchangeMargin":11803.5,"CombPosition":0,"CombLongFrozen":0,"CombShortFrozen":0,"CloseProfitByDate":0.0,"CloseProfitByTrade":0.0,"TodayPosition":0,"MarginRateByMoney":0.0,"MarginRateByVolume":0.0,"StrikeFrozen":0,"StrikeFrozenAmount":0.0,"AbandonFrozen":0,"OptionValue":1.8085163549942012E-308}
+2016-12-21 10:12:30,316 [5] DEBUG CTP 
+OnRspQryInvestorPosition[900001]
+rspInfo:null
+response:{"InstrumentID":"j1705","BrokerID":"1025","InvestorID":"208588","PosiDirection":51,"HedgeFlag":49,"PositionDate":49,"YdPosition":1,"Position":1,"LongFrozen":0,"ShortFrozen":0,"LongFrozenAmount":0.0,"ShortFrozenAmount":0.0,"OpenVolume":0,"CloseVolume":0,"OpenAmount":0.0,"CloseAmount":0.0,"PositionCost":176350.0,"PreMargin":0.0,"UseMargin":26452.499999999996,"FrozenMargin":0.0,"FrozenCash":0.0,"FrozenCommission":0.0,"CashIn":0.0,"Commission":0.0,"CloseProfit":0.0,"PositionProfit":-1250.0,"PreSettlementPrice":1763.5,"SettlementPrice":1776.0,"TradingDay":"20161221","SettlementID":1,"OpenCost":172900.0,"ExchangeMargin":26452.499999999996,"CombPosition":0,"CombLongFrozen":0,"CombShortFrozen":0,"CloseProfitByDate":0.0,"CloseProfitByTrade":0.0,"TodayPosition":0,"MarginRateByMoney":0.0,"MarginRateByVolume":0.0,"StrikeFrozen":0,"StrikeFrozenAmount":0.0,"AbandonFrozen":0,"OptionValue":0.0}
+2016-12-21 10:12:46,838 [1] DEBUG CTP 
+ReqUserLogout:发送成功
+2016-12-21 10:12:46,988 [5] DEBUG CTP 
+OnRspUserLogout[1000]
+response:{"BrokerID":"1025","UserID":"208588"}
+rspInfo:{"ErrorID":0,"ErrorMsg":"正确"}
+2016-12-21 10:12:46,998 [5] DEBUG CTP 
+OnFrontDisconnected:response[4097]
+2016-12-21 10:12:47,128 [5] DEBUG CTP 
+OnFrontConnected
+2016-12-21 10:47:09,773 [5] DEBUG CTP 
+OnFrontConnected
+2016-12-21 10:47:13,233 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-21 10:47:17,259 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-21 13:12:24,941 [5] DEBUG CTP 
+OnFrontConnected
+2016-12-21 13:12:28,813 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-21 13:12:32,583 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-21 13:12:35,085 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-21 13:59:51,483 [5] DEBUG CTP 
+OnFrontConnected
+2016-12-21 13:59:55,046 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-21 13:59:57,365 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-21 14:00:00,295 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-21 14:00:02,161 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-21 14:00:07,839 [5] DEBUG CTP 
+OnFrontConnected
+2016-12-21 14:00:14,237 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-21 14:00:17,910 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-21 14:00:25,632 [1] INFO  CTP 
+ReqUserLogin[2000]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"071249","Password":"123456","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-21 14:00:25,633 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-21 14:00:27,441 [1] INFO  CTP 
+ReqUserLogin[2000]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"071249","Password":"123456","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-21 14:00:27,443 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}

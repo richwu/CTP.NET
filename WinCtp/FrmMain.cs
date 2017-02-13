@@ -62,6 +62,7 @@ namespace WinCtp
             _mdApi.OnRspUserLogout += OnRspUserLogout;
             _mdApi.OnRspError += OnRspError;
             _mdApi.OnRtnDepthMarketData += MdApiOnRtnDepthMarketData;
+            _mdApi.OnRspSubMarketData += MdApiOnRspSubMarketData;
             _mdWorker = new BackgroundWorker();
             _mdWorker.DoWork += MdWorkerOnDoWork;
 
@@ -94,6 +95,14 @@ namespace WinCtp
             //是否需要等待start方法后再执行工作项,?默认为true,当true状态时,STP必须执行Start方法,才会为线程分配工作项
             stp.StartSuspended = false;
             _treadPool = new SmartThreadPool(stp);
+        }
+
+        private void MdApiOnRspSubMarketData(object sender, CtpSpecificInstrument response, CtpRspInfo rspInfo, int requestId, bool isLast)
+        {
+            _log.DebugFormat("{0}.OnRspSubMarketData\nresponse:{1}\nrspInfo:{2}", 
+                sender, 
+                JsonConvert.SerializeObject(response), 
+                JsonConvert.SerializeObject(rspInfo));
         }
 
         private void MdWorkerOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
@@ -197,7 +206,7 @@ namespace WinCtp
                 ua.Start();
                 UserApi.This[u.UserId] = ua;
             }
-            _mdWorker.RunWorkerAsync();
+            //_mdWorker.RunWorkerAsync();
         }
 
         private void LoadBaseInfo()

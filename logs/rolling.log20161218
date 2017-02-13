@@ -1,0 +1,26 @@
+2016-12-18 10:48:13,881 [1] ERROR CTP 
+application thread exception.
+System.IO.FileNotFoundException: Could not load file or assembly 'CtpApi4Clr.dll' or one of its dependencies. 找不到指定的模块。
+File name: 'CtpApi4Clr.dll'
+   at WinCtp.FrmMain.OnLoad(EventArgs e)
+   at System.Windows.Forms.Form.OnCreateControl()
+   at System.Windows.Forms.Control.CreateControl(Boolean fIgnoreVisible)
+   at System.Windows.Forms.Control.CreateControl()
+   at System.Windows.Forms.Control.WmShowWindow(Message& m)
+   at System.Windows.Forms.Control.WndProc(Message& m)
+   at System.Windows.Forms.ScrollableControl.WndProc(Message& m)
+   at System.Windows.Forms.ContainerControl.WndProc(Message& m)
+   at System.Windows.Forms.Form.WmShowWindow(Message& m)
+   at System.Windows.Forms.Form.WndProc(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   at System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+
+
+2016-12-18 14:58:26,753 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-18 14:58:35,848 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-18 14:58:47,516 [1] INFO  CTP 
+ReqUserLogin[2000]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"071249","Password":"123456","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}

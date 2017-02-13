@@ -1,0 +1,1242 @@
+2016-12-22 10:43:09,420 [5] DEBUG CTP 
+OnFrontConnected
+2016-12-22 10:43:21,244 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-22 10:43:51,334 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-22 10:43:53,304 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-22 10:43:54,984 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-22 10:43:58,384 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-22 10:44:01,484 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-22 10:44:03,784 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-22 13:32:47,867 [5] DEBUG CTP 
+OnFrontConnected
+2016-12-22 13:32:53,787 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-22 13:32:56,787 [1] DEBUG CTP 
+ReqUserLogin:因网络原因发送失败
+2016-12-22 13:33:01,849 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-22 13:33:05,329 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-22 13:33:07,139 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-22 13:33:09,119 [1] INFO  CTP 
+ReqUserLogin[2001]:因网络原因发送失败
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-22 22:45:00,151 [5] DEBUG CTP 
+OnFrontConnected
+2016-12-22 22:45:00,283 [6] DEBUG CTP 
+OnFrontConnected
+2016-12-22 22:45:01,007 [8] DEBUG CTP 
+OnFrontConnected
+2016-12-22 22:45:01,499 [10] DEBUG CTP 
+OnFrontConnected
+2016-12-22 22:45:03,101 [1] DEBUG CTP 
+ReqUserLogin:发送成功
+2016-12-22 22:45:05,183 [6] DEBUG CTP 
+OnRspUserLogin[1001]
+response:{"TradingDay":"20161221","LoginTime":"22:43:17","BrokerID":"9999","UserID":"067218","SystemName":"TradingHosting","FrontID":1,"SessionID":-427577443,"MaxOrderRef":"1","SHFETime":"23:30:48","DCETime":"23:30:48","CZCETime":"23:30:48","FFEXTime":"23:30:47","INETime":"--:--:--"}
+rspInfo:{"ErrorID":0,"ErrorMsg":"正确"}
+2016-12-22 22:45:05,183 [6] DEBUG CTP 
+ReqQryInvestorPosition[900001]:发送成功
+{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null}
+2016-12-22 22:45:05,465 [6] DEBUG CTP 
+OnRspQryInvestorPosition[900001]
+rspInfo:null
+response:{"InstrumentID":"TA705","BrokerID":"9999","InvestorID":"067218","PosiDirection":50,"HedgeFlag":49,"PositionDate":49,"YdPosition":3,"Position":3,"LongFrozen":0,"ShortFrozen":0,"LongFrozenAmount":0.0,"ShortFrozenAmount":0.0,"OpenVolume":0,"CloseVolume":0,"OpenAmount":0.0,"CloseAmount":0.0,"PositionCost":81090.0,"PreMargin":0.0,"UseMargin":4054.5,"FrozenMargin":0.0,"FrozenCash":0.0,"FrozenCommission":0.0,"CashIn":0.0,"Commission":0.0,"CloseProfit":0.0,"PositionProfit":-300.0,"PreSettlementPrice":5406.0,"SettlementPrice":5386.0,"TradingDay":"20161221","SettlementID":1,"OpenCost":83110.0,"ExchangeMargin":4054.5,"CombPosition":0,"CombLongFrozen":0,"CombShortFrozen":0,"CloseProfitByDate":0.0,"CloseProfitByTrade":0.0,"TodayPosition":0,"MarginRateByMoney":0.0,"MarginRateByVolume":0.0,"StrikeFrozen":0,"StrikeFrozenAmount":0.0,"AbandonFrozen":0,"OptionValue":1.8085164228923894E-308}
+2016-12-22 22:45:05,465 [6] DEBUG CTP 
+OnRspQryInvestorPosition[900001]
+rspInfo:null
+response:{"InstrumentID":"rb1701","BrokerID":"9999","InvestorID":"067218","PosiDirection":50,"HedgeFlag":49,"PositionDate":50,"YdPosition":6,"Position":6,"LongFrozen":0,"ShortFrozen":0,"LongFrozenAmount":0.0,"ShortFrozenAmount":0.0,"OpenVolume":0,"CloseVolume":0,"OpenAmount":0.0,"CloseAmount":0.0,"PositionCost":186780.0,"PreMargin":0.0,"UseMargin":11206.8,"FrozenMargin":0.0,"FrozenCash":0.0,"FrozenCommission":0.0,"CashIn":0.0,"Commission":0.0,"CloseProfit":0.0,"PositionProfit":2400.0,"PreSettlementPrice":3113.0,"SettlementPrice":3153.0,"TradingDay":"20161221","SettlementID":1,"OpenCost":156240.0,"ExchangeMargin":11206.8,"CombPosition":0,"CombLongFrozen":0,"CombShortFrozen":0,"CloseProfitByDate":0.0,"CloseProfitByTrade":0.0,"TodayPosition":0,"MarginRateByMoney":0.0,"MarginRateByVolume":0.0,"StrikeFrozen":0,"StrikeFrozenAmount":0.0,"AbandonFrozen":0,"OptionValue":1.8085164067676045E-308}
+2016-12-22 22:45:05,465 [6] DEBUG CTP 
+OnRspQryInvestorPosition[900001]
+rspInfo:null
+response:{"InstrumentID":"pp1701","BrokerID":"9999","InvestorID":"067218","PosiDirection":50,"HedgeFlag":49,"PositionDate":49,"YdPosition":1,"Position":1,"LongFrozen":0,"ShortFrozen":0,"LongFrozenAmount":0.0,"ShortFrozenAmount":0.0,"OpenVolume":0,"CloseVolume":0,"OpenAmount":0.0,"CloseAmount":0.0,"PositionCost":45660.0,"PreMargin":0.0,"UseMargin":2283.0,"FrozenMargin":0.0,"FrozenCash":0.0,"FrozenCommission":0.0,"CashIn":0.0,"Commission":0.0,"CloseProfit":0.0,"PositionProfit":290.0,"PreSettlementPrice":9132.0,"SettlementPrice":9190.0,"TradingDay":"20161221","SettlementID":1,"OpenCost":46000.0,"ExchangeMargin":2283.0,"CombPosition":0,"CombLongFrozen":0,"CombShortFrozen":0,"CloseProfitByDate":0.0,"CloseProfitByTrade":0.0,"TodayPosition":0,"MarginRateByMoney":0.0,"MarginRateByVolume":0.0,"StrikeFrozen":0,"StrikeFrozenAmount":0.0,"AbandonFrozen":0,"OptionValue":1.808516299107143E-308}
+2016-12-22 22:45:05,465 [6] DEBUG CTP 
+OnRspQryInvestorPosition[900001]
+rspInfo:null
+response:{"InstrumentID":"cs1701","BrokerID":"9999","InvestorID":"067218","PosiDirection":51,"HedgeFlag":49,"PositionDate":49,"YdPosition":38,"Position":38,"LongFrozen":0,"ShortFrozen":0,"LongFrozenAmount":0.0,"ShortFrozenAmount":0.0,"OpenVolume":0,"CloseVolume":0,"OpenAmount":0.0,"CloseAmount":0.0,"PositionCost":717440.0,"PreMargin":0.0,"UseMargin":35872.0,"FrozenMargin":0.0,"FrozenCash":0.0,"FrozenCommission":0.0,"CashIn":0.0,"Commission":0.0,"CloseProfit":0.0,"PositionProfit":21660.0,"PreSettlementPrice":1888.0,"SettlementPrice":1831.0,"TradingDay":"20161221","SettlementID":1,"OpenCost":675640.0,"ExchangeMargin":35872.0,"CombPosition":0,"CombLongFrozen":0,"CombShortFrozen":0,"CloseProfitByDate":0.0,"CloseProfitByTrade":0.0,"TodayPosition":0,"MarginRateByMoney":0.0,"MarginRateByVolume":0.0,"StrikeFrozen":0,"StrikeFrozenAmount":0.0,"AbandonFrozen":0,"OptionValue":0.0}
+2016-12-22 22:45:07,309 [1] INFO  CTP 
+ReqUserLogin[2001]:发送成功
+request:{"TradingDay":null,"BrokerID":"9999","UserID":"067221","Password":"363000","UserProductInfo":"JCTP","InterfaceProductInfo":"X","ProtocolInfo":"X","MacAddress":null,"OneTimePassword":null,"ClientIPAddress":null}
+2016-12-22 22:45:07,419 [10] DEBUG CTP 
+OnRspUserLogin[2001]
+response:{"TradingDay":"20161221","LoginTime":"22:43:21","BrokerID":"9999","UserID":"067221","SystemName":"TradingHosting","FrontID":1,"SessionID":-427511899,"MaxOrderRef":"1","SHFETime":"23:30:52","DCETime":"23:30:52","CZCETime":"23:30:52","FFEXTime":"23:30:51","INETime":"--:--:--"}
+rspInfo:{"ErrorID":0,"ErrorMsg":"正确"}
+2016-12-22 22:45:07,489 [10] DEBUG CTP 
+ReqQrySettlementInfoConfirm[900002]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067221"}
+2016-12-22 22:45:07,489 [10] DEBUG CTP 
+ReqQryInstrument[900003]:未处理请求队列总数量超限
+request:{"InstrumentID":null,"ExchangeID":null,"ExchangeInstID":null,"ProductID":null}
+2016-12-22 22:45:07,579 [10] DEBUG CTP 
+OnRspQrySettlementInfoConfirm[900002]
+response:null
+rspInfo:null
+2016-12-22 22:46:06,241 [11] DEBUG CTP 
+ReqQryTrade[300001]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:46:06,311 [11] DEBUG CTP 
+ReqQryOrder[300001]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:46:06,341 [6] DEBUG CTP 
+OnRspQryTrade[300001]
+response:null
+rspInfo:null
+2016-12-22 22:46:09,033 [1] DEBUG CTP 
+ReqSettlementInfoConfirm[900004]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067221","ConfirmDate":null,"ConfirmTime":null}
+2016-12-22 22:46:09,173 [10] DEBUG CTP 
+OnRspSettlementInfoConfirm[900004]
+response:{"BrokerID":"9999","InvestorID":"067221","ConfirmDate":"20161221","ConfirmTime":"22:44:23"}
+rspInfo:{"ErrorID":0,"ErrorMsg":"正确"}
+2016-12-22 22:46:09,173 [10] DEBUG CTP 
+确认结算信息：orig 2016122122:44:23
+2016-12-22 22:46:09,313 [10] DEBUG CTP 
+确认结算信息：dest 2016/12/21 22:44:23
+2016-12-22 22:46:15,219 [11] DEBUG CTP 
+ReqQryTrade[300002]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:46:15,219 [11] DEBUG CTP 
+ReqQryOrder[300002]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:46:15,369 [6] DEBUG CTP 
+OnRspQryTrade[300002]
+response:null
+rspInfo:null
+2016-12-22 22:46:25,239 [11] DEBUG CTP 
+ReqQryTrade[300003]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:46:25,239 [11] DEBUG CTP 
+ReqQryOrder[300003]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:46:25,339 [6] DEBUG CTP 
+OnRspQryTrade[300003]
+response:null
+rspInfo:null
+2016-12-22 22:46:35,241 [11] DEBUG CTP 
+ReqQryTrade[300004]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:46:35,241 [11] DEBUG CTP 
+ReqQryOrder[300004]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:46:35,341 [6] DEBUG CTP 
+OnRspQryTrade[300004]
+response:null
+rspInfo:null
+2016-12-22 22:46:45,278 [11] DEBUG CTP 
+ReqQryTrade[300005]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:46:45,278 [11] DEBUG CTP 
+ReqQryOrder[300005]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:46:45,408 [6] DEBUG CTP 
+OnRspQryTrade[300005]
+response:null
+rspInfo:null
+2016-12-22 22:46:55,274 [11] DEBUG CTP 
+ReqQryTrade[300006]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:46:55,274 [11] DEBUG CTP 
+ReqQryOrder[300006]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:46:55,406 [6] DEBUG CTP 
+OnRspQryTrade[300006]
+response:null
+rspInfo:null
+2016-12-22 22:47:05,306 [11] DEBUG CTP 
+ReqQryTrade[300007]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:47:05,306 [11] DEBUG CTP 
+ReqQryOrder[300007]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:47:05,396 [6] DEBUG CTP 
+OnRspQryTrade[300007]
+response:null
+rspInfo:null
+2016-12-22 22:47:15,310 [11] DEBUG CTP 
+ReqQryTrade[300008]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:47:15,310 [11] DEBUG CTP 
+ReqQryOrder[300008]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:47:15,410 [6] DEBUG CTP 
+OnRspQryTrade[300008]
+response:null
+rspInfo:null
+2016-12-22 22:47:25,284 [11] DEBUG CTP 
+ReqQryTrade[300009]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:47:25,284 [11] DEBUG CTP 
+ReqQryOrder[300009]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:47:25,374 [6] DEBUG CTP 
+OnRspQryTrade[300009]
+response:null
+rspInfo:null
+2016-12-22 22:47:35,294 [11] DEBUG CTP 
+ReqQryTrade[300010]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:47:35,294 [11] DEBUG CTP 
+ReqQryOrder[300010]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:47:35,384 [6] DEBUG CTP 
+OnRspQryTrade[300010]
+response:null
+rspInfo:null
+2016-12-22 22:47:45,300 [11] DEBUG CTP 
+ReqQryTrade[300011]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:47:45,300 [11] DEBUG CTP 
+ReqQryOrder[300011]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:47:45,400 [6] DEBUG CTP 
+OnRspQryTrade[300011]
+response:null
+rspInfo:null
+2016-12-22 22:47:55,312 [11] DEBUG CTP 
+ReqQryTrade[300012]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:47:55,312 [11] DEBUG CTP 
+ReqQryOrder[300012]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:47:55,452 [6] DEBUG CTP 
+OnRspQryTrade[300012]
+response:null
+rspInfo:null
+2016-12-22 22:48:05,335 [11] DEBUG CTP 
+ReqQryTrade[300013]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:48:05,335 [11] DEBUG CTP 
+ReqQryOrder[300013]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:48:05,422 [6] DEBUG CTP 
+OnRspQryTrade[300013]
+response:null
+rspInfo:null
+2016-12-22 22:48:15,330 [11] DEBUG CTP 
+ReqQryTrade[300014]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:48:15,330 [11] DEBUG CTP 
+ReqQryOrder[300014]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:48:15,420 [6] DEBUG CTP 
+OnRspQryTrade[300014]
+response:null
+rspInfo:null
+2016-12-22 22:48:25,342 [11] DEBUG CTP 
+ReqQryTrade[300015]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:48:25,342 [11] DEBUG CTP 
+ReqQryOrder[300015]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:48:25,442 [6] DEBUG CTP 
+OnRspQryTrade[300015]
+response:null
+rspInfo:null
+2016-12-22 22:48:35,346 [11] DEBUG CTP 
+ReqQryTrade[300016]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:48:35,346 [11] DEBUG CTP 
+ReqQryOrder[300016]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:48:35,446 [6] DEBUG CTP 
+OnRspQryTrade[300016]
+response:null
+rspInfo:null
+2016-12-22 22:48:45,360 [11] DEBUG CTP 
+ReqQryTrade[300017]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:48:45,360 [11] DEBUG CTP 
+ReqQryOrder[300017]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:48:45,450 [6] DEBUG CTP 
+OnRspQryTrade[300017]
+response:null
+rspInfo:null
+2016-12-22 22:48:55,354 [11] DEBUG CTP 
+ReqQryTrade[300018]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:48:55,354 [11] DEBUG CTP 
+ReqQryOrder[300018]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:48:55,454 [6] DEBUG CTP 
+OnRspQryTrade[300018]
+response:null
+rspInfo:null
+2016-12-22 22:49:05,374 [11] DEBUG CTP 
+ReqQryTrade[300019]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:49:05,374 [11] DEBUG CTP 
+ReqQryOrder[300019]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:49:05,474 [6] DEBUG CTP 
+OnRspQryTrade[300019]
+response:null
+rspInfo:null
+2016-12-22 22:49:15,376 [11] DEBUG CTP 
+ReqQryTrade[300020]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:49:15,376 [11] DEBUG CTP 
+ReqQryOrder[300020]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:49:15,476 [6] DEBUG CTP 
+OnRspQryTrade[300020]
+response:null
+rspInfo:null
+2016-12-22 22:49:25,392 [11] DEBUG CTP 
+ReqQryTrade[300021]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:49:25,392 [11] DEBUG CTP 
+ReqQryOrder[300021]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:49:25,502 [6] DEBUG CTP 
+OnRspQryTrade[300021]
+response:null
+rspInfo:null
+2016-12-22 22:49:35,390 [11] DEBUG CTP 
+ReqQryTrade[300022]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:49:35,390 [11] DEBUG CTP 
+ReqQryOrder[300022]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:49:35,530 [6] DEBUG CTP 
+OnRspQryTrade[300022]
+response:null
+rspInfo:null
+2016-12-22 22:49:45,406 [11] DEBUG CTP 
+ReqQryTrade[300023]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:49:45,406 [11] DEBUG CTP 
+ReqQryOrder[300023]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:49:45,516 [6] DEBUG CTP 
+OnRspQryTrade[300023]
+response:null
+rspInfo:null
+2016-12-22 22:49:55,420 [11] DEBUG CTP 
+ReqQryTrade[300024]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:49:55,420 [11] DEBUG CTP 
+ReqQryOrder[300024]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:49:55,520 [6] DEBUG CTP 
+OnRspQryTrade[300024]
+response:null
+rspInfo:null
+2016-12-22 22:50:05,418 [11] DEBUG CTP 
+ReqQryTrade[300025]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:50:05,418 [11] DEBUG CTP 
+ReqQryOrder[300025]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:50:05,508 [6] DEBUG CTP 
+OnRspQryTrade[300025]
+response:null
+rspInfo:null
+2016-12-22 22:50:15,438 [11] DEBUG CTP 
+ReqQryTrade[300026]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:50:15,438 [11] DEBUG CTP 
+ReqQryOrder[300026]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:50:15,528 [6] DEBUG CTP 
+OnRspQryTrade[300026]
+response:null
+rspInfo:null
+2016-12-22 22:50:25,452 [11] DEBUG CTP 
+ReqQryTrade[300027]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:50:25,452 [11] DEBUG CTP 
+ReqQryOrder[300027]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:50:25,554 [6] DEBUG CTP 
+OnRspQryTrade[300027]
+response:null
+rspInfo:null
+2016-12-22 22:50:35,444 [11] DEBUG CTP 
+ReqQryTrade[300028]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:50:35,444 [11] DEBUG CTP 
+ReqQryOrder[300028]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:50:35,554 [6] DEBUG CTP 
+OnRspQryTrade[300028]
+response:null
+rspInfo:null
+2016-12-22 22:50:45,444 [11] DEBUG CTP 
+ReqQryTrade[300029]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:50:45,444 [11] DEBUG CTP 
+ReqQryOrder[300029]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:50:45,544 [6] DEBUG CTP 
+OnRspQryTrade[300029]
+response:null
+rspInfo:null
+2016-12-22 22:50:55,458 [11] DEBUG CTP 
+ReqQryTrade[300030]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:50:55,458 [11] DEBUG CTP 
+ReqQryOrder[300030]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:50:55,588 [6] DEBUG CTP 
+OnRspQryTrade[300030]
+response:null
+rspInfo:null
+2016-12-22 22:51:05,474 [12] DEBUG CTP 
+ReqQryTrade[300031]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:51:05,474 [12] DEBUG CTP 
+ReqQryOrder[300031]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:51:05,574 [6] DEBUG CTP 
+OnRspQryTrade[300031]
+response:null
+rspInfo:null
+2016-12-22 22:51:15,480 [11] DEBUG CTP 
+ReqQryTrade[300032]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:51:15,480 [11] DEBUG CTP 
+ReqQryOrder[300032]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:51:15,630 [6] DEBUG CTP 
+OnRspQryTrade[300032]
+response:null
+rspInfo:null
+2016-12-22 22:51:25,514 [11] DEBUG CTP 
+ReqQryTrade[300033]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:51:25,514 [11] DEBUG CTP 
+ReqQryOrder[300033]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:51:25,614 [6] DEBUG CTP 
+OnRspQryTrade[300033]
+response:null
+rspInfo:null
+2016-12-22 22:51:35,496 [11] DEBUG CTP 
+ReqQryTrade[300034]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:51:35,496 [11] DEBUG CTP 
+ReqQryOrder[300034]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:51:35,586 [6] DEBUG CTP 
+OnRspQryTrade[300034]
+response:null
+rspInfo:null
+2016-12-22 22:51:45,656 [12] DEBUG CTP 
+ReqQryTrade[300035]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:51:45,656 [12] DEBUG CTP 
+ReqQryOrder[300035]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:51:45,738 [6] DEBUG CTP 
+OnRspQryTrade[300035]
+response:null
+rspInfo:null
+2016-12-22 22:51:55,512 [11] DEBUG CTP 
+ReqQryTrade[300036]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:51:55,512 [11] DEBUG CTP 
+ReqQryOrder[300036]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:51:55,612 [6] DEBUG CTP 
+OnRspQryTrade[300036]
+response:null
+rspInfo:null
+2016-12-22 22:52:05,522 [11] DEBUG CTP 
+ReqQryTrade[300037]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:52:05,522 [11] DEBUG CTP 
+ReqQryOrder[300037]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:52:05,602 [6] DEBUG CTP 
+OnRspQryTrade[300037]
+response:null
+rspInfo:null
+2016-12-22 22:52:15,521 [11] DEBUG CTP 
+ReqQryTrade[300038]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:52:15,521 [11] DEBUG CTP 
+ReqQryOrder[300038]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:52:15,611 [6] DEBUG CTP 
+OnRspQryTrade[300038]
+response:null
+rspInfo:null
+2016-12-22 22:52:25,535 [11] DEBUG CTP 
+ReqQryTrade[300039]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:52:25,535 [11] DEBUG CTP 
+ReqQryOrder[300039]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:52:25,635 [6] DEBUG CTP 
+OnRspQryTrade[300039]
+response:null
+rspInfo:null
+2016-12-22 22:52:35,549 [12] DEBUG CTP 
+ReqQryTrade[300040]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:52:35,549 [12] DEBUG CTP 
+ReqQryOrder[300040]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:52:35,629 [6] DEBUG CTP 
+OnRspQryTrade[300040]
+response:null
+rspInfo:null
+2016-12-22 22:52:45,553 [12] DEBUG CTP 
+ReqQryTrade[300041]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:52:45,553 [12] DEBUG CTP 
+ReqQryOrder[300041]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:52:45,643 [6] DEBUG CTP 
+OnRspQryTrade[300041]
+response:null
+rspInfo:null
+2016-12-22 22:52:55,569 [12] DEBUG CTP 
+ReqQryTrade[300042]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:52:55,569 [12] DEBUG CTP 
+ReqQryOrder[300042]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:52:55,678 [6] DEBUG CTP 
+OnRspQryTrade[300042]
+response:null
+rspInfo:null
+2016-12-22 22:53:05,571 [12] DEBUG CTP 
+ReqQryTrade[300043]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:53:05,571 [12] DEBUG CTP 
+ReqQryOrder[300043]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:53:05,681 [6] DEBUG CTP 
+OnRspQryTrade[300043]
+response:null
+rspInfo:null
+2016-12-22 22:53:15,583 [12] DEBUG CTP 
+ReqQryTrade[300044]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:53:15,583 [12] DEBUG CTP 
+ReqQryOrder[300044]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:53:15,713 [6] DEBUG CTP 
+OnRspQryTrade[300044]
+response:null
+rspInfo:null
+2016-12-22 22:53:25,583 [12] DEBUG CTP 
+ReqQryTrade[300045]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:53:25,583 [12] DEBUG CTP 
+ReqQryOrder[300045]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:53:25,673 [6] DEBUG CTP 
+OnRspQryTrade[300045]
+response:null
+rspInfo:null
+2016-12-22 22:53:35,603 [12] DEBUG CTP 
+ReqQryTrade[300046]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:53:35,603 [12] DEBUG CTP 
+ReqQryOrder[300046]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:53:35,693 [6] DEBUG CTP 
+OnRspQryTrade[300046]
+response:null
+rspInfo:null
+2016-12-22 22:53:45,601 [12] DEBUG CTP 
+ReqQryTrade[300047]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:53:45,601 [12] DEBUG CTP 
+ReqQryOrder[300047]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:53:45,701 [6] DEBUG CTP 
+OnRspQryTrade[300047]
+response:null
+rspInfo:null
+2016-12-22 22:53:55,609 [12] DEBUG CTP 
+ReqQryTrade[300048]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:53:55,609 [12] DEBUG CTP 
+ReqQryOrder[300048]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:53:55,709 [6] DEBUG CTP 
+OnRspQryTrade[300048]
+response:null
+rspInfo:null
+2016-12-22 22:54:05,629 [12] DEBUG CTP 
+ReqQryTrade[300049]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:54:05,629 [12] DEBUG CTP 
+ReqQryOrder[300049]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:54:05,729 [6] DEBUG CTP 
+OnRspQryTrade[300049]
+response:null
+rspInfo:null
+2016-12-22 22:54:09,275 [1] DEBUG CTP 
+ReqOrderInsert[100001]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067221","InstrumentID":"ta1705","OrderRef":"000000000001","UserID":null,"OrderPriceType":50,"Direction":48,"CombOffsetFlag":"0","CombHedgeFlag":"1","LimitPrice":5346.0,"VolumeTotalOriginal":1,"TimeCondition":51,"GTDDate":"","VolumeCondition":49,"MinVolume":1,"ContingentCondition":49,"StopPrice":0.0,"ForceCloseReason":48,"IsAutoSuspend":0,"BusinessUnit":null,"RequestID":100001,"UserForceClose":0,"IsSwapOrder":0}
+2016-12-22 22:54:09,575 [10] ERROR CTP 
+OnRspOrderInsert[100001]
+response:{"BrokerID":"9999","InvestorID":"067221","InstrumentID":"ta1705","OrderRef":"000000000001","UserID":"","OrderPriceType":50,"Direction":48,"CombOffsetFlag":"0","CombHedgeFlag":"1","LimitPrice":5346.0,"VolumeTotalOriginal":1,"TimeCondition":51,"GTDDate":"","VolumeCondition":49,"MinVolume":1,"ContingentCondition":49,"StopPrice":0.0,"ForceCloseReason":48,"IsAutoSuspend":0,"BusinessUnit":"","RequestID":100001,"UserForceClose":0,"IsSwapOrder":0}
+rspInfo:{"ErrorID":16,"ErrorMsg":"CTP:找不到合约"}
+2016-12-22 22:54:10,365 [1] DEBUG CTP 
+ReqOrderInsert[100002]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067221","InstrumentID":"ta1705","OrderRef":"000000000002","UserID":null,"OrderPriceType":50,"Direction":48,"CombOffsetFlag":"0","CombHedgeFlag":"1","LimitPrice":5346.0,"VolumeTotalOriginal":1,"TimeCondition":51,"GTDDate":"","VolumeCondition":49,"MinVolume":1,"ContingentCondition":49,"StopPrice":0.0,"ForceCloseReason":48,"IsAutoSuspend":0,"BusinessUnit":null,"RequestID":100002,"UserForceClose":0,"IsSwapOrder":0}
+2016-12-22 22:54:10,455 [10] ERROR CTP 
+OnRspOrderInsert[100002]
+response:{"BrokerID":"9999","InvestorID":"067221","InstrumentID":"ta1705","OrderRef":"000000000002","UserID":"","OrderPriceType":50,"Direction":48,"CombOffsetFlag":"0","CombHedgeFlag":"1","LimitPrice":5346.0,"VolumeTotalOriginal":1,"TimeCondition":51,"GTDDate":"","VolumeCondition":49,"MinVolume":1,"ContingentCondition":49,"StopPrice":0.0,"ForceCloseReason":48,"IsAutoSuspend":0,"BusinessUnit":"","RequestID":100002,"UserForceClose":0,"IsSwapOrder":0}
+rspInfo:{"ErrorID":16,"ErrorMsg":"CTP:找不到合约"}
+2016-12-22 22:54:11,115 [1] DEBUG CTP 
+ReqOrderInsert[100003]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067221","InstrumentID":"ta1705","OrderRef":"000000000003","UserID":null,"OrderPriceType":50,"Direction":48,"CombOffsetFlag":"0","CombHedgeFlag":"1","LimitPrice":5346.0,"VolumeTotalOriginal":1,"TimeCondition":51,"GTDDate":"","VolumeCondition":49,"MinVolume":1,"ContingentCondition":49,"StopPrice":0.0,"ForceCloseReason":48,"IsAutoSuspend":0,"BusinessUnit":null,"RequestID":100003,"UserForceClose":0,"IsSwapOrder":0}
+2016-12-22 22:54:11,215 [10] ERROR CTP 
+OnRspOrderInsert[100003]
+response:{"BrokerID":"9999","InvestorID":"067221","InstrumentID":"ta1705","OrderRef":"000000000003","UserID":"","OrderPriceType":50,"Direction":48,"CombOffsetFlag":"0","CombHedgeFlag":"1","LimitPrice":5346.0,"VolumeTotalOriginal":1,"TimeCondition":51,"GTDDate":"","VolumeCondition":49,"MinVolume":1,"ContingentCondition":49,"StopPrice":0.0,"ForceCloseReason":48,"IsAutoSuspend":0,"BusinessUnit":"","RequestID":100003,"UserForceClose":0,"IsSwapOrder":0}
+rspInfo:{"ErrorID":16,"ErrorMsg":"CTP:找不到合约"}
+2016-12-22 22:54:12,045 [1] DEBUG CTP 
+ReqOrderInsert[100004]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067221","InstrumentID":"ta1705","OrderRef":"000000000004","UserID":null,"OrderPriceType":50,"Direction":48,"CombOffsetFlag":"0","CombHedgeFlag":"1","LimitPrice":5346.0,"VolumeTotalOriginal":1,"TimeCondition":51,"GTDDate":"","VolumeCondition":49,"MinVolume":1,"ContingentCondition":49,"StopPrice":0.0,"ForceCloseReason":48,"IsAutoSuspend":0,"BusinessUnit":null,"RequestID":100004,"UserForceClose":0,"IsSwapOrder":0}
+2016-12-22 22:54:12,135 [10] ERROR CTP 
+OnRspOrderInsert[100004]
+response:{"BrokerID":"9999","InvestorID":"067221","InstrumentID":"ta1705","OrderRef":"000000000004","UserID":"","OrderPriceType":50,"Direction":48,"CombOffsetFlag":"0","CombHedgeFlag":"1","LimitPrice":5346.0,"VolumeTotalOriginal":1,"TimeCondition":51,"GTDDate":"","VolumeCondition":49,"MinVolume":1,"ContingentCondition":49,"StopPrice":0.0,"ForceCloseReason":48,"IsAutoSuspend":0,"BusinessUnit":"","RequestID":100004,"UserForceClose":0,"IsSwapOrder":0}
+rspInfo:{"ErrorID":16,"ErrorMsg":"CTP:找不到合约"}
+2016-12-22 22:54:12,385 [1] DEBUG CTP 
+ReqOrderInsert[100005]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067221","InstrumentID":"ta1705","OrderRef":"000000000005","UserID":null,"OrderPriceType":50,"Direction":48,"CombOffsetFlag":"0","CombHedgeFlag":"1","LimitPrice":5346.0,"VolumeTotalOriginal":1,"TimeCondition":51,"GTDDate":"","VolumeCondition":49,"MinVolume":1,"ContingentCondition":49,"StopPrice":0.0,"ForceCloseReason":48,"IsAutoSuspend":0,"BusinessUnit":null,"RequestID":100005,"UserForceClose":0,"IsSwapOrder":0}
+2016-12-22 22:54:12,485 [10] ERROR CTP 
+OnRspOrderInsert[100005]
+response:{"BrokerID":"9999","InvestorID":"067221","InstrumentID":"ta1705","OrderRef":"000000000005","UserID":"","OrderPriceType":50,"Direction":48,"CombOffsetFlag":"0","CombHedgeFlag":"1","LimitPrice":5346.0,"VolumeTotalOriginal":1,"TimeCondition":51,"GTDDate":"","VolumeCondition":49,"MinVolume":1,"ContingentCondition":49,"StopPrice":0.0,"ForceCloseReason":48,"IsAutoSuspend":0,"BusinessUnit":"","RequestID":100005,"UserForceClose":0,"IsSwapOrder":0}
+rspInfo:{"ErrorID":16,"ErrorMsg":"CTP:找不到合约"}
+2016-12-22 22:54:15,627 [11] DEBUG CTP 
+ReqQryTrade[300050]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:54:15,627 [11] DEBUG CTP 
+ReqQryOrder[300050]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:54:15,727 [6] DEBUG CTP 
+OnRspQryTrade[300050]
+response:null
+rspInfo:null
+2016-12-22 22:54:25,795 [11] DEBUG CTP 
+ReqQryTrade[300051]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:54:25,795 [11] DEBUG CTP 
+ReqQryOrder[300051]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:54:25,895 [6] DEBUG CTP 
+OnRspQryTrade[300051]
+response:null
+rspInfo:null
+2016-12-22 22:54:35,643 [11] DEBUG CTP 
+ReqQryTrade[300052]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:54:35,643 [11] DEBUG CTP 
+ReqQryOrder[300052]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:54:35,733 [6] DEBUG CTP 
+OnRspQryTrade[300052]
+response:null
+rspInfo:null
+2016-12-22 22:54:45,663 [11] DEBUG CTP 
+ReqQryTrade[300053]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:54:45,663 [11] DEBUG CTP 
+ReqQryOrder[300053]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:54:45,763 [6] DEBUG CTP 
+OnRspQryTrade[300053]
+response:null
+rspInfo:null
+2016-12-22 22:54:55,655 [11] DEBUG CTP 
+ReqQryTrade[300054]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:54:55,655 [11] DEBUG CTP 
+ReqQryOrder[300054]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:54:55,755 [6] DEBUG CTP 
+OnRspQryTrade[300054]
+response:null
+rspInfo:null
+2016-12-22 22:55:05,677 [11] DEBUG CTP 
+ReqQryTrade[300055]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:55:05,677 [11] DEBUG CTP 
+ReqQryOrder[300055]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:55:05,777 [6] DEBUG CTP 
+OnRspQryTrade[300055]
+response:null
+rspInfo:null
+2016-12-22 22:55:15,691 [11] DEBUG CTP 
+ReqQryTrade[300056]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:55:15,691 [11] DEBUG CTP 
+ReqQryOrder[300056]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:55:15,831 [6] DEBUG CTP 
+OnRspQryTrade[300056]
+response:null
+rspInfo:null
+2016-12-22 22:55:25,687 [11] DEBUG CTP 
+ReqQryTrade[300057]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:55:25,687 [11] DEBUG CTP 
+ReqQryOrder[300057]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:55:25,797 [6] DEBUG CTP 
+OnRspQryTrade[300057]
+response:null
+rspInfo:null
+2016-12-22 22:55:35,701 [11] DEBUG CTP 
+ReqQryTrade[300058]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:55:35,701 [11] DEBUG CTP 
+ReqQryOrder[300058]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:55:35,801 [6] DEBUG CTP 
+OnRspQryTrade[300058]
+response:null
+rspInfo:null
+2016-12-22 22:55:45,707 [12] DEBUG CTP 
+ReqQryTrade[300059]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:55:45,707 [12] DEBUG CTP 
+ReqQryOrder[300059]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:55:45,807 [6] DEBUG CTP 
+OnRspQryTrade[300059]
+response:null
+rspInfo:null
+2016-12-22 22:55:55,717 [12] DEBUG CTP 
+ReqQryTrade[300060]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:55:55,717 [12] DEBUG CTP 
+ReqQryOrder[300060]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:55:55,817 [6] DEBUG CTP 
+OnRspQryTrade[300060]
+response:null
+rspInfo:null
+2016-12-22 22:56:05,719 [12] DEBUG CTP 
+ReqQryTrade[300061]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:56:05,719 [12] DEBUG CTP 
+ReqQryOrder[300061]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:56:05,859 [6] DEBUG CTP 
+OnRspQryTrade[300061]
+response:null
+rspInfo:null
+2016-12-22 22:56:15,731 [12] DEBUG CTP 
+ReqQryTrade[300062]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:56:15,731 [12] DEBUG CTP 
+ReqQryOrder[300062]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:56:15,853 [6] DEBUG CTP 
+OnRspQryTrade[300062]
+response:null
+rspInfo:null
+2016-12-22 22:56:25,729 [12] DEBUG CTP 
+ReqQryTrade[300063]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:56:25,729 [12] DEBUG CTP 
+ReqQryOrder[300063]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:56:25,839 [6] DEBUG CTP 
+OnRspQryTrade[300063]
+response:null
+rspInfo:null
+2016-12-22 22:56:35,751 [11] DEBUG CTP 
+ReqQryTrade[300064]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:56:35,751 [11] DEBUG CTP 
+ReqQryOrder[300064]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:56:35,871 [6] DEBUG CTP 
+OnRspQryTrade[300064]
+response:null
+rspInfo:null
+2016-12-22 22:56:45,765 [12] DEBUG CTP 
+ReqQryTrade[300065]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:56:45,765 [12] DEBUG CTP 
+ReqQryOrder[300065]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:56:45,895 [6] DEBUG CTP 
+OnRspQryTrade[300065]
+response:null
+rspInfo:null
+2016-12-22 22:56:55,763 [11] DEBUG CTP 
+ReqQryTrade[300066]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:56:55,763 [11] DEBUG CTP 
+ReqQryOrder[300066]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:56:55,863 [6] DEBUG CTP 
+OnRspQryTrade[300066]
+response:null
+rspInfo:null
+2016-12-22 22:57:05,781 [11] DEBUG CTP 
+ReqQryTrade[300067]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:57:05,781 [11] DEBUG CTP 
+ReqQryOrder[300067]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:57:05,921 [6] DEBUG CTP 
+OnRspQryTrade[300067]
+response:null
+rspInfo:null
+2016-12-22 22:57:15,773 [11] DEBUG CTP 
+ReqQryTrade[300068]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:57:15,773 [11] DEBUG CTP 
+ReqQryOrder[300068]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:57:15,923 [6] DEBUG CTP 
+OnRspQryTrade[300068]
+response:null
+rspInfo:null
+2016-12-22 22:57:25,795 [11] DEBUG CTP 
+ReqQryTrade[300069]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:57:25,795 [11] DEBUG CTP 
+ReqQryOrder[300069]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:57:25,925 [6] DEBUG CTP 
+OnRspQryTrade[300069]
+response:null
+rspInfo:null
+2016-12-22 22:57:35,797 [11] DEBUG CTP 
+ReqQryTrade[300070]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:57:35,797 [11] DEBUG CTP 
+ReqQryOrder[300070]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:57:35,897 [6] DEBUG CTP 
+OnRspQryTrade[300070]
+response:null
+rspInfo:null
+2016-12-22 22:57:45,803 [11] DEBUG CTP 
+ReqQryTrade[300071]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:57:45,803 [11] DEBUG CTP 
+ReqQryOrder[300071]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:57:45,953 [6] DEBUG CTP 
+OnRspQryTrade[300071]
+response:null
+rspInfo:null
+2016-12-22 22:57:55,855 [11] DEBUG CTP 
+ReqQryTrade[300072]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:57:55,855 [11] DEBUG CTP 
+ReqQryOrder[300072]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:57:55,955 [6] DEBUG CTP 
+OnRspQryTrade[300072]
+response:null
+rspInfo:null
+2016-12-22 22:58:05,827 [12] DEBUG CTP 
+ReqQryTrade[300073]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:58:05,827 [12] DEBUG CTP 
+ReqQryOrder[300073]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:58:05,927 [6] DEBUG CTP 
+OnRspQryTrade[300073]
+response:null
+rspInfo:null
+2016-12-22 22:58:15,841 [12] DEBUG CTP 
+ReqQryTrade[300074]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:58:15,841 [12] DEBUG CTP 
+ReqQryOrder[300074]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:58:15,931 [6] DEBUG CTP 
+OnRspQryTrade[300074]
+response:null
+rspInfo:null
+2016-12-22 22:58:25,841 [11] DEBUG CTP 
+ReqQryTrade[300075]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:58:25,841 [11] DEBUG CTP 
+ReqQryOrder[300075]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:58:25,941 [6] DEBUG CTP 
+OnRspQryTrade[300075]
+response:null
+rspInfo:null
+2016-12-22 22:58:35,851 [11] DEBUG CTP 
+ReqQryTrade[300076]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:58:35,851 [11] DEBUG CTP 
+ReqQryOrder[300076]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:58:35,951 [6] DEBUG CTP 
+OnRspQryTrade[300076]
+response:null
+rspInfo:null
+2016-12-22 22:58:45,851 [11] DEBUG CTP 
+ReqQryTrade[300077]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:58:45,851 [11] DEBUG CTP 
+ReqQryOrder[300077]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:58:45,961 [6] DEBUG CTP 
+OnRspQryTrade[300077]
+response:null
+rspInfo:null
+2016-12-22 22:58:55,864 [12] DEBUG CTP 
+ReqQryTrade[300078]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:58:55,864 [12] DEBUG CTP 
+ReqQryOrder[300078]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:58:56,029 [6] DEBUG CTP 
+OnRspQryTrade[300078]
+response:null
+rspInfo:null
+2016-12-22 22:59:05,888 [12] DEBUG CTP 
+ReqQryTrade[300079]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:59:05,889 [12] DEBUG CTP 
+ReqQryOrder[300079]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:59:06,002 [6] DEBUG CTP 
+OnRspQryTrade[300079]
+response:null
+rspInfo:null
+2016-12-22 22:59:15,887 [12] DEBUG CTP 
+ReqQryTrade[300080]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:59:15,887 [12] DEBUG CTP 
+ReqQryOrder[300080]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:59:15,960 [6] DEBUG CTP 
+OnRspQryTrade[300080]
+response:null
+rspInfo:null
+2016-12-22 22:59:25,902 [11] DEBUG CTP 
+ReqQryTrade[300081]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:59:25,902 [11] DEBUG CTP 
+ReqQryOrder[300081]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:59:25,986 [6] DEBUG CTP 
+OnRspQryTrade[300081]
+response:null
+rspInfo:null
+2016-12-22 22:59:35,900 [11] DEBUG CTP 
+ReqQryTrade[300082]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:59:35,900 [11] DEBUG CTP 
+ReqQryOrder[300082]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:59:35,982 [6] DEBUG CTP 
+OnRspQryTrade[300082]
+response:null
+rspInfo:null
+2016-12-22 22:59:45,911 [11] DEBUG CTP 
+ReqQryTrade[300083]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:59:45,911 [11] DEBUG CTP 
+ReqQryOrder[300083]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:59:46,003 [6] DEBUG CTP 
+OnRspQryTrade[300083]
+response:null
+rspInfo:null
+2016-12-22 22:59:55,912 [12] DEBUG CTP 
+ReqQryTrade[300084]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 22:59:55,912 [12] DEBUG CTP 
+ReqQryOrder[300084]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 22:59:56,171 [6] DEBUG CTP 
+OnRspQryTrade[300084]
+response:null
+rspInfo:null
+2016-12-22 23:00:05,924 [11] DEBUG CTP 
+ReqQryTrade[300085]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:00:05,924 [11] DEBUG CTP 
+ReqQryOrder[300085]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:00:06,015 [6] DEBUG CTP 
+OnRspQryTrade[300085]
+response:null
+rspInfo:null
+2016-12-22 23:00:15,927 [12] DEBUG CTP 
+ReqQryTrade[300086]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:00:15,928 [12] DEBUG CTP 
+ReqQryOrder[300086]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:00:16,026 [6] DEBUG CTP 
+OnRspQryTrade[300086]
+response:null
+rspInfo:null
+2016-12-22 23:00:25,938 [12] DEBUG CTP 
+ReqQryTrade[300087]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:00:25,939 [12] DEBUG CTP 
+ReqQryOrder[300087]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:00:26,036 [6] DEBUG CTP 
+OnRspQryTrade[300087]
+response:null
+rspInfo:null
+2016-12-22 23:00:35,960 [12] DEBUG CTP 
+ReqQryTrade[300088]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:00:35,960 [12] DEBUG CTP 
+ReqQryOrder[300088]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:00:36,049 [6] DEBUG CTP 
+OnRspQryTrade[300088]
+response:null
+rspInfo:null
+2016-12-22 23:00:45,954 [12] DEBUG CTP 
+ReqQryTrade[300089]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:00:45,954 [12] DEBUG CTP 
+ReqQryOrder[300089]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:00:46,046 [6] DEBUG CTP 
+OnRspQryTrade[300089]
+response:null
+rspInfo:null
+2016-12-22 23:00:55,969 [12] DEBUG CTP 
+ReqQryTrade[300090]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:00:55,969 [12] DEBUG CTP 
+ReqQryOrder[300090]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:00:56,066 [6] DEBUG CTP 
+OnRspQryTrade[300090]
+response:null
+rspInfo:null
+2016-12-22 23:01:05,970 [12] DEBUG CTP 
+ReqQryTrade[300091]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:01:05,970 [12] DEBUG CTP 
+ReqQryOrder[300091]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:01:06,078 [6] DEBUG CTP 
+OnRspQryTrade[300091]
+response:null
+rspInfo:null
+2016-12-22 23:01:15,984 [12] DEBUG CTP 
+ReqQryTrade[300092]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:01:15,984 [12] DEBUG CTP 
+ReqQryOrder[300092]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:01:16,076 [6] DEBUG CTP 
+OnRspQryTrade[300092]
+response:null
+rspInfo:null
+2016-12-22 23:01:25,990 [12] DEBUG CTP 
+ReqQryTrade[300093]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:01:25,990 [12] DEBUG CTP 
+ReqQryOrder[300093]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:01:26,117 [6] DEBUG CTP 
+OnRspQryTrade[300093]
+response:null
+rspInfo:null
+2016-12-22 23:01:35,998 [12] DEBUG CTP 
+ReqQryTrade[300094]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:01:35,999 [12] DEBUG CTP 
+ReqQryOrder[300094]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:01:36,077 [6] DEBUG CTP 
+OnRspQryTrade[300094]
+response:null
+rspInfo:null
+2016-12-22 23:01:46,003 [12] DEBUG CTP 
+ReqQryTrade[300095]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:01:46,003 [12] DEBUG CTP 
+ReqQryOrder[300095]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:01:46,097 [6] DEBUG CTP 
+OnRspQryTrade[300095]
+response:null
+rspInfo:null
+2016-12-22 23:01:56,014 [12] DEBUG CTP 
+ReqQryTrade[300096]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:01:56,014 [12] DEBUG CTP 
+ReqQryOrder[300096]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:01:56,108 [6] DEBUG CTP 
+OnRspQryTrade[300096]
+response:null
+rspInfo:null
+2016-12-22 23:02:06,064 [11] DEBUG CTP 
+ReqQryTrade[300097]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:02:06,064 [11] DEBUG CTP 
+ReqQryOrder[300097]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:02:06,199 [6] DEBUG CTP 
+OnRspQryTrade[300097]
+response:null
+rspInfo:null
+2016-12-22 23:02:16,029 [11] DEBUG CTP 
+ReqQryTrade[300098]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:02:16,030 [11] DEBUG CTP 
+ReqQryOrder[300098]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:02:16,108 [6] DEBUG CTP 
+OnRspQryTrade[300098]
+response:null
+rspInfo:null
+2016-12-22 23:02:26,044 [11] DEBUG CTP 
+ReqQryTrade[300099]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:02:26,045 [11] DEBUG CTP 
+ReqQryOrder[300099]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:02:26,138 [6] DEBUG CTP 
+OnRspQryTrade[300099]
+response:null
+rspInfo:null
+2016-12-22 23:02:36,097 [11] DEBUG CTP 
+ReqQryTrade[300100]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:02:36,097 [11] DEBUG CTP 
+ReqQryOrder[300100]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:02:36,198 [6] DEBUG CTP 
+OnRspQryTrade[300100]
+response:null
+rspInfo:null
+2016-12-22 23:02:46,110 [11] DEBUG CTP 
+ReqQryTrade[300101]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:02:46,110 [11] DEBUG CTP 
+ReqQryOrder[300101]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:02:46,208 [6] DEBUG CTP 
+OnRspQryTrade[300101]
+response:null
+rspInfo:null
+2016-12-22 23:02:56,122 [11] DEBUG CTP 
+ReqQryTrade[300102]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:02:56,122 [11] DEBUG CTP 
+ReqQryOrder[300102]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:02:56,208 [6] DEBUG CTP 
+OnRspQryTrade[300102]
+response:null
+rspInfo:null
+2016-12-22 23:03:06,125 [11] DEBUG CTP 
+ReqQryTrade[300103]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:03:06,125 [11] DEBUG CTP 
+ReqQryOrder[300103]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:03:06,218 [6] DEBUG CTP 
+OnRspQryTrade[300103]
+response:null
+rspInfo:null
+2016-12-22 23:03:16,136 [11] DEBUG CTP 
+ReqQryTrade[300104]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:03:16,136 [11] DEBUG CTP 
+ReqQryOrder[300104]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:03:16,225 [6] DEBUG CTP 
+OnRspQryTrade[300104]
+response:null
+rspInfo:null
+2016-12-22 23:03:26,155 [11] DEBUG CTP 
+ReqQryTrade[300105]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:03:26,155 [11] DEBUG CTP 
+ReqQryOrder[300105]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:03:26,274 [6] DEBUG CTP 
+OnRspQryTrade[300105]
+response:null
+rspInfo:null
+2016-12-22 23:03:36,162 [11] DEBUG CTP 
+ReqQryTrade[300106]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:03:36,162 [11] DEBUG CTP 
+ReqQryOrder[300106]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:03:36,253 [6] DEBUG CTP 
+OnRspQryTrade[300106]
+response:null
+rspInfo:null
+2016-12-22 23:03:46,156 [11] DEBUG CTP 
+ReqQryTrade[300107]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:03:46,156 [11] DEBUG CTP 
+ReqQryOrder[300107]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:03:46,251 [6] DEBUG CTP 
+OnRspQryTrade[300107]
+response:null
+rspInfo:null
+2016-12-22 23:03:56,165 [11] DEBUG CTP 
+ReqQryTrade[300108]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:03:56,165 [11] DEBUG CTP 
+ReqQryOrder[300108]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:03:56,259 [6] DEBUG CTP 
+OnRspQryTrade[300108]
+response:null
+rspInfo:null
+2016-12-22 23:04:06,181 [11] DEBUG CTP 
+ReqQryTrade[300109]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:04:06,181 [11] DEBUG CTP 
+ReqQryOrder[300109]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:04:06,270 [6] DEBUG CTP 
+OnRspQryTrade[300109]
+response:null
+rspInfo:null
+2016-12-22 23:04:16,186 [11] DEBUG CTP 
+ReqQryTrade[300110]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:04:16,186 [11] DEBUG CTP 
+ReqQryOrder[300110]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:04:16,279 [6] DEBUG CTP 
+OnRspQryTrade[300110]
+response:null
+rspInfo:null
+2016-12-22 23:04:26,213 [11] DEBUG CTP 
+ReqQryTrade[300111]:发送成功
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"TradeID":null,"TradeTimeStart":null,"TradeTimeEnd":null}
+2016-12-22 23:04:26,213 [11] DEBUG CTP 
+ReqQryOrder[300111]:未处理请求队列总数量超限
+request:{"BrokerID":"9999","InvestorID":"067218","InstrumentID":null,"ExchangeID":null,"OrderSysID":null,"InsertTimeStart":null,"InsertTimeEnd":null}
+2016-12-22 23:04:26,305 [6] DEBUG CTP 
+OnRspQryTrade[300111]
+response:null
+rspInfo:null
