@@ -241,6 +241,17 @@ namespace WinCtp
             req.InstrumentID = ctpTrade.InstrumentID;
             req.BusinessUnit = ctpTrade.BusinessUnit;
             req.VolumeTotalOriginal = (int)Math.Ceiling(ctpTrade.Volume * cfg.Volume);
+
+            /*
+             * 中金所:CFFEX
+             * 郑商所:CZCE
+             * 上期所:SHFE
+             * 大商所:DCE
+             */
+            //if (ctpTrade.ExchangeID.ToUpperInvariant() == "SHFE")
+            //{
+            //    //
+            //}
             if (cfg.Price <= 0) //市价
             {
                 req.OrderPriceType = CtpOrderPriceTypeType.AnyPrice;

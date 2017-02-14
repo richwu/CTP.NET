@@ -127,6 +127,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataCache.cs" />
     <Compile Include="UserApi.cs" />
     <Compile Include="FrmBroker.cs">
       <SubType>Form</SubType>
