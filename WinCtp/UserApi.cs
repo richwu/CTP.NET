@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
 using GalaxyFutures.Sfit.Api;
 using log4net;
@@ -64,6 +64,8 @@ namespace WinCtp
 
     public class MdApi : IDisposable
     {
+        public ConcurrentDictionary<string, CtpDepthMarketData> DepthMarketData { get; }
+
         private readonly CtpMdApi _api;
         private readonly BackgroundWorker _worker;
         private readonly ILog _log;
@@ -77,12 +79,15 @@ namespace WinCtp
 
         public bool IsLogin { get; private set; }
 
-        public MdApi(string brokerId,string userId,string pwd,string frontAddress)
+        private readonly IMainView _view;
+
+        public MdApi(string brokerId,string userId,string pwd,string frontAddress, IMainView view)
         {
             _brokerId = brokerId;
             _userId = userId;
             _pwd = pwd;
             _frontAddress = frontAddress;
+            _view = view;
 
             IsConnected = false;
             IsLogin = false;
@@ -100,6 +105,7 @@ namespace WinCtp
             };
             _worker.DoWork += OnDoWork;
             _log = LogManager.GetLogger($"CTP.MD.{userId}");
+            DepthMarketData = new ConcurrentDictionary<string, CtpDepthMarketData>();
         }
 
         private void InitApi()
@@ -107,11 +113,13 @@ namespace WinCtp
             _api.OnFrontConnected += sender =>
             {
                 IsConnected = true;
+                _view?.MdConnect(true);
                 _log.Debug("OnFrontConnected");
             };
             _api.OnFrontDisconnected += (sender, response) =>
             {
                 IsConnected = false;
+                _view?.MdConnect(false);
                 _log.DebugFormat("OnFrontDisconnected\nresponse:{0}", response);
             };
             _api.OnRspError += OnRspError;
@@ -129,7 +137,7 @@ namespace WinCtp
 
         private void OnRtnDepthMarketData(object sender, CtpDepthMarketData response)
         {
-            DataCache.DepthMarketData[response.InstrumentID] = response;
+            DepthMarketData[response.InstrumentID] = response;
             _log.DebugFormat("OnRtnDepthMarketData\n{0}", JsonConvert.SerializeObject(response));
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -42,8 +43,7 @@ namespace WinCtp
         private readonly ConcurrentDictionary<string, bool> _loginUser;//[UserID,MstOrSub] true/Mst,false/Sub
         private readonly MainViewImpl _impl;
 
-        private readonly CtpMdApi _mdApi;
-        private readonly BackgroundWorker _mdWorker;
+        private MdApi _mdApi;
 
         #region 初始化
         public FrmMain()
@@ -51,20 +51,6 @@ namespace WinCtp
             InitializeComponent();
             
             _log = LogManager.GetLogger("CTP");
-
-            var fp = Path.Combine(Application.StartupPath, @"flow\md\");
-            if (!Directory.Exists(fp))
-                Directory.CreateDirectory(fp);
-            _mdApi = new CtpMdApi(fp);
-            _mdApi.OnFrontConnected += OnFrontConnected;
-            _mdApi.OnFrontDisconnected += OnFrontDisconnected;
-            _mdApi.OnRspUserLogin += OnRspUserLogin;
-            _mdApi.OnRspUserLogout += OnRspUserLogout;
-            _mdApi.OnRspError += OnRspError;
-            _mdApi.OnRtnDepthMarketData += MdApiOnRtnDepthMarketData;
-            _mdApi.OnRspSubMarketData += MdApiOnRspSubMarketData;
-            _mdWorker = new BackgroundWorker();
-            _mdWorker.DoWork += MdWorkerOnDoWork;
 
             _impl = new MainViewImpl(this);
 
@@ -95,26 +81,6 @@ namespace WinCtp
             //是否需要等待start方法后再执行工作项,?默认为true,当true状态时,STP必须执行Start方法,才会为线程分配工作项
             stp.StartSuspended = false;
             _treadPool = new SmartThreadPool(stp);
-        }
-
-        private void MdApiOnRspSubMarketData(object sender, CtpSpecificInstrument response, CtpRspInfo rspInfo, int requestId, bool isLast)
-        {
-            _log.DebugFormat("{0}.OnRspSubMarketData\nresponse:{1}\nrspInfo:{2}", 
-                sender, 
-                JsonConvert.SerializeObject(response), 
-                JsonConvert.SerializeObject(rspInfo));
-        }
-
-        private void MdWorkerOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
-        {
-            _mdApi.RegisterFront("");
-            _mdApi.Init();
-            _mdApi.Join();
-        }
-
-        private void MdApiOnRtnDepthMarketData(object sender, CtpDepthMarketData response)
-        {
-            _log.DebugFormat("{0}.OnRtnDepthMarketData\nresponse:{1}", sender, JsonConvert.SerializeObject(response));
         }
 
         protected override void OnLoad(EventArgs e)
@@ -453,6 +419,7 @@ namespace WinCtp
             if (InvokeRequired)
                 Invoke(new SimpleDelegate(() => { cmbInstrumentId.Items.Add(response.InstrumentID); }));
             else cmbInstrumentId.Items.Add(response.InstrumentID);
+            _mdApi.SubscribeMarketData(response.InstrumentID);
         }
 
         #region 账户
@@ -537,8 +504,14 @@ namespace WinCtp
                 _treadPool.QueueWorkItem(() => { Thread.Sleep(1100); QryInvestorPosition(u); });
                 if (!_qryInstrumentDone)
                 {
-                    _treadPool.QueueWorkItem(() => { Thread.Sleep(2200); QryInstrument(u); });
+                    _mdApi = new MdApi(u.BrokerId, u.UserId, u.Password, u.Broker.MarketFrontAddress,this);
+                    _treadPool.QueueWorkItem(() =>
+                    {
+                        _mdApi.Start();
+                        Thread.Sleep(2200); QryInstrument(u);
+                    });
                     _qryInstrumentDone = true;
+                    
                 }
 
                 return;
@@ -1170,6 +1143,11 @@ namespace WinCtp
         {
             if(MsgBox.Ask("您确定关闭程序？"))
                 Close();
+        }
+
+        public void MdConnect(bool b)
+        {
+            tsslMdStatus.ForeColor = b ? Color.Green : Color.Gray;
         }
     }
 }

@@ -74,6 +74,7 @@
             this.tsmiSelectAllMstUser = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiMstUserLogin = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiMstUserLogout = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiRePosiMst = new System.Windows.Forms.ToolStripMenuItem();
             this.dsMstUser = new System.Windows.Forms.BindingSource(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.gbSubUser = new System.Windows.Forms.GroupBox();
@@ -88,6 +89,7 @@
             this.tsmiSubUserLogin = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSubUserLogout = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSettlementInfoConfirm = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiRePosiSub = new System.Windows.Forms.ToolStripMenuItem();
             this.dsSubUser = new System.Windows.Forms.BindingSource(this.components);
             this.panel4 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
@@ -146,9 +148,9 @@
             this.ibtnBroker = new System.Windows.Forms.ToolStripButton();
             this.tsmiListen = new System.Windows.Forms.ToolStripButton();
             this.ibtnSetting = new System.Windows.Forms.ToolStripButton();
-            this.tsmiRePosiMst = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiRePosiSub = new System.Windows.Forms.ToolStripMenuItem();
             this.ibtnClose = new System.Windows.Forms.ToolStripButton();
+            this.tsslMdStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tpMstOrder.SuspendLayout();
@@ -187,6 +189,8 @@
             // 
             // statusStrip
             // 
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsslMdStatus});
             this.statusStrip.Location = new System.Drawing.Point(0, 709);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(1190, 22);
@@ -578,13 +582,13 @@
             this.tsmiMstUserLogout,
             this.tsmiRePosiMst});
             this.cmsMstUser.Name = "cmsMstUser";
-            this.cmsMstUser.Size = new System.Drawing.Size(127, 92);
+            this.cmsMstUser.Size = new System.Drawing.Size(125, 92);
             // 
             // tsmiSelectAllMstUser
             // 
             this.tsmiSelectAllMstUser.Image = global::WinCtp.Properties.Resources.right;
             this.tsmiSelectAllMstUser.Name = "tsmiSelectAllMstUser";
-            this.tsmiSelectAllMstUser.Size = new System.Drawing.Size(126, 22);
+            this.tsmiSelectAllMstUser.Size = new System.Drawing.Size(124, 22);
             this.tsmiSelectAllMstUser.Text = "全选";
             this.tsmiSelectAllMstUser.Click += new System.EventHandler(this.tsmiSelectAllMstUser_Click);
             // 
@@ -592,16 +596,24 @@
             // 
             this.tsmiMstUserLogin.Image = global::WinCtp.Properties.Resources.man0;
             this.tsmiMstUserLogin.Name = "tsmiMstUserLogin";
-            this.tsmiMstUserLogin.Size = new System.Drawing.Size(126, 22);
+            this.tsmiMstUserLogin.Size = new System.Drawing.Size(124, 22);
             this.tsmiMstUserLogin.Text = "登录";
             this.tsmiMstUserLogin.Click += new System.EventHandler(this.tsmiMstUserLogin_Click);
             // 
             // tsmiMstUserLogout
             // 
             this.tsmiMstUserLogout.Name = "tsmiMstUserLogout";
-            this.tsmiMstUserLogout.Size = new System.Drawing.Size(126, 22);
+            this.tsmiMstUserLogout.Size = new System.Drawing.Size(124, 22);
             this.tsmiMstUserLogout.Text = "注销";
             this.tsmiMstUserLogout.Click += new System.EventHandler(this.tsmiMstUserLogout_Click);
+            // 
+            // tsmiRePosiMst
+            // 
+            this.tsmiRePosiMst.Image = global::WinCtp.Properties.Resources.refresh;
+            this.tsmiRePosiMst.Name = "tsmiRePosiMst";
+            this.tsmiRePosiMst.Size = new System.Drawing.Size(124, 22);
+            this.tsmiRePosiMst.Text = "刷新持仓";
+            this.tsmiRePosiMst.Click += new System.EventHandler(this.tsmiRePosiMst_Click);
             // 
             // dsMstUser
             // 
@@ -700,13 +712,13 @@
             this.tsmiSettlementInfoConfirm,
             this.tsmiRePosiSub});
             this.cmsSubUser.Name = "cmsMstUser";
-            this.cmsSubUser.Size = new System.Drawing.Size(127, 114);
+            this.cmsSubUser.Size = new System.Drawing.Size(125, 114);
             // 
             // tsmiSelectAllSubUser
             // 
             this.tsmiSelectAllSubUser.Image = global::WinCtp.Properties.Resources.right;
             this.tsmiSelectAllSubUser.Name = "tsmiSelectAllSubUser";
-            this.tsmiSelectAllSubUser.Size = new System.Drawing.Size(126, 22);
+            this.tsmiSelectAllSubUser.Size = new System.Drawing.Size(124, 22);
             this.tsmiSelectAllSubUser.Text = "全选";
             this.tsmiSelectAllSubUser.Click += new System.EventHandler(this.tsmiSelectAllSubUser_Click);
             // 
@@ -714,14 +726,14 @@
             // 
             this.tsmiSubUserLogin.Image = global::WinCtp.Properties.Resources.man0;
             this.tsmiSubUserLogin.Name = "tsmiSubUserLogin";
-            this.tsmiSubUserLogin.Size = new System.Drawing.Size(126, 22);
+            this.tsmiSubUserLogin.Size = new System.Drawing.Size(124, 22);
             this.tsmiSubUserLogin.Text = "登录";
             this.tsmiSubUserLogin.Click += new System.EventHandler(this.tsmiSubUserLogin_Click);
             // 
             // tsmiSubUserLogout
             // 
             this.tsmiSubUserLogout.Name = "tsmiSubUserLogout";
-            this.tsmiSubUserLogout.Size = new System.Drawing.Size(126, 22);
+            this.tsmiSubUserLogout.Size = new System.Drawing.Size(124, 22);
             this.tsmiSubUserLogout.Text = "注销";
             this.tsmiSubUserLogout.Click += new System.EventHandler(this.tsmiSubUserLogout_Click);
             // 
@@ -729,9 +741,17 @@
             // 
             this.tsmiSettlementInfoConfirm.Image = global::WinCtp.Properties.Resources.sms_type6;
             this.tsmiSettlementInfoConfirm.Name = "tsmiSettlementInfoConfirm";
-            this.tsmiSettlementInfoConfirm.Size = new System.Drawing.Size(126, 22);
+            this.tsmiSettlementInfoConfirm.Size = new System.Drawing.Size(124, 22);
             this.tsmiSettlementInfoConfirm.Text = "结算确认";
             this.tsmiSettlementInfoConfirm.Click += new System.EventHandler(this.tsmiSettlementInfoConfirm_Click);
+            // 
+            // tsmiRePosiSub
+            // 
+            this.tsmiRePosiSub.Image = global::WinCtp.Properties.Resources.refresh;
+            this.tsmiRePosiSub.Name = "tsmiRePosiSub";
+            this.tsmiRePosiSub.Size = new System.Drawing.Size(124, 22);
+            this.tsmiRePosiSub.Text = "刷新持仓";
+            this.tsmiRePosiSub.Click += new System.EventHandler(this.tsmiRePosiSub_Click);
             // 
             // dsSubUser
             // 
@@ -1264,14 +1284,14 @@
             this.tsmiUser.Image = global::WinCtp.Properties.Resources.sms_type6;
             this.tsmiUser.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmiUser.Name = "tsmiUser";
-            this.tsmiUser.Size = new System.Drawing.Size(62, 22);
+            this.tsmiUser.Size = new System.Drawing.Size(61, 22);
             this.tsmiUser.Text = "账户";
             // 
             // ibtnUser
             // 
             this.ibtnUser.Image = global::WinCtp.Properties.Resources.man0;
             this.ibtnUser.Name = "ibtnUser";
-            this.ibtnUser.Size = new System.Drawing.Size(126, 22);
+            this.ibtnUser.Size = new System.Drawing.Size(124, 22);
             this.ibtnUser.Text = "账户配置";
             this.ibtnUser.Click += new System.EventHandler(this.ibtnUser_Click);
             // 
@@ -1279,7 +1299,7 @@
             // 
             this.ibtnOrderInsertConfig.Image = global::WinCtp.Properties.Resources._6;
             this.ibtnOrderInsertConfig.Name = "ibtnOrderInsertConfig";
-            this.ibtnOrderInsertConfig.Size = new System.Drawing.Size(126, 22);
+            this.ibtnOrderInsertConfig.Size = new System.Drawing.Size(124, 22);
             this.ibtnOrderInsertConfig.Text = "下单配置";
             this.ibtnOrderInsertConfig.Click += new System.EventHandler(this.ibtnOrderInsertConfig_Click);
             // 
@@ -1288,7 +1308,7 @@
             this.ibtnBroker.Image = global::WinCtp.Properties.Resources.flag;
             this.ibtnBroker.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ibtnBroker.Name = "ibtnBroker";
-            this.ibtnBroker.Size = new System.Drawing.Size(79, 22);
+            this.ibtnBroker.Size = new System.Drawing.Size(76, 22);
             this.ibtnBroker.Text = "期货公司";
             this.ibtnBroker.Click += new System.EventHandler(this.ibtnBroker_Click);
             // 
@@ -1297,7 +1317,7 @@
             this.tsmiListen.Image = global::WinCtp.Properties.Resources.clock;
             this.tsmiListen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsmiListen.Name = "tsmiListen";
-            this.tsmiListen.Size = new System.Drawing.Size(79, 22);
+            this.tsmiListen.Size = new System.Drawing.Size(76, 22);
             this.tsmiListen.Text = "启动监听";
             this.tsmiListen.ToolTipText = "启动监听";
             this.tsmiListen.Click += new System.EventHandler(this.tsmiListen_Click);
@@ -1307,34 +1327,25 @@
             this.ibtnSetting.Image = global::WinCtp.Properties.Resources._6;
             this.ibtnSetting.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ibtnSetting.Name = "ibtnSetting";
-            this.ibtnSetting.Size = new System.Drawing.Size(53, 22);
+            this.ibtnSetting.Size = new System.Drawing.Size(52, 22);
             this.ibtnSetting.Text = "设置";
             this.ibtnSetting.Click += new System.EventHandler(this.ibtnSetting_Click);
-            // 
-            // tsmiRePosiMst
-            // 
-            this.tsmiRePosiMst.Image = global::WinCtp.Properties.Resources.refresh;
-            this.tsmiRePosiMst.Name = "tsmiRePosiMst";
-            this.tsmiRePosiMst.Size = new System.Drawing.Size(126, 22);
-            this.tsmiRePosiMst.Text = "刷新持仓";
-            this.tsmiRePosiMst.Click += new System.EventHandler(this.tsmiRePosiMst_Click);
-            // 
-            // tsmiRePosiSub
-            // 
-            this.tsmiRePosiSub.Image = global::WinCtp.Properties.Resources.refresh;
-            this.tsmiRePosiSub.Name = "tsmiRePosiSub";
-            this.tsmiRePosiSub.Size = new System.Drawing.Size(126, 22);
-            this.tsmiRePosiSub.Text = "刷新持仓";
-            this.tsmiRePosiSub.Click += new System.EventHandler(this.tsmiRePosiSub_Click);
             // 
             // ibtnClose
             // 
             this.ibtnClose.Image = global::WinCtp.Properties.Resources.close;
             this.ibtnClose.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ibtnClose.Name = "ibtnClose";
-            this.ibtnClose.Size = new System.Drawing.Size(53, 22);
+            this.ibtnClose.Size = new System.Drawing.Size(52, 22);
             this.ibtnClose.Text = "关闭";
             this.ibtnClose.Click += new System.EventHandler(this.ibtnClose_Click);
+            // 
+            // tsslMdStatus
+            // 
+            this.tsslMdStatus.ForeColor = System.Drawing.Color.Gray;
+            this.tsslMdStatus.Name = "tsslMdStatus";
+            this.tsslMdStatus.Size = new System.Drawing.Size(32, 17);
+            this.tsslMdStatus.Text = "行情";
             // 
             // FrmMain
             // 
@@ -1351,6 +1362,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "跟单系统";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tpMstOrder.ResumeLayout(false);
@@ -1511,6 +1524,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiRePosiMst;
         private System.Windows.Forms.ToolStripMenuItem tsmiRePosiSub;
         private System.Windows.Forms.ToolStripButton ibtnClose;
+        private System.Windows.Forms.ToolStripStatusLabel tsslMdStatus;
     }
 }
 
