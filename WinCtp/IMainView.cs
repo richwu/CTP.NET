@@ -1,7 +1,14 @@
-﻿namespace WinCtp
+﻿using Amib.Threading;
+using GalaxyFutures.Sfit.Api;
+
+namespace WinCtp
 {
     public interface IMainView
     {
-        void MdConnect(bool b);
+        void NotifyMdStatus(int flag,string msg = null);
+
+        void NotifyTrade(CtpTrade trade);
+
+        void Run(WorkItemCallback callback);
     }
 }

@@ -32,6 +32,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.tsslMdStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tpMstOrder = new System.Windows.Forms.TabPage();
@@ -149,7 +150,6 @@
             this.tsmiListen = new System.Windows.Forms.ToolStripButton();
             this.ibtnSetting = new System.Windows.Forms.ToolStripButton();
             this.ibtnClose = new System.Windows.Forms.ToolStripButton();
-            this.tsslMdStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl2.SuspendLayout();
@@ -196,6 +196,13 @@
             this.statusStrip.Size = new System.Drawing.Size(1190, 22);
             this.statusStrip.TabIndex = 8;
             this.statusStrip.Text = "statusStrip1";
+            // 
+            // tsslMdStatus
+            // 
+            this.tsslMdStatus.ForeColor = System.Drawing.Color.Gray;
+            this.tsslMdStatus.Name = "tsslMdStatus";
+            this.tsslMdStatus.Size = new System.Drawing.Size(32, 17);
+            this.tsslMdStatus.Text = "行情";
             // 
             // panel1
             // 
@@ -1339,13 +1346,6 @@
             this.ibtnClose.Size = new System.Drawing.Size(52, 22);
             this.ibtnClose.Text = "关闭";
             this.ibtnClose.Click += new System.EventHandler(this.ibtnClose_Click);
-            // 
-            // tsslMdStatus
-            // 
-            this.tsslMdStatus.ForeColor = System.Drawing.Color.Gray;
-            this.tsslMdStatus.Name = "tsslMdStatus";
-            this.tsslMdStatus.Size = new System.Drawing.Size(32, 17);
-            this.tsslMdStatus.Text = "行情";
             // 
             // FrmMain
             // 

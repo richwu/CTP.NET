@@ -248,20 +248,32 @@ namespace WinCtp
              * 上期所:SHFE
              * 大商所:DCE
              */
-            //if (ctpTrade.ExchangeID.ToUpperInvariant() == "SHFE")
-            //{
-            //    //
-            //}
-            if (cfg.Price <= 0) //市价
+            if (ctpTrade.ExchangeID.ToUpperInvariant() == "SHFE")
             {
-                req.OrderPriceType = CtpOrderPriceTypeType.AnyPrice;
-                //req.LimitPrice = 0;
+                DepthMarketData dmd;
+                if (DataCache.DepthMarketData.TryGetValue(ctpTrade.InstrumentID, out dmd))
+                {
+                    req.OrderPriceType = CtpOrderPriceTypeType.LimitPrice;
+                    if(req.Direction == CtpDirectionType.Buy)
+                        req.LimitPrice = dmd.LowerLimitPrice;//买-跌停板价
+                    else req.LimitPrice = dmd.UpperLimitPrice;//卖-涨停板价
+                }
+                else return null;
             }
             else
             {
-                req.OrderPriceType = CtpOrderPriceTypeType.LimitPrice;
-                req.LimitPrice = ctpTrade.Price;
+                if (cfg.Price <= 0) //市价
+                {
+                    req.OrderPriceType = CtpOrderPriceTypeType.AnyPrice;
+                    //req.LimitPrice = 0;
+                }
+                else
+                {
+                    req.OrderPriceType = CtpOrderPriceTypeType.LimitPrice;
+                    req.LimitPrice = ctpTrade.Price;
+                }
             }
+            
             req.MinVolume = 1;
             req.VolumeCondition = CtpVolumeConditionType.AV;
             req.ContingentCondition = CtpContingentConditionType.Immediately;

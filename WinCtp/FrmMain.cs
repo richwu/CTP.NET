@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -38,7 +36,7 @@ namespace WinCtp
         private readonly IDictionary<string, BindingSource> _dicds;
 
         private bool _qryInstrumentDone;//标识合约是否已查询
-        private readonly SmartThreadPool _treadPool;
+        private readonly IWorkItemsGroup _treadPool;
 
         private readonly ConcurrentDictionary<string, bool> _loginUser;//[UserID,MstOrSub] true/Mst,false/Sub
         private readonly MainViewImpl _impl;
@@ -51,7 +49,6 @@ namespace WinCtp
             InitializeComponent();
             
             _log = LogManager.GetLogger("CTP");
-
             _impl = new MainViewImpl(this);
 
             _loginUser = new ConcurrentDictionary<string, bool>();
@@ -59,28 +56,7 @@ namespace WinCtp
             _dicds = new ConcurrentDictionary<string, BindingSource>();
             _qryInstrumentDone = false;
             _listening = false;
-            //
-            var stp = new STPStartInfo();//线程详细配置参数
-            stp.CallToPostExecute = CallToPostExecute.Always;//工作项执行完成后是否调用回调方法
-            stp.DisposeOfStateObjects = true;//当工作项执行完成后,是否释放工作项的参数,如果释放,参数对象必须实现IDisposable接口
-            //当线程池中没有工作项时,闲置的线程等待时间,超过这个时间后,会释放掉这个闲置的线程,默认为60秒
-            stp.IdleTimeout = 30;//30s
-                                  //最大线程数,默认为25,
-                                  //注意,由于windows的机制,所以一般最大线程最大设置成25,
-                                  //如果设置成0的话,那么线程池将停止运行
-            stp.MaxWorkerThreads = 10;//15 thread
-                                      //只在STP执行Action<...>与Func<...>两种任务时有效
-                                      //在执行工作项的过程中,是否把参数传递到WorkItem中去,用做IWorkItemResult接口取State时使用,
-                                      //如果设置为false那么IWorkItemResult.State是取不到值的
-                                      //如果设置为true可以取到传入参数的数组
-            stp.FillStateWithArgs = true;
-            //最小线程数,默认为0,当没有工作项时,线程池最多剩余的线程数
-            stp.MinWorkerThreads = 5;//5 thread
-                                     //当工作项执行完毕后,默认的回调方法
-            stp.PostExecuteWorkItemCallback = delegate (IWorkItemResult wir) { _log.Debug(wir.Result); };
-            //是否需要等待start方法后再执行工作项,?默认为true,当true状态时,STP必须执行Start方法,才会为线程分配工作项
-            stp.StartSuspended = false;
-            _treadPool = new SmartThreadPool(stp);
+            _treadPool = _impl.InitThreedPool();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -172,60 +148,26 @@ namespace WinCtp
                 ua.Start();
                 UserApi.This[u.UserId] = ua;
             }
-            //_mdWorker.RunWorkerAsync();
         }
 
         private void LoadBaseInfo()
         {
             //买卖
-            var ludir = new List<LookupObject>
-            {
-                new LookupObject(CtpDirectionType.Buy, "买"),
-                new LookupObject(CtpDirectionType.Sell, "卖")
-            };
+            var ludir = _impl.GetDirectionLookup();
             cmbDirection.Bind(ludir);
             gcSubOrderDirection.Bind(ludir);
             gcSubTradeDirection.Bind(ludir);
             gcMstTradeDirection.Bind(ludir);
             //开平标志
-            var luof = new List<LookupObject>
-            {
-                new LookupObject(CtpOffsetFlagType.Open, "开仓"),//0
-                new LookupObject(CtpOffsetFlagType.Close, "平仓"),//1
-                new LookupObject(CtpOffsetFlagType.ForceClose, "强平"),//2
-                new LookupObject(CtpOffsetFlagType.CloseToday, "平今"),//3
-                new LookupObject(CtpOffsetFlagType.CloseYesterday, "平昨"),//4
-                new LookupObject(CtpOffsetFlagType.ForceOff, "强减"),//5
-                new LookupObject(CtpOffsetFlagType.LocalForceClose, "本地强平")//6
-            };
+            var luof = _impl.GetOffsetFlagLookup();
             cmbOffsetFlag.Bind(luof);
             gcSubTradeOffsetFlag.Bind(luof);
             gcMstTradeOffsetFlag.Bind(luof);
             //组合开平标志
-            var lucof = new List<LookupObject>
-            {
-                new LookupObject(((char)CtpOffsetFlagType.Open).ToString(), "开仓"),
-                new LookupObject(((char)CtpOffsetFlagType.Close).ToString(), "平仓"),
-                new LookupObject(((char)CtpOffsetFlagType.ForceClose).ToString(), "强平"),
-                new LookupObject(((char)CtpOffsetFlagType.CloseToday).ToString(), "平今"),
-                new LookupObject(((char)CtpOffsetFlagType.CloseYesterday).ToString(), "平昨"),
-                new LookupObject(((char)CtpOffsetFlagType.ForceOff).ToString(), "强减"),
-                new LookupObject(((char)CtpOffsetFlagType.LocalForceClose).ToString(), "本地强平")
-            };
+            var lucof = _impl.GetCombOffsetFlagLookup();
             gcSubOrderCombOffsetFlag.Bind(lucof);
             //报单状态
-            var lustatus = new List<LookupObject>
-            {
-                new LookupObject(CtpOrderStatusType.Unknown, "未知"),//表示Thost已经接受用户的委托指令，还没有转发到交易所
-                new LookupObject(CtpOrderStatusType.AllTraded, "全部成交"),
-                new LookupObject(CtpOrderStatusType.Canceled, "撤单"),
-                new LookupObject(CtpOrderStatusType.NoTradeNotQueueing, "未成交O队"),//未成交不在队列中
-                new LookupObject(CtpOrderStatusType.NoTradeQueueing, "未成交I队"),//未成交还在队列中
-                new LookupObject(CtpOrderStatusType.NotTouched, "未触发"),
-                new LookupObject(CtpOrderStatusType.PartTradedNotQueueing, "部分成交O队"),//部分成交不在队列中
-                new LookupObject(CtpOrderStatusType.PartTradedQueueing, "部分成交I队"),//部分成交还在队列中
-                new LookupObject(CtpOrderStatusType.Touched, "已触发")
-            };
+            var lustatus = _impl.GetOrderStatusLookup();
             gcSubOrderStatus.Bind(lustatus);
         }
 
@@ -416,10 +358,34 @@ namespace WinCtp
                 return;
             if(response == null)
                 return;
-            if (InvokeRequired)
-                Invoke(new SimpleDelegate(() => { cmbInstrumentId.Items.Add(response.InstrumentID); }));
-            else cmbInstrumentId.Items.Add(response.InstrumentID);
-            _mdApi.SubscribeMarketData(response.InstrumentID);
+            DataCache.Instrument[response.InstrumentID] = response;
+            if (isLast)
+            {
+                _treadPool.QueueWorkItem(SetInstrumentCombox);
+                _treadPool.QueueWorkItem(SubscribeMarketData);
+            }
+        }
+
+        private void SetInstrumentCombox()
+        {
+            cmbInstrumentId.Items.Clear();
+            cmbInstrumentId.Items.Add(string.Empty);
+            var items = DataCache.Instrument.Values;
+            foreach (var i in items)
+            {
+                if (InvokeRequired)
+                    Invoke(new SimpleDelegate(() => { cmbInstrumentId.Items.Add(i.InstrumentID); }));
+                else cmbInstrumentId.Items.Add(i.InstrumentID);
+            }
+        }
+
+        private void SubscribeMarketData()
+        {
+            var items = DataCache.Instrument.Values;
+            foreach (var i in items)
+            {
+                _mdApi.SubscribeMarketData(i.InstrumentID);
+            }
         }
 
         #region 账户
@@ -502,18 +468,31 @@ namespace WinCtp
                 QrySettlementInfoConfirm(u);
                 //查询持仓
                 _treadPool.QueueWorkItem(() => { Thread.Sleep(1100); QryInvestorPosition(u); });
+                //启动行情
+                if (_mdApi == null && !string.IsNullOrWhiteSpace(u.Broker.MarketFrontAddress))
+                {
+                    lock (typeof(MdApi))
+                    {
+                        if (_mdApi == null)
+                        {
+                            _treadPool.QueueWorkItem(() =>
+                            {
+                                _mdApi = new MdApi(u.BrokerId, u.UserId, u.Password, u.Broker.MarketFrontAddress, this);
+                                _mdApi.Start();
+                            });
+                        }
+                    }
+                }
+                //查询合约
                 if (!_qryInstrumentDone)
                 {
-                    _mdApi = new MdApi(u.BrokerId, u.UserId, u.Password, u.Broker.MarketFrontAddress,this);
                     _treadPool.QueueWorkItem(() =>
                     {
-                        _mdApi.Start();
-                        Thread.Sleep(2200); QryInstrument(u);
+                        Thread.Sleep(2200);
+                        QryInstrument(u);
                     });
                     _qryInstrumentDone = true;
-                    
                 }
-
                 return;
             }
         }
@@ -1145,9 +1124,63 @@ namespace WinCtp
                 Close();
         }
 
-        public void MdConnect(bool b)
+        public void NotifyMdStatus(int flag,string msg = null)
         {
-            tsslMdStatus.ForeColor = b ? Color.Green : Color.Gray;
+            switch (flag)
+            {
+                case 0:
+                    tsslMdStatus.ForeColor = Color.Gray;
+                    break;
+                case 1:
+                    tsslMdStatus.ForeColor = Color.Green;
+                    break;
+            }
+        }
+
+        public void NotifyTrade(CtpTrade response)
+        {
+            // ExchangeID + OrderSysID
+            bool isMst;
+            var rs = _loginUser.TryGetValue(response.InvestorID, out isMst);
+            if (!rs)//未知账户的回报
+                return;
+            if (isMst)
+            {
+                if (_listening)
+                    FollowOrder(response);
+                var ord = new TradeInfo(response);
+                dsMstTradeInfo.Add(ord);
+            }
+            else
+            {
+                lock (_subOrderSyncRoot)
+                {
+                    var idx = -1;
+                    for (var i = 0; i < dsSubOrder.Count; i++)
+                    {
+                        var od = (OrderInfo)dsSubOrder[i];
+                        if (Equals(od.ExchangeId, response.ExchangeID) ||
+                            Equals(od.OrderSysId, response.OrderSysID))
+                            continue;
+                        idx = i;
+                        break;
+                    }
+                    //从委托单列表移除
+                    if (idx >= 0)
+                        dsSubOrder.RemoveAt(idx);
+                }
+                //添加到成交单列表
+                var ord = new TradeInfo(response);
+                lock (_subTradeSyncRoot)
+                {
+                    dsSubTradeInfo.Add(ord);
+                }
+            }
+        }
+
+        public void Run(WorkItemCallback callback)
+        {
+            _treadPool.QueueWorkItem(callback);
         }
     }
 }

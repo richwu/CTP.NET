@@ -128,6 +128,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataCache.cs" />
+    <Compile Include="MdApi.cs" />
+    <Compile Include="TraderApi.cs" />
     <Compile Include="UserApi.cs" />
     <Compile Include="FrmBroker.cs">
       <SubType>Form</SubType>
@@ -144,6 +146,7 @@
     <Compile Include="ILookupObject.cs" />
     <Compile Include="IMainView.cs" />
     <Compile Include="RspInfo.cs" />
+    <Compile Include="_Model\DepthMarketData.cs" />
     <Compile Include="_Model\InvestorPositionInfo.cs" />
     <Compile Include="MainViewImpl.cs" />
     <Compile Include="MsgBox.cs" />
