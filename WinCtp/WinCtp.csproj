@@ -117,6 +117,7 @@
     </Reference>
     <Reference Include="System.Messaging" />
     <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -129,6 +130,7 @@
   <ItemGroup>
     <Compile Include="DataCache.cs" />
     <Compile Include="MdApi.cs" />
+    <Compile Include="StringUtil.cs" />
     <Compile Include="TraderApi.cs" />
     <Compile Include="UserApi.cs" />
     <Compile Include="FrmBroker.cs">

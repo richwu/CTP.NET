@@ -29,7 +29,7 @@ namespace WinCtp
                 var a = new UserInfo();
                 a.UserId = r["UserID"].ToString();
                 a.UserName = r["UserName"].ToString();
-                a.Password = r["Password"].ToString();
+                a.Password = r["Password"].ToString().Unprotect();
                 a.BrokerId = r["BrokerID"].ToString();
                 a.IsSub = Convert.ToBoolean(r["IsSub"]);
                 arr.Add(a);
@@ -84,7 +84,7 @@ namespace WinCtp
                 var ps = new Dictionary<string, object>();
                 ps["UserID"] = UserId;
                 ps["UserName"] = UserName;
-                ps["Password"] = Password;
+                ps["Password"] = Password.Protect();
                 ps["BrokerID"] = BrokerId;
                 ps["IsSub"] = IsSub;
                 sql.Insert("CtpUser", ps);
@@ -102,7 +102,7 @@ namespace WinCtp
                 var ps = new Dictionary<string, object>();
                 ps["UserName"] = UserName;
                 ps["BrokerID"] = BrokerId;
-                ps["Password"] = Password;
+                ps["Password"] = Password.Protect();
                 ps["IsSub"] = IsSub;
                 sql.Update("CtpUser", ps, "UserID", UserId);
                 con.Close();
