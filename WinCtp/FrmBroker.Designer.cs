@@ -36,10 +36,6 @@
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpMst = new System.Windows.Forms.TabPage();
             this.gvBroker = new WinCtp.DataGridViewEx();
-            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.traderFrontAddressDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.marketFrontAddressDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dsBroker = new System.Windows.Forms.BindingSource(this.components);
             this.tpDet = new System.Windows.Forms.TabPage();
             this.marketFrontAddressTextBox = new System.Windows.Forms.TextBox();
@@ -58,6 +54,8 @@
             this.ibtnDelete = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.ibtnClose = new System.Windows.Forms.ToolStripButton();
+            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             idLabel = new System.Windows.Forms.Label();
             nameLabel = new System.Windows.Forms.Label();
             traderFrontAddressLabel = new System.Windows.Forms.Label();
@@ -138,9 +136,7 @@
             this.gvBroker.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvBroker.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.idDataGridViewTextBoxColumn,
-            this.nameDataGridViewTextBoxColumn,
-            this.traderFrontAddressDataGridViewTextBoxColumn,
-            this.marketFrontAddressDataGridViewTextBoxColumn});
+            this.nameDataGridViewTextBoxColumn});
             this.gvBroker.DataSource = this.dsBroker;
             this.gvBroker.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gvBroker.Location = new System.Drawing.Point(3, 3);
@@ -150,42 +146,6 @@
             this.gvBroker.Size = new System.Drawing.Size(649, 370);
             this.gvBroker.TabIndex = 0;
             this.gvBroker.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvBroker_CellContentDoubleClick);
-            // 
-            // idDataGridViewTextBoxColumn
-            // 
-            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            this.idDataGridViewTextBoxColumn.FillWeight = 120F;
-            this.idDataGridViewTextBoxColumn.HeaderText = "公司代码";
-            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            this.idDataGridViewTextBoxColumn.ReadOnly = true;
-            this.idDataGridViewTextBoxColumn.Width = 61;
-            // 
-            // nameDataGridViewTextBoxColumn
-            // 
-            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.FillWeight = 120F;
-            this.nameDataGridViewTextBoxColumn.HeaderText = "公司名称";
-            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
-            this.nameDataGridViewTextBoxColumn.Width = 61;
-            // 
-            // traderFrontAddressDataGridViewTextBoxColumn
-            // 
-            this.traderFrontAddressDataGridViewTextBoxColumn.DataPropertyName = "TraderFrontAddress";
-            this.traderFrontAddressDataGridViewTextBoxColumn.FillWeight = 200F;
-            this.traderFrontAddressDataGridViewTextBoxColumn.HeaderText = "交易接口地址";
-            this.traderFrontAddressDataGridViewTextBoxColumn.Name = "traderFrontAddressDataGridViewTextBoxColumn";
-            this.traderFrontAddressDataGridViewTextBoxColumn.ReadOnly = true;
-            this.traderFrontAddressDataGridViewTextBoxColumn.Width = 72;
-            // 
-            // marketFrontAddressDataGridViewTextBoxColumn
-            // 
-            this.marketFrontAddressDataGridViewTextBoxColumn.DataPropertyName = "MarketFrontAddress";
-            this.marketFrontAddressDataGridViewTextBoxColumn.FillWeight = 200F;
-            this.marketFrontAddressDataGridViewTextBoxColumn.HeaderText = "行情接口地址";
-            this.marketFrontAddressDataGridViewTextBoxColumn.Name = "marketFrontAddressDataGridViewTextBoxColumn";
-            this.marketFrontAddressDataGridViewTextBoxColumn.ReadOnly = true;
-            this.marketFrontAddressDataGridViewTextBoxColumn.Width = 72;
             // 
             // dsBroker
             // 
@@ -214,6 +174,7 @@
             this.marketFrontAddressTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.dsBroker, "MarketFrontAddress", true));
             this.marketFrontAddressTextBox.Location = new System.Drawing.Point(108, 128);
             this.marketFrontAddressTextBox.Name = "marketFrontAddressTextBox";
+            this.marketFrontAddressTextBox.PasswordChar = '#';
             this.marketFrontAddressTextBox.ReadOnly = true;
             this.marketFrontAddressTextBox.Size = new System.Drawing.Size(288, 21);
             this.marketFrontAddressTextBox.TabIndex = 7;
@@ -224,6 +185,7 @@
             this.traderFrontAddressTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.dsBroker, "TraderFrontAddress", true));
             this.traderFrontAddressTextBox.Location = new System.Drawing.Point(108, 90);
             this.traderFrontAddressTextBox.Name = "traderFrontAddressTextBox";
+            this.traderFrontAddressTextBox.PasswordChar = '#';
             this.traderFrontAddressTextBox.ReadOnly = true;
             this.traderFrontAddressTextBox.Size = new System.Drawing.Size(288, 21);
             this.traderFrontAddressTextBox.TabIndex = 5;
@@ -357,6 +319,24 @@
             this.ibtnClose.Text = "关闭";
             this.ibtnClose.Click += new System.EventHandler(this.ibtnClose_Click);
             // 
+            // idDataGridViewTextBoxColumn
+            // 
+            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+            this.idDataGridViewTextBoxColumn.FillWeight = 120F;
+            this.idDataGridViewTextBoxColumn.HeaderText = "公司代码";
+            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            this.idDataGridViewTextBoxColumn.ReadOnly = true;
+            this.idDataGridViewTextBoxColumn.Width = 78;
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.FillWeight = 120F;
+            this.nameDataGridViewTextBoxColumn.HeaderText = "公司名称";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nameDataGridViewTextBoxColumn.Width = 78;
+            // 
             // FrmBroker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -408,7 +388,5 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn traderFrontAddressDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn marketFrontAddressDataGridViewTextBoxColumn;
     }
 }

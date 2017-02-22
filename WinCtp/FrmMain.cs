@@ -752,22 +752,6 @@ namespace WinCtp
             }
             else
             {
-                lock (_subOrderSyncRoot)
-                {
-                    var idx = -1;
-                    for (var i = 0; i < dsSubOrder.Count; i++)
-                    {
-                        var od = (OrderInfo) dsSubOrder[i];
-                        if (Equals(od.ExchangeId, response.ExchangeID) ||
-                            Equals(od.OrderSysId, response.OrderSysID))
-                            continue;
-                        idx = i;
-                        break;
-                    }
-                    //从委托单列表移除
-                    if (idx >= 0)
-                        dsSubOrder.RemoveAt(idx);
-                }
                 //添加到成交单列表
                 var ord = new TradeInfo(response);
                 lock (_subTradeSyncRoot)

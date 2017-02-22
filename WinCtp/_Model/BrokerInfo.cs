@@ -48,8 +48,8 @@ namespace WinCtp
                 var a = new BrokerInfo();
                 a.Id = r["BrokerID"].ToString();
                 a.Name = r["BrokerName"].ToString();
-                a.TraderFrontAddress = r["TraderFrontAddress"].ToString();
-                a.MarketFrontAddress = r["MarketFrontAddress"].ToString();
+                a.TraderFrontAddress = r["TraderFrontAddress"].ToString().Unprotect();
+                a.MarketFrontAddress = r["MarketFrontAddress"].ToString().Unprotect();
                 arr.Add(a);
             }
             return arr;
@@ -80,8 +80,8 @@ namespace WinCtp
                 var ps = new Dictionary<string, object>();
                 ps["BrokerID"] = Id;
                 ps["BrokerName"] = Name;
-                ps["TraderFrontAddress"] = TraderFrontAddress;
-                ps["MarketFrontAddress"] = MarketFrontAddress;
+                ps["TraderFrontAddress"] = TraderFrontAddress.Protect();
+                ps["MarketFrontAddress"] = MarketFrontAddress.Protect();
                 sql.Insert("CtpBroker", ps);
                 con.Close();
             }
@@ -96,8 +96,8 @@ namespace WinCtp
                 var sql = new SQLiteHelper(cmd);
                 var ps = new Dictionary<string, object>();
                 ps["BrokerName"] = Name;
-                ps["TraderFrontAddress"] = TraderFrontAddress;
-                ps["MarketFrontAddress"] = MarketFrontAddress;
+                ps["TraderFrontAddress"] = TraderFrontAddress.Protect();
+                ps["MarketFrontAddress"] = MarketFrontAddress.Protect();
                 sql.Update("CtpBroker", ps, new Dictionary<string, object>()
                 {
                     {"BrokerID", Id }

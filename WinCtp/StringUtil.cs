@@ -9,7 +9,7 @@ namespace WinCtp
         public static string Protect(this string src)
         {
             var data = Encoding.UTF8.GetBytes(src);
-            var dpapi = new DpapiDataProtector("localhost", "CTP.NET") { Scope = DataProtectionScope.LocalMachine };
+            var dpapi = new DpapiDataProtector(HardwareInfo.CupId, "CTP.NET") { Scope = DataProtectionScope.LocalMachine };
             var bts = dpapi.Protect(data);
             return Convert.ToBase64String(bts);
         }
@@ -25,9 +25,20 @@ namespace WinCtp
             {
                 return src;
             }
-            var dpapi = new DpapiDataProtector("localhost", "CTP.NET") { Scope = DataProtectionScope.LocalMachine };
-            var data = dpapi.Unprotect(bts);
-            return Encoding.UTF8.GetString(data);
+            
+            try
+            {
+                var dpapi = new DpapiDataProtector(HardwareInfo.CupId, "CTP.NET")
+                {
+                    Scope = DataProtectionScope.LocalMachine
+                };
+                var data = dpapi.Unprotect(bts);
+                return Encoding.UTF8.GetString(data);
+            }
+            catch (CryptographicException)
+            {
+                return src;
+            }
         }
     }
 }
