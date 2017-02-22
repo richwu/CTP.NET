@@ -47,7 +47,8 @@ namespace WinCtp
         public FrmMain()
         {
             InitializeComponent();
-            
+            tcSubInstrument.TabPages.Clear();
+            tcMstInstrument.TabPages.Clear();
             _log = LogManager.GetLogger("CTP");
             _impl = new MainViewImpl(this);
 
@@ -66,9 +67,6 @@ namespace WinCtp
             tpMstOrder.Parent = null;
             cmbInstrumentId.Items.Clear();
             cmbInstrumentId.Items.Add(string.Empty);
-
-            tcSubInstrument.TabPages.Clear();
-            tcMstInstrument.TabPages.Clear();
 
             LoadBaseInfo();
 
@@ -1165,6 +1163,11 @@ namespace WinCtp
         public void Run(WorkItemCallback callback)
         {
             _treadPool.QueueWorkItem(callback);
+        }
+
+        private void ibtnReg_Click(object sender, EventArgs e)
+        {
+            new FrmRegister().ShowDialog(this);
         }
     }
 }
