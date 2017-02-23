@@ -28,9 +28,6 @@ namespace WinCtp
         private readonly ILog _log;
         private bool _listening;
 
-        private readonly object _subOrderSyncRoot = new object();//子账户委托单互斥锁
-        private readonly object _subTradeSyncRoot = new object();//子账户成交单互斥锁
-
         private readonly ConcurrentQueue<CtpInvestorPosition> _positionQueue;//持仓队列
 
         private readonly IDictionary<string, BindingSource> _dicds;
@@ -650,10 +647,10 @@ namespace WinCtp
                 t.SessionId = u.SessionId;
                 if (rsp != 0)
                     t.ErrorMsg = $"[{rsp}]{Rsp.This[rsp]}";
-                lock (_subOrderSyncRoot)
-                {
-                    dsSubOrder.Add(t);
-                }
+
+                if (InvokeRequired)
+                    Invoke(new SimpleDelegate(() => { dsSubOrder.Add(t); }));
+                else dsSubOrder.Add(t);
             }
         }
 
@@ -720,10 +717,9 @@ namespace WinCtp
                 od.SessionId = u.SessionId;
                 if (rsp != 0)
                     od.ErrorMsg = $"[{rsp}]{Rsp.This[rsp]}";
-                lock (_subOrderSyncRoot)
-                {
-                    dsSubOrder.Insert(0, od);
-                }
+                if (InvokeRequired)
+                    Invoke(new SimpleDelegate(() => { dsSubOrder.Insert(0, od); }));
+                else dsSubOrder.Insert(0, od);
             }
         }
 
@@ -746,16 +742,17 @@ namespace WinCtp
                 if(_listening)
                     FollowOrder(response);
                 var ord = new TradeInfo(response);
-                dsMstTradeInfo.Add(ord);
+                if (InvokeRequired)
+                    Invoke(new SimpleDelegate(()=> { dsMstTradeInfo.Add(ord); }));
+                else dsMstTradeInfo.Add(ord);
             }
             else
             {
                 //添加到成交单列表
                 var ord = new TradeInfo(response);
-                lock (_subTradeSyncRoot)
-                {
-                    dsSubTradeInfo.Add(ord);
-                }
+                if (InvokeRequired)
+                    Invoke(new SimpleDelegate(() => { dsSubTradeInfo.Add(ord); }));
+                else dsSubTradeInfo.Add(ord);
             }
         }
 
@@ -778,7 +775,8 @@ namespace WinCtp
             var rs = _loginUser.TryGetValue(response.InvestorID, out isMst);
             if (!rs || isMst)//未知账户的回报或者是主账户的回报
                 return;
-            lock (_subOrderSyncRoot)
+            
+            Invoke(new SimpleDelegate(() =>
             {
                 for (var i = 0; i < dsSubOrder.Count; i++)
                 {
@@ -793,9 +791,8 @@ namespace WinCtp
                     od.ErrorMsg = response.StatusMsg;
                     dsSubOrder.ResetItem(i);
                     break;
-                    //Thread.Sleep(100);
                 }
-            }
+            }));
         }
 
         /// <summary>
@@ -816,11 +813,11 @@ namespace WinCtp
                 return;
             if(isMst)
                 return;
-            lock (_subOrderSyncRoot)
+            Invoke(new SimpleDelegate(() =>
             {
                 for (var i = 0; i < dsSubOrder.Count; i++)
                 {
-                    var od = (OrderInfo) dsSubOrder[i];
+                    var od = (OrderInfo)dsSubOrder[i];
                     if (!Equals(od.BrokerId, response.BrokerID) ||
                         !Equals(od.InvestorId, response.InvestorID) ||
                         !Equals(od.OrderRef, response.OrderRef))
@@ -829,7 +826,7 @@ namespace WinCtp
                     dsSubOrder.ResetItem(i);
                     break;
                 }
-            }
+            }));
         }
 
         /// <summary>
@@ -848,11 +845,11 @@ namespace WinCtp
                 return;
             if (isMst)
                 return;
-            lock (_subOrderSyncRoot)
+            Invoke(new SimpleDelegate(() =>
             {
                 for (var i = 0; i < dsSubOrder.Count; i++)
                 {
-                    var od = (OrderInfo) dsSubOrder[i];
+                    var od = (OrderInfo)dsSubOrder[i];
                     if (!Equals(od.BrokerId, response.BrokerID) ||
                         !Equals(od.InvestorId, response.InvestorID) ||
                         !Equals(od.OrderRef, response.OrderRef))
@@ -861,7 +858,7 @@ namespace WinCtp
                     dsSubOrder.ResetItem(i);
                     break;
                 }
-            }
+            }));
         }
 
         /// <summary>
@@ -882,11 +879,11 @@ namespace WinCtp
                 return;
             if (isMst)
                 return;
-            lock (_subOrderSyncRoot)
+            Invoke(new SimpleDelegate(() =>
             {
                 for (var i = 0; i < dsSubOrder.Count; i++)
                 {
-                    var od = (OrderInfo) dsSubOrder[i];
+                    var od = (OrderInfo)dsSubOrder[i];
                     if (!Equals(od.FrontId, response.FrontID) ||
                         !Equals(od.SessionId, response.SessionID) ||
                         !Equals(od.OrderRef, response.OrderRef))
@@ -895,7 +892,7 @@ namespace WinCtp
                     dsSubOrder.ResetItem(i);
                     break;
                 }
-            }
+            }));
         }
 
         /// <summary>
@@ -914,11 +911,11 @@ namespace WinCtp
                 return;
             if (isMst)
                 return;
-            lock (_subOrderSyncRoot)
+            Invoke(new SimpleDelegate(() =>
             {
                 for (var i = 0; i < dsSubOrder.Count; i++)
                 {
-                    var od = (OrderInfo) dsSubOrder[i];
+                    var od = (OrderInfo)dsSubOrder[i];
                     if (!Equals(od.FrontId, response.FrontID) ||
                         !Equals(od.SessionId, response.SessionID) ||
                         !Equals(od.OrderRef, response.OrderRef))
@@ -927,7 +924,7 @@ namespace WinCtp
                     dsSubOrder.ResetItem(i);
                     break;
                 }
-            }
+            }));
         }
         #endregion
 
@@ -1056,47 +1053,45 @@ namespace WinCtp
 
         private void tsmiCancelOrder_Click(object sender, EventArgs e)
         {
-            lock (_subOrderSyncRoot)
+            if (dsSubOrder.Current == null)
+                return;
+            //不可撤单状态：AllTraded\Canceled\NoTradeNotQueueing\PartTradedNotQueueing
+            var od = (OrderInfo)dsSubOrder.Current;
+            if (od.OrderStatus == CtpOrderStatusType.AllTraded ||
+                od.OrderStatus == CtpOrderStatusType.Canceled ||
+                od.OrderStatus == CtpOrderStatusType.NoTradeNotQueueing ||
+                od.OrderStatus == CtpOrderStatusType.PartTradedNotQueueing)
             {
-                if (dsSubOrder.Current == null)
-                    return;
-                //不可撤单状态：AllTraded\Canceled\NoTradeNotQueueing\PartTradedNotQueueing
-                var od = (OrderInfo)dsSubOrder.Current;
-                if (od.OrderStatus == CtpOrderStatusType.AllTraded ||
-                    od.OrderStatus == CtpOrderStatusType.Canceled ||
-                    od.OrderStatus == CtpOrderStatusType.NoTradeNotQueueing ||
-                    od.OrderStatus == CtpOrderStatusType.PartTradedNotQueueing)
-                {
-                    MsgBox.Info("当前状态不可撤单");
-                    return;
-                }
-                CtpSubUser user = null;
-                foreach (CtpSubUser u in dsSubUser)
-                {
-                    if (u.UserId != od.InvestorId)
-                        continue;
-                    user = u;
-                    break;
-                }
-                if (user == null || !user.IsLogin)
-                {
-                    MsgBox.Info($"用户[{od.InvestorId}]未登录");
-                    return;
-                }
-                var req = new CtpInputOrderAction();
-                req.FrontID = od.FrontId;
-                req.SessionID = od.SessionId;
-                req.OrderRef = od.OrderRef;
-                req.ActionFlag = CtpActionFlagType.Delete;
-                req.BrokerID = od.BrokerId;
-                req.InvestorID = od.InvestorId;
-                var api = user.TraderApi();
-                var reqId = RequestId.NewId();
-                var rsp = api.ReqOrderAction(req, reqId);
-                if (rsp != 0)
-                    od.ErrorMsg = $"[{rsp}]{Rsp.This[rsp]}";
-                dsSubOrder.ResetCurrentItem();
+                MsgBox.Info("当前状态不可撤单");
+                return;
             }
+            CtpSubUser user = null;
+            foreach (CtpSubUser u in dsSubUser)
+            {
+                if (u.UserId != od.InvestorId)
+                    continue;
+                user = u;
+                break;
+            }
+            if (user == null || !user.IsLogin)
+            {
+                MsgBox.Info($"用户[{od.InvestorId}]未登录");
+                return;
+            }
+            var req = new CtpInputOrderAction();
+            req.FrontID = od.FrontId;
+            req.SessionID = od.SessionId;
+            req.OrderRef = od.OrderRef;
+            req.ActionFlag = CtpActionFlagType.Delete;
+            req.BrokerID = od.BrokerId;
+            req.InvestorID = od.InvestorId;
+            var api = user.TraderApi();
+            var reqId = RequestId.NewId();
+            var rsp = api.ReqOrderAction(req, reqId);
+            if (rsp != 0)
+                od.ErrorMsg = $"[{rsp}]{Rsp.This[rsp]}";
+            dsSubOrder.ResetCurrentItem();
+
             MsgBox.Info("撤单已提交");
         }
 
@@ -1131,32 +1126,17 @@ namespace WinCtp
                 if (_listening)
                     FollowOrder(response);
                 var ord = new TradeInfo(response);
-                dsMstTradeInfo.Add(ord);
+                if (InvokeRequired)
+                    Invoke(new SimpleDelegate(() => { dsMstTradeInfo.Add(ord); }));
+                else dsMstTradeInfo.Add(ord);
             }
             else
             {
-                lock (_subOrderSyncRoot)
-                {
-                    var idx = -1;
-                    for (var i = 0; i < dsSubOrder.Count; i++)
-                    {
-                        var od = (OrderInfo)dsSubOrder[i];
-                        if (Equals(od.ExchangeId, response.ExchangeID) ||
-                            Equals(od.OrderSysId, response.OrderSysID))
-                            continue;
-                        idx = i;
-                        break;
-                    }
-                    //从委托单列表移除
-                    if (idx >= 0)
-                        dsSubOrder.RemoveAt(idx);
-                }
                 //添加到成交单列表
                 var ord = new TradeInfo(response);
-                lock (_subTradeSyncRoot)
-                {
-                    dsSubTradeInfo.Add(ord);
-                }
+                if (InvokeRequired)
+                    Invoke(new SimpleDelegate(() => { dsSubTradeInfo.Add(ord); }));
+                else dsSubTradeInfo.Add(ord);
             }
         }
 
